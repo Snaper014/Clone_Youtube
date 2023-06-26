@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 
 function BarreGauche(){
-    const [connecter, setConnecter] = React.useState(false)
+    //const [connecter, setConnecter] = React.useState(false)
     //setConnecter(authentification)
     return(
         <div className="NaviguationGauche">
@@ -16,12 +16,14 @@ function BarreGauche(){
             </Link>
             <Link to="/Bibliothéque">
                 <button className="BTN">Bibliothéque</button>
-            </Link>    
-            { connecter ? null : 
+            </Link>
+            <Link to="/Shorts">
+                <button className="BTN">Shorts</button>
+            </Link>     
             <Link to="/Historique">
                 <button className="BTN">Historique</button>
             </Link>
-                }
+                
         </div>
     )
 }

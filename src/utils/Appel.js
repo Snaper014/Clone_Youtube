@@ -1,27 +1,80 @@
 import axios from "axios";
 
 
-const URL = process.env.REACT_APP_URL_YTB
-const KEY_API = process.env.REACT_APP_API_KEY
-const options = {
+const KEY_API = process.env.REACT_APP_API_KEY;
+  const options = {
     headers: {
       'X-RapidAPI-Key': `${KEY_API}`,
-      'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com'
+      'X-RapidAPI-Host': 'youtube-v3-alternative.p.rapidapi.com'
     }
   };
+  const optionsVersion3 = {
+    headers: {
+      'X-RapidAPI-Key': `${KEY_API}`,
+      'X-RapidAPI-Host': 'yt-api.p.rapidapi.com',
+    }
+  };
+
   async function Recherche(search){
-    const endpoint = `search?q=${search}&part=snippet%2Cid&regionCode=FR&maxResults=10`
-        const reponse = await axios.get(`${URL}/${endpoint}`, options).catch(error => console.log(error.message))
+    const endpoint = `search?query=${search}&geo=FR&lang=fr`
+        const reponse = await axios.get(`https://youtube-v3-alternative.p.rapidapi.com/${endpoint}`, options).catch(error => console.log(error.message))
         return reponse
   }
   async function DetailVideos(id){
-    const endpoint = `videos?part=contentDetails%2Csnippet%2Cstatistics&id=${id}`
-      const reponse = await axios.get(`${URL}/${endpoint}`, options).catch(error => console.log(error.message))
+    const endpoint = `video/info?id=${id}`
+      const reponse = await axios.get(`https://yt-api.p.rapidapi.com/${endpoint}`, optionsVersion3).catch(error => console.log(error.message))
+      
       return reponse
   }
   async function Suggestions(id){
-    const endpoint = `search?part=snippet&relatedToVideoId=${id}&type=video`
-      const reponse = await axios.get(`${URL}/${endpoint}`, options).catch(error => console.log(error.message))
+    const endpoint = `related?id=${id}&geo=US&lang=en`
+      const reponse = await axios.get(`https://youtube-v3-alternative.p.rapidapi.com/${endpoint}`, options).catch(error => console.log(error.message))
+      
       return reponse
   }
-export {Recherche, DetailVideos, Suggestions}
+  async function fetchTrends(categorie = 'now'){
+      const endpoint = `trending?geo=FR&type=${categorie}&lang=fr`
+      const reponse = await axios.get(`https://yt-api.p.rapidapi.com/${endpoint}`, optionsVersion3).catch(error => console.log(error.message))
+      return reponse
+  }
+  async function FetchMusique(playlist){
+    const reponse = await axios.get(`https://yt-api.p.rapidapi.com/playlist?id=${playlist}&geo=FR&lang=fr`, options).catch(error => console.log(error.message))
+    return reponse
+  }
+  async function FetchHomeShorts(){
+    const reponse = await axios.get(`https://yt-api.p.rapidapi.com/home?geo=FR&lang=fr`, optionsVersion3).catch(error => console.log(error.message))
+    return reponse
+
+  }
+  async function FetchHomeFeed(){
+    const reponse = await axios.get(`https://yt-api.p.rapidapi.com/home?geo=FR&lang=fr`, optionsVersion3)
+    return reponse
+  }
+  async function GetActus(){
+    const reponse = await axios.get(`https://yt-api.p.rapidapi.com/channel/home?id=UCYfdidRxbB8Qhf0Nx7ioOYw&geo=FR&lang=fr`, optionsVersion3)
+    return reponse
+  }
+  async function GetCategorySport(){
+      const reponse = await axios.get(`https://yt-api.p.rapidapi.com/channel/home?id=UCEgdi0XIXXZ-qJOFPf4JSKw&geo=FR&lang=fr`, optionsVersion3)
+      return reponse
+  }
+  async function GetCategoryCulture(){
+    const reponse = await axios.get(`https://yt-api.p.rapidapi.com/channel/home?id=UCtFRv9O2AHqOZjjynzrv-xg&geo=FR&lang=fr`, optionsVersion3)
+    return reponse
+  }
+  async function GetCategoryMode(){
+    const reponse = await axios.get(`https://yt-api.p.rapidapi.com/channel/home?id=UCrpQ4p1Ql_hG8rKXIKM1MOQ&geo=FR&lang=fr`, optionsVersion3)
+    return reponse
+  }
+export {Recherche, 
+        DetailVideos, 
+        Suggestions, 
+        fetchTrends, 
+        FetchMusique, 
+        FetchHomeShorts, 
+        FetchHomeFeed, 
+        GetActus,
+        GetCategorySport,
+        GetCategoryCulture,
+        GetCategoryMode,
+      }
