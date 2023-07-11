@@ -122,7 +122,7 @@ main{
     grid-template-columns: 35% 65%;
 }
 .GridVideoyoutube{
-    grid-template-columns: 63% 37%;
+    grid-template-columns: 60% 40%;
 }
 .StyleMenuBtn{
     display: flex;
@@ -154,10 +154,10 @@ main{
 }
 
 .styleHome{
-    padding: 3vh 1vw 3vh 1vw;
+    padding: 3vh 1% 3vh 1%;
     display: flex;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
     border: 2px solid rgb(0, 255, 149);
@@ -165,20 +165,21 @@ main{
     width: 100%;
 }
 .styleHomeDiv{
-    display: grid;
-    grid-template-rows: 60% 40%;
-    width: 32%;
-    height: 60vh;
-    margin: 0 auto;
-    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 450px;
     border: 1px solid transparent;
 }
 .styleSousmenu{
-    display: grid;
-    width: 100%;
-    grid-template-columns: 15% 85%;
-    margin: 1vh 2vw 2vh 2vw;
-
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    cursor: pointer;
+    width: 15%;
+    
 }
 /* Styles pour les composants de la section tendances */
 .DIVtrend{
@@ -281,16 +282,14 @@ main{
 }
 .ContenuHomedescripVide{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 2vh;
     margin-top: 3px;
     justify-content: flex-start;
     flex-direction: row;
-    padding-right: 2px;
-    padding-left: 2px;
     flex-wrap: nowrap;
     width: 100%;
-    font-size: 12px;
+    font-size: 18px;
 }
 .SuggesVdeo{
     display: flex;
@@ -301,7 +300,7 @@ main{
     flex-direction: row;
     flex-wrap: nowrap;
     width: 100%;
-    font-size: 12px;
+    font-size: 16px;
 }
 .ShortPlayer iframe{
     border-radius: 10px;
@@ -336,7 +335,41 @@ main{
     pointer-events: none;
     margin: 0.7rem;
 }
+.IndicatorLive2{
+    color: white;
+    width: 13%;
+    font-size: 14px;
+    background-color: rgb(204, 0, 0, 0.9);
+    height: 8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    pointer-events: none;
+    margin: 0.3rem;
+}
+.ContainerChannel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    border: 2px solid rgb(0, 255, 149);
+}
+.SectionImageChannel{
+     width: 100%;
+     border: 1px solid red;
+     height: 60vh;   
 
-/*Pensez aux responsives à la toutes fin du projet */
+}
+
+/* Ne pas oublier ce petit detail mouseover*/
+.mouseOver:hover{
+    cursor: pointer;
+}
+
+
+/*Pensez aux responsives à la toutes fin du projet plus tard*/
 
 

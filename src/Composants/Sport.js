@@ -134,7 +134,7 @@ if(isError){
                                             </div>
                                             )
                                             }
-                                    })}
+                                    return null;})}
                                     </div>  
 
                                 </div>
@@ -183,7 +183,7 @@ if(isError){
                                 </div>
                             )
                         } 
-                    })}
+                    return null;})}
                   </div>                 
             </div>  
         </div>

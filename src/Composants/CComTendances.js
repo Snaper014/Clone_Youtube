@@ -66,7 +66,7 @@ function ContenuNouv({choix = 'now'}){
   if(isLoading){
       return (
         <div style={{margin: '0 auto', width: '15%'}}>
-        <CircularProgress />
+          <CircularProgress />
       </div> 
       )         
       //import spinner MUI 

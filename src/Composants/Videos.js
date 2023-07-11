@@ -14,12 +14,14 @@ function Videos() {
   const navigate = useNavigate()
   const {data : dataYTB, error, status, execute} = useFetchData()
   let { id } = useParams()
+console.log(BanniereVideo)
 
   React.useEffect(() => {
       execute(DetailVideos(id))
       Suggestions(id).then(reponse => setBanniereVideo(reponse)).catch(error => console.log(error.message)) 
   }, [id, execute])
 
+  console.log(dataYTB)
   if(status === 'fetching'){
     return 'chargement...'
   }
@@ -34,18 +36,21 @@ function Videos() {
   const HandleVideos = (id) => {
     navigate(`/watch/${id}`)
 }
+const HandleChannel = (Channelid) => {
+  navigate(`/Channel/${Channelid}`)
+}
     return(
       <>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />    
-
-  <div className="GridP">
-      <div></div>
-        {<div className="Principale">
+        {
           <div className="GridVideoyoutube" style={{
             border: '2px solid red',
             display: 'grid',
-            width: '100%',
+            width: '90%',
+            left: '16vh',
+            position: 'relative',
+            top: '11vh'
           }}>
              <div style={{
               backgroundColor: 'white',
@@ -54,7 +59,7 @@ function Videos() {
               display: 'flex',
               flexDirection: 'column',
              }}>
-                <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} className='react-player' controls />
+                <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} width={"100%"} height={"500px"} className='react-player' controls />
                 <h1 style={{fontWeight: 'bolder', marginTop: '1%', fontSize: '20px', width: '100%', marginBottom: '2%'}}>{dataYTB?.title}</h1>
                 <div style={{width: '100%', display: 'grid', gridTemplateColumns: '50% 50%'}}>
                     <div style={{
@@ -111,22 +116,24 @@ function Videos() {
                  {BanniereVideo?.data?.data?.map((element, index) => (
                     <div style={{
                       width: '100%',
-                      display: 'grid',
-                      gridTemplateColumns: '50% 50%',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      flexWrap: 'nowrap',
                       margin: '2vh 0vh 2vh 0vh',
 
                       }} 
-                      key={index} onClick={() => HandleVideos(element?.videoId)}>
-                        <img  style={{borderRadius: '10px', height: '94px', width: '168px'}} src={element?.thumbnail[0]?.url} alt={index}></img>
+                      key={index} >
+                        <div style={{width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', cursor: 'pointer'}} onClick={() => HandleVideos(element?.videoId)}>
+                            <img  style={{borderRadius: '10px', height: '18vh', width: '80%'}} src={element?.thumbnail[0]?.url} alt={index}></img>
+                        </div>
                         <div style={{
                           display: 'flex',
                           flexDirection: 'column',
                           flexWrap: 'wrap',
-                          width: '100%',
-
+                          width: '50%',
                           }}>
-                            <p style={{width: '100%', fontWeight: '600'}}>{element?.title.length > 60 ? element?.title.substring(0, 45) + "..." : element?.title}</p>
-                            <p style={{width: '100%', fontSize: '12px'}}>{element?.channelTitle}</p>
+                            <p style={{width: '100%', fontWeight: '600', fontSize: '20px'}}>{element?.title.length > 60 ? element?.title.substring(0, 45) + "..." : element?.title}</p>
+                            <p style={{width: '100%', fontSize: '16px', cursor: 'pointer'}} onClick={() => HandleChannel(element?.channelId)} >{element?.channelTitle}</p>
                             <div className="SuggesVdeo">
                                 <p style={{marginRight: '5px'}}>{element?.viewCount} vues</p>
                                 <div style={{ width: '2px', height: '2px', borderRadius: '50%', backgroundColor: 'black', MarginLeft: '5px', marginRight: '5px'}}></div>
@@ -137,9 +144,8 @@ function Videos() {
                  ))}
              </div>
           </div>
-        </div>
       }
-    </div>
+
     </ErrorBoundary> 
       </>
     )

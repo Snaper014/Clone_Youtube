@@ -121,7 +121,7 @@ if(isError){
                                 </div>
                                   )
                                 }
-                          })}
+                          return null;})}
                         </div>  
 
                       </div>

@@ -9,9 +9,16 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { FetchHomeShorts } from '../utils/Appel';
 import { ErrorFallback } from '../Composants/FallbackError';
 import { Carsoussel } from './Carsoussel';
+import { useData } from '../utils/ContextProvider';
+import { useParams } from 'react-router-dom';
 
 function ShorterCAC40() {
-    const {data : dataShorts, isLoading, isError, error} = useQuery({queryKey: [`Fetch/Shorts`] ,queryFn: () => FetchHomeShorts()})
+    const {data : dataShorts, isLoading, isError, error} = useQuery({
+      queryKey: [`Fetch/Shorts`] ,
+      queryFn: () => FetchHomeShorts(),
+      cacheTime: 60000,
+      staleTime: 30000,
+    })
 
 if(isLoading){
     return (
@@ -40,13 +47,14 @@ if(isError){
         border: '2px solid rgb(0, 255, 149)',
         width: '95%',
       }}>
-        {dataShorts?.data?.data.map((element) => {
-          if(element.type !== 'shorts_listing'){ return null}
-              else if(element.type === 'shorts_listing'){
+        {dataShorts?.data?.data.map((element, index) => {
+            if(element.type === 'shorts_listing'){
                 return(
-                    <Carsoussel>
+                      <Carsoussel key={index} InitialValue={0}>
                       {element?.data.map((AUelment, index) => (
-                        <ReactPlayer key={index} 
+           
+                        <ReactPlayer
+                          key={index}  
                           url={`https://www.youtube.com/shorts/${AUelment.videoId}`} 
                           className='react-player ShortPlayer' 
                           width={'25vw'}
@@ -55,13 +63,64 @@ if(isError){
                           style={{margin: '0 auto'}}  
                            />
                         ))}
-                    </Carsoussel>
+                      </Carsoussel>
+
                 )} 
-            })}
+         return null;       
+            })} 
         </div>
       </div>
     </ErrorBoundary> 
   </>
     )
   }
-  export {ShorterCAC40}
+  
+  function ShorterSBF30(){
+    const {DataContext} = useData()
+    let {IndexShorts} = useParams()
+
+// Utilisez la valeur de streamCardData dans votre composant
+
+  //Régler l'histoire des shorts en erreur cross-origin qui créer des erreurs  
+    if(!DataContext){
+      return (
+        <div style={{display: 'flex',alignItems: 'center', justifyContent: 'center', width: '100%', height: '100vh'}}>
+            <CircularProgress style={{fontSize: '40px'}}/>
+        </div>
+      )         
+    }
+   
+      return(
+        <>
+        <ErrorBoundary fallback={ErrorFallback}>
+          <BarSearch />
+  <div className="GridP">
+      <div><BarreGauche /></div>
+      <div  style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '2px solid rgb(0, 255, 149)',
+        width: '95%',
+      }}>
+                    <Carsoussel InitialValue={IndexShorts}>
+                      {DataContext?.data?.data.map((AUelment, index) => (
+                        <ReactPlayer
+                          key={index}  
+                          url={`https://www.youtube.com/shorts/${AUelment.videoId}`} 
+                          className='react-player ShortPlayer' 
+                          width={'25vw'}
+                          height={'100%'}
+                          style={{margin: '0 auto'}}  
+                           />
+                        ))}
+                    </Carsoussel>
+              </div>
+          </div>
+    </ErrorBoundary> 
+  </>   
+      )
+  }
+
+  export {ShorterCAC40, ShorterSBF30}

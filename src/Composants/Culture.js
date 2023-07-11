@@ -113,11 +113,11 @@ if(isError){
                                 </div>
                                   )
                                 }
-                          })}
+                          return null;})}
                         </div>  
 
                       </div>)}
-                    })}            
+                    return null;})}            
                         
                <div>
 
