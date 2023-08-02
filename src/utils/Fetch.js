@@ -1,40 +1,39 @@
-import * as React from 'react'
-
+import * as React from "react";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'fetching':
-      return {status: 'fetching', data: null, error: null}
-    case 'done':
-      return {status: 'done', data: action.payload, error: null}
-    case 'fail':
-      return {status: 'error', data: null, error: action.error}
+    case "fetching":
+      return { status: "fetching", data: null, error: null };
+    case "done":
+      return { status: "done", data: action.payload, error: null };
+    case "fail":
+      return { status: "error", data: null, error: action.error };
     default:
-      throw new Error('Action non supporté')
+      throw new Error("Action non supporté");
   }
-}
+};
 const initialState = {
   data: null,
   error: null,
-  status: 'idle',
-}
+  status: "idle",
+};
 function useFetchData() {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
-  const {data, error, status} = state
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const { data, error, status } = state;
 
-  const execute = React.useCallback(promise => {
-    dispatch({type: 'fetching'})
+  const execute = React.useCallback((promise) => {
+    dispatch({ type: "fetching" });
     promise
-      .then(marvel => dispatch({type: 'done', payload: marvel}))
-      .catch(error => dispatch({type: 'fail', error}))
-  }, [])
+      .then((marvel) => dispatch({ type: "done", payload: marvel }))
+      .catch((error) => dispatch({ type: "fail", error }));
+  }, []);
 
   const setData = React.useCallback(
-    data => dispatch({type: 'done', payload: data}),
+    (data) => dispatch({ type: "done", payload: data }),
     [dispatch],
-  )
+  );
 
-  return {data, error, status, execute, setData}
+  return { data, error, status, execute, setData };
 }
 
-export {useFetchData}
+export { useFetchData };
