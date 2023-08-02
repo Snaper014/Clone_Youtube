@@ -1,28 +1,30 @@
 import * as React from 'react';
 import '../App.css';
-import { BarreGauche } from './Menustatic';
+import { AppBarSecondary} from './AppBarSecondary';
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '../Composants/FallbackError';
 import CircularProgress from '@mui/material/CircularProgress';
 import { GetCategoryMode } from '../utils/Appel';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import BarSearch from './AppBar';
+import { DisplayContent } from '../utils/utils2';
+import BarSearch from './AppBarPrimary';
+import { useData } from '../utils/ContextProvider';
+
 
 export function Mode(){
-    const {data: DataMode, isLoading, isError, error} = useQuery({queryKey: [`Fetch Mode`] ,queryFn: () => GetCategoryMode()})
-    const navigate = useNavigate()
-
-    const HandleVideos = (id) => {
-        navigate(`/watch/${id}`)
-    }
+    const {data: DataMode, isLoading, isError, error} = 
+        useQuery({queryKey: [`Fetch Mode`] ,
+        queryFn: () => GetCategoryMode()})
+        const refWidth = React.useRef(null);
+        const {setDataContext, setOption} = useData();
+        console.log(DataMode)
+  
   if(isLoading){
     return (
-      <div style={{margin: '0 auto', width: '15%'}}>
-      <CircularProgress />
-    </div> 
-    )         
-    //import spinner MUI 
+      <div style={{display: 'flex',alignItems: 'center', justifyContent: 'center', width: '100%', height: '100vh'}}>
+          <CircularProgress style={{fontSize: '40px'}}/>
+      </div>
+    )  
 }
 if(isError){
   return(
@@ -31,100 +33,101 @@ if(isError){
     </div>
   )
 }
-    return (
-        <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <BarSearch />
-        <div className="GridP">
-            <div><BarreGauche /></div>
-            <div className="ConteneurTendances">
-                     <div className="DivtitreTrend">
-                            <img style={{height: '100%', width: '75%', borderRadius: '50%'}}
-                                alt="logo actus" 
-                                src="//yt3.googleusercontent.com/qj80UVa3fFaLL9c0Cgd-BrEPuShbZnGBqrh2AArMRlfH2DZRAl4ilScrSqIRR3WIu01lSlJM=s176-c-k-c0x00ffffff-no-rj-mo"
-                                >
-                                </img>
-                              <div className="divTendances"><p>Mode et beauté</p></div>
-                        </div>
-                           
-                    {DataMode?.data?.data.map((element, index) => {
-                        if(element?.type === 'video_listing'){
-                      return(<div key={index} style={{
-                          width: '100%',
-                          border: '1px solid blue',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'flex-start',
-                          justifyContent: 'flex-start'
+
+return (
+  <>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <BarSearch />
+      <div className="GridP">
+          <div><AppBarSecondary /></div>
+          <div ref={refWidth} 
+              style={{
+              padding: '0px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              flexWwrap: 'nowrap',
+              border: '2px solid rgb(0, 255, 149)',
+              color: 'black',
+              width: '100%',
+          }}>
+               <div style={{
+                   width: '100%',
+                   height: '180px',
+                   backgroundColor: '#efeff1',
+                   display: 'flex',
+                   flexDirection: 'column',
+                   marginBottom: '40px',
+                   justifyContent: 'space-between', 
+               }}>
+                <div style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
+                  flexDirection: 'row',
+                  }}>
+                    <div style={{
+                      width: '10%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                       }}>
+                          <img style={{height: '80px', width: '80px', borderRadius: '50%'}}
+                          alt="logo actus" 
+                          src="https://yt3.googleusercontent.com/uuEgOraB12_CH7Jbth-M1-YojvZOQcd3qlYDXXy7EVouDO-Ftpm4QJlntzKTGyTXhfI_Q9Tr_g=s176-c-k-c0x00ffffff-no-rj-mo"
+                          >
+                          </img>
+                       </div>
+                    <div style={{
+                      width: '90%',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-start',
                       }}>
-                        <div style={{width: '100%'}}>
-                            <h3 style={{
-                                fontWeight: '500',
-                            }}>{element?.title}</h3>
-                            <p style={{margin: '3px 0px 2% 0px'}}>{element?.subtitle}</p>
-                        </div>
-                          <div style={{
-                              width: '100%',
-                              display: 'flex',
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                          }}>
-                          {element?.data.map((items, index) => {
-                                if(index < 3){
-                                  return(
-                                    <div style={{
-                                      width: '32%'
-                                    }}
-                                    key={index} onClick={() => HandleVideos(items?.videoId)}>
-                                    <div style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-                                        <img alt={items?.title} 
-                                        src={items?.thumbnail[0]?.url}
-                                        height="202px"
-                                        style={{borderRadius: '10px', width: '100%'}}></img>
-                                        <div className={`${items?.lengthText === "EN DIRECT" ? 'IndicatorLive' : 'IndicatorView'}`}><p style={{margin: '0.3em', fontWeight: '600'}}>{items?.lengthText}</p></div>
-                                    </div>
-                                    <div style={{
-                                      width: '100%',
-                                      display: 'flex',
-                                      flexDirection: 'column',
-                                      justifyContent:'center',
-                                      alignItems: 'center',
-                                      }}>
-                                        <div className="styleSousmenu">
-                                            <img style={{ 
-                                            width: '40px', 
-                                            height: '40px',
-                                            borderRadius: '50%', 
-                                            marginRight: '1%'
-                                            }} src={items?.thumbnail[0]?.url} alt={items?.title}>
-                                            </img>
-                                            <div style={{width: '100%', display: 'flex', justifyContent:'flex-start', alignItems: 'flex-start', flexDirection: 'column'}}>
-                                              <h5 style={{width: '100%',marginBottom: '1%'}}>{items?.title.length >= 70 ? items?.title.substring(0,70) + "..." : items?.title}</h5>
-                                              <p style={{width: '100%'}}>{items?.channelTitle}</p>
-                                              <div className="ContenuHomedescripVide">
-                                                <p style={{MarginLeft: '5px', marginRight: '5px'}}>{items?.viewCount} de vues</p>
-                                                <div style={{ width: '2px', height: '2px', borderRadius: '50%', backgroundColor: 'black', MarginLeft: '5px', marginRight: '5px'}}></div>
-                                                <p>{items?.publishedTimeText}</p>
-                                              </div>
-                                            </div>    
-                                          </div>
-                                    </div>
-                                </div>
-                                  )
-                                }
-                          return null;})}
-                        </div>  
-
-                      </div>)}
-                    return null;})}            
-                        
-               <div>
-
-                </div> 
-            </div>  
-        </div>
-    </ErrorBoundary> 
+                        <h1 style={{fontWeight: '400'}}>{DataMode?.data?.meta?.title}</h1>
+                        <p>{DataMode?.data?.meta?.subscriberCountText} d'abonnés</p>  
+                    </div>
+                  </div>
+                <div style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    }}>
+                       <h2 style={{
+                        width: '12%', 
+                        borderBottom: '2px solid black',
+                        fontWeight: '500', 
+                        fontSize: '18px',
+                        padding: '10px',
+                        textAlign: 'center',
+                        }}>
+                          Accueil
+                    </h2>
+                  </div>
+              </div>
+        <div style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'flex-start',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}>
+          <DisplayContent
+            Data={DataMode}
+            refWidth={refWidth}
+            setDataContext={setDataContext}
+            setOption={setOption}
+            HasCaroussel={true}
+           /> 
+        </div>              
+      </div>  
+    </div>
+  </ErrorBoundary> 
 </> 
-    )
+  )
 }

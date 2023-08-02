@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { BarreGauche } from './Menustatic';
+import { AppBarSecondary } from './AppBarSecondary';
 import '../App.css';
 import Avatar from '@mui/material/Avatar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallback } from '../Composants/FallbackError';
-import BarSearch from './AppBar';
+import BarSearch from './AppBarPrimary';
 
 function History() {
     return(
@@ -12,7 +12,7 @@ function History() {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />        
   <div className="GridP">
-      <div><BarreGauche /></div>
+      <div><AppBarSecondary /></div>
       <div className="Principale" style={{
         display: 'flex',
         flexDirection: 'column',

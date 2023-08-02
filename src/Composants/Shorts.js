@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { BarreGauche } from './Menustatic';
+import { AppBarSecondary } from './AppBarSecondary';
 import { ErrorBoundary } from "react-error-boundary";
 import '../App.css';
-import BarSearch from './AppBar';
+import BarSearch from './AppBarPrimary';
 import ReactPlayer from 'react-player/lazy';
 import { useQuery } from '@tanstack/react-query';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -21,10 +21,11 @@ function ShorterCAC40() {
     })
 
 if(isLoading){
-    return (
-    <CircularProgress />
-    )         
-    //import spinner MUI 
+  return (
+    <div style={{display: 'flex',alignItems: 'center', justifyContent: 'center', width: '100%', height: '100vh'}}>
+        <CircularProgress style={{fontSize: '40px'}}/>
+    </div>
+  )          
 }
 if(isError){
   return(
@@ -33,12 +34,13 @@ if(isError){
     </div>
   )
 }
+
     return(
       <>
         <ErrorBoundary fallback={ErrorFallback}>
           <BarSearch />
   <div className="GridP">
-      <div><BarreGauche /></div>
+      <div><AppBarSecondary /></div>
       <div  style={{
         display: 'flex',
         flexDirection: 'column',
@@ -59,7 +61,6 @@ if(isError){
                           className='react-player ShortPlayer' 
                           width={'25vw'}
                           height={'100%'}
-                          loop
                           style={{margin: '0 auto'}}  
                            />
                         ))}
@@ -76,11 +77,9 @@ if(isError){
   }
   
   function ShorterSBF30(){
-    const {DataContext} = useData()
+    const {DataContext, option} = useData()
     let {IndexShorts} = useParams()
-
-// Utilisez la valeur de streamCardData dans votre composant
-
+    const CheckedData = option ? DataContext?.data : DataContext?.data?.data;
   //Régler l'histoire des shorts en erreur cross-origin qui créer des erreurs  
     if(!DataContext){
       return (
@@ -95,7 +94,7 @@ if(isError){
         <ErrorBoundary fallback={ErrorFallback}>
           <BarSearch />
   <div className="GridP">
-      <div><BarreGauche /></div>
+      <div><AppBarSecondary /></div>
       <div  style={{
         display: 'flex',
         flexDirection: 'column',
@@ -105,10 +104,10 @@ if(isError){
         width: '95%',
       }}>
                     <Carsoussel InitialValue={IndexShorts}>
-                      {DataContext?.data?.data.map((AUelment, index) => (
+                      {CheckedData.map((AUelment, index) => (
                         <ReactPlayer
                           key={index}  
-                          url={`https://www.youtube.com/shorts/${AUelment.videoId}`} 
+                          url={`https://www.youtube.com/shorts/${AUelment.videoId}&origin=https://www.youtube.com`} 
                           className='react-player ShortPlayer' 
                           width={'25vw'}
                           height={'100%'}

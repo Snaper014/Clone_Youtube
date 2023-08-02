@@ -1,10 +1,10 @@
 import * as React from 'react';
 import '../../App.css';
-import ChannelYTB from './Channel';
-import { BarreGauche } from '../Menustatic';
+import ChannelYTB from './Composantcompose';
+import { AppBarSecondary} from '../AppBarSecondary';
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '../FallbackError';
-import BarSearch from '../AppBar';
+import BarSearch from '../AppBarPrimary';
 import { CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { GetChannelHomeUser } from '../../utils/Appel';
@@ -43,50 +43,50 @@ import { VscVerifiedFilled } from 'react-icons/vsc';
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />
         <div className="GridP">
-            <div><BarreGauche /></div>
+            <div><AppBarSecondary /></div>
             <div className="ContainerChannel">
-                     <div className="SectionImageChannel">
-                        <div style={{
-                            width: '100%', 
-                            height: '65%',
-                            }}>
-                          {dataChannel?.data?.meta?.banner !== null ?    
-                           <img width={"100%"}
-                                height={"100%"}
-                                alt={dataChannel?.data?.meta?.channelHandle}
-                                src={dataChannel?.data?.meta?.banner[3]?.url}
-                           >
-                            </img> : <div style={{
-                                    backgroundColor: 'white',
-                                    height: '100%',
-                                    width: '100%',
-                              }}></div>
-                                }     
-                        </div>
-                        <div style={{
-                            width: '100%',
-                            height: '35%',
-                            display: 'flex',
-                            flexDirection: 'row',
+                <div className="SectionImageChannel">
+                  <div style={{
+                      width: '100%', 
+                      height: '65%',
+                      }}>
+                    {dataChannel?.data?.meta?.banner !== null ?    
+                      <img width={"100%"}
+                          height={"100%"}
+                          alt={dataChannel?.data?.meta?.channelHandle}
+                          src={dataChannel?.data?.meta?.banner[3]?.url}
+                      >
+                      </img> : <div style={{
+                              backgroundColor: 'white',
+                              height: '100%',
+                              width: '100%',
+                        }}></div>
+                          }     
+                  </div>
+                  <div style={{
+                      width: '100%',
+                      height: '35%',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                  }}>
+                    <div style={{
+                            display: 'flex', 
                             alignItems: 'center',
-                            justifyContent: 'flex-start',
-                        }}>
-                                <div style={{
-                                        display: 'flex', 
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        margin: '0px 0px 0px 2%',
-                                        height: '100%'
-                                        }}>
-                                    <img 
-                                    style={{borderRadius: '50%'}}
-                                    alt={dataChannel?.data?.meta?.title} 
-                                    src={dataChannel?.data?.meta?.avatar[2]?.url}
-                                    width="100"
-                                    height="100" 
-                                    >
-                                    </img>
-                                </div>
+                            justifyContent: 'center',
+                            margin: '0px 0px 0px 2%',
+                            height: '100%'
+                            }}>
+                        <img 
+                        style={{borderRadius: '50%'}}
+                        alt={dataChannel?.data?.meta?.title} 
+                        src={dataChannel?.data?.meta?.avatar[1]?.url}
+                        width="100px"
+                        height="100px" 
+                        >
+                        </img>
+                    </div>
                   <div style={{
                                 display: 'flex', 
                                 flexDirection: 'column',

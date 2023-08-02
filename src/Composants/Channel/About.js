@@ -3,26 +3,30 @@ import '../../App.css';
 import { useParams} from 'react-router-dom';
 import { GetAbout} from '../../utils/Appel';
 import { CircularProgress } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 
 
 export function Liens(){
     let {chaId} = useParams()
-    const [data, setData] = React.useState()
-    console.log("Data venant du channel lien", data)
-    React.useEffect(() => {
-        GetAbout(chaId)
-        .then(response => setData(response))
-        .catch(error => console.log(error))
-    }, [chaId])
+    const {data, isLoading, isError, error} = useQuery({ 
+        queryKey: [`Fetch Channel All videos`] ,
+        queryFn: () => GetAbout(chaId)
+    })
 
- 
-    if(!data){
+    if(isLoading){
         return (
-          <div style={{display: 'flex',alignItems: 'center', justifyContent: 'center', width: '100%', height: '100vh'}}>
-              <CircularProgress style={{fontSize: '40px'}}/>
-          </div>
-        )           
+            <div style={{display: 'flex',alignItems: 'center', justifyContent: 'center', width: '100%', height: '100vh'}}>
+            <CircularProgress style={{fontSize: '40px'}}/>
+        </div>
+        )         
+    }
+    if(isError){
+      return(
+        <div style={{margin: '0 auto', width: '15%'}}>
+          <p>Une Erreur est survenu {error.message}</p>
+        </div>
+      )
     }
 
     return(

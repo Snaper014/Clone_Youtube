@@ -1,35 +1,33 @@
 import * as React from 'react';
-import { BarreGauche } from './Menustatic';
+import { AppBarSecondary } from './AppBarSecondary';
 import '../App.css';
-import { useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallback } from '../Composants/FallbackError';
-import { useFetchData } from '../utils/Fetch';
 import { FetchHomeFeed } from '../utils/Appel';
-import BarSearch from './AppBar';
+import BarSearch from './AppBarPrimary';
+import { CircularProgress } from '@mui/material';
+import { DisplayContent } from '../utils/utils2';
+import { useQuery } from '@tanstack/react-query';
+import { useData } from '../utils/ContextProvider';
 
 function Home() {
-  const {data: DataYTB, error, execute, status} = useFetchData()
-  const navigate = useNavigate()
+  const {data: DataYTB, isLoading, isError, error} = 
+          useQuery({queryKey: [`Fetch Home Page`] ,
+          queryFn: () => FetchHomeFeed()})
 console.log("data Home", DataYTB)
-React.useEffect(() => {
-    execute(FetchHomeFeed())
-}, [execute])
+const refWidth = React.useRef(null);
+const {setDataContext, setOption} = useData();
 
-const HandleVideos = (id) => {
-  navigate(`/watch/${id}`)
+if(isLoading){
+  return (
+    <div style={{display: 'flex',alignItems: 'center', justifyContent: 'center', width: '100%', height: '100vh'}}>
+        <CircularProgress style={{fontSize: '40px'}}/>
+    </div>
+  )        
 }
-const HandleChannel = (Channelid) => {
-  navigate(`/Channel/${Channelid}`)
-}
-
-if(status === 'fetching'){
-  return 'chargment...'          
-  //import spinner MUI ou skeletons
-}
-if(status === 'fail'){
+if(isError){
 return(
-  <div className="Principale">
+  <div style={{margin: '0 auto', width: '15%'}}>
     <p>Une Erreur est survenu {error.message}</p>
   </div>
 )
@@ -39,65 +37,36 @@ return(
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />
   <div className="GridP">
-      <div><BarreGauche /></div>
-      <div className="styleHome">
-          {DataYTB?.data?.data?.map((element, index) => {
-              if(element?.type === 'video'){
-                  return (
-             <div className="styleHomeDiv" key={index} >
-                  <div onClick={() => HandleVideos(element?.videoId)} style={{width: '100%', position: 'relative'}}>
-                      <img alt={element?.title} 
-                      src={element?.thumbnail[0]?.url}
-                      height="250px"
-                      style={{borderRadius: '10px', width: '100%'}}></img>
-                       <div className={`${element?.lengthText === "EN DIRECT" ? 'IndicatorLive' : 'IndicatorView'}`}><p style={{margin: '0.3em', fontWeight: '600'}}>{element?.lengthText}</p></div>
-                  </div>
-                  <div style={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent:'flex-start',
-                    alignItems: 'flex-start',
-                    }}>
-                      <div className="styleSousmenu">
-                          <img onClick={() => HandleChannel(element?.channelId)} style={{ 
-                          width: '50px', 
-                          height: '50px',
-                          borderRadius: '50%', 
-                          marginRight: '1%',
-                          cursor: 'pointer',
-                          }} 
-                          src={element?.channelThumbnail[0]?.url} 
-                          alt={element?.title}>
-                          </img>
-                      </div>
-                         <div style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'flex-start',
-                          justifyContent: 'flex-start',
-                          width: '85%'
-                        }}> 
-                            <div style={{width: '100%', display: 'flex', justifyContent:'flex-start', alignItems: 'flex-start', flexDirection: 'column', cursor: 'pointer'}}>
-                              <h3 onClick={() => HandleVideos(element?.videoId)} style={{width: '100%',marginBottom: '1%'}}>{element?.title.substring(0,100)}</h3>
-                              <p onClick={() => HandleChannel(element?.channelId)} style={{width: '100%', fontSize: '18px'}}>{element?.channelTitle}</p>
-                              <div className="ContenuHomedescripVide" onClick={() => HandleVideos(element?.videoId)}>
-                                <p style={{marginRight: '5px'}}>{element?.viewCount} de vues</p>
-                                <div style={{display: 'flex', alignSelf: 'center', width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'black', marginRight: '5px'}}></div>
-                                <p>{element?.publishedTimeText}</p>
-                              </div>
-                            </div>
-                      </div>       
-                  </div>
-              </div>
-            )}
-    return null;
-                
-})}
+      <div><AppBarSecondary /></div>
+      <div ref={refWidth} style={{
+        padding: '3vh 0px 3vh 0px',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        border: '2px solid rgb(0, 255, 149)',
+        color: 'black',
+        width: '100%',
+      }}>
+        <div style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'flex-start',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}>
+          <DisplayContent 
+            Data={DataYTB}
+            refWidth={refWidth}
+            setDataContext={setDataContext}
+            setOption={setOption}
+            LogochannelThumbnail={true}
+          />
+      </div> 
       </div>
     </div>
     </ErrorBoundary> 
-      </>
-    )
-  }
+  </>
+)}
   export {Home}

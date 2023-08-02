@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { BarreGauche } from './Menustatic';
+import { AppBarSecondary } from './AppBarSecondary';
 import { ErrorBoundary } from "react-error-boundary";
 import '../App.css';
 import Avatar from '@mui/material/Avatar';
 import { ErrorFallback } from '../Composants/FallbackError';
-import BarSearch from './AppBar';
+import BarSearch from './AppBarPrimary';
 
 
 function Biblio() {
@@ -14,7 +14,7 @@ function Biblio() {
         <BarSearch />
 
   <div className="GridP">
-      <div><BarreGauche /></div>
+      <div><AppBarSecondary /></div>
       <div className="Principale" style={{
         display: 'flex',
         flexDirection: 'column',

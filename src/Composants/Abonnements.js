@@ -1,8 +1,8 @@
 import * as React from 'react';
 import '../App.css';
 import Avatar from '@mui/material/Avatar';
-import { BarreGauche } from './Menustatic';
-import BarSearch from './AppBar';
+import { AppBarSecondary } from './AppBarSecondary';
+import BarSearch from './AppBarPrimary';
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '../Composants/FallbackError';
 
@@ -17,7 +17,7 @@ function Abonner() {
         <BarSearch />
 
   <div className="GridP">
-      <div><BarreGauche /></div>
+      <div><AppBarSecondary /></div>
       <div className="Principale" style={{
         display: 'flex',
         flexDirection: 'column',

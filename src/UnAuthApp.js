@@ -18,8 +18,9 @@ import { Knoweldge } from './Composants/Culture';
 import { Playlist } from './Composants/Playlist';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { Mode } from './Composants/Mode';
-import { PageYoutubeur } from './Composants/Channel/PageChannel';
 import { DataProvider } from './utils/ContextProvider';
+import { PageYoutubeur } from './Composants/Channel/PageChannel';
+
 
 function UnAuthApp() {
 

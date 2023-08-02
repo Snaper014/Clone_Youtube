@@ -2,28 +2,33 @@ import * as React from 'react';
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '../Composants/FallbackError';
 import ReactPlayer from 'react-player/lazy'
+import { CircularProgress } from '@mui/material';
 import '../App.css';
 import { useFetchData } from '../utils/Fetch';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { DetailVideos, Suggestions } from '../utils/Appel';
-import BarSearch from './AppBar';
+import { GetVideos} from '../utils/Appel';
+import { VscVerifiedFilled } from 'react-icons/vsc';
+import BarSearch from './AppBarPrimary';
 
 function Videos() {
-  const [BanniereVideo, setBanniereVideo] = React.useState()
   const navigate = useNavigate()
+
   const {data : dataYTB, error, status, execute} = useFetchData()
+  const [DisplayDescription, setDisplayDescription] = React.useState(false)
   let { id } = useParams()
-console.log(BanniereVideo)
 
   React.useEffect(() => {
-      execute(DetailVideos(id))
-      Suggestions(id).then(reponse => setBanniereVideo(reponse)).catch(error => console.log(error.message)) 
+      execute(GetVideos(id))
   }, [id, execute])
 
-  console.log(dataYTB)
+  console.log("Data", dataYTB)
   if(status === 'fetching'){
-    return 'chargement...'
+    return (
+      <div style={{display: 'flex',alignItems: 'center', justifyContent: 'center', width: '100%', height: '100vh'}}>
+          <CircularProgress style={{fontSize: '40px'}}/>
+      </div>
+    )
   }
   if(error){
     return (
@@ -39,11 +44,23 @@ console.log(BanniereVideo)
 const HandleChannel = (Channelid) => {
   navigate(`/Channel/${Channelid}`)
 }
+const HoverEnter = () => {
+  if(DisplayDescription === false){
+      let element = document.getElementById('HandleHoverD')
+      element.style.backgroundColor = "#dfdfdf";
+  }else{
+      let element = document.getElementById('HandleHoverD')
+      element.style.backgroundColor = "#efeff1";
+  } 
+}
+const HoverLeave = () => {
+  let element = document.getElementById('HandleHoverD')
+  element.style.backgroundColor = "#efeff1";
+}
     return(
       <>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />    
-        {
           <div className="GridVideoyoutube" style={{
             border: '2px solid red',
             display: 'grid',
@@ -53,57 +70,106 @@ const HandleChannel = (Channelid) => {
             top: '11vh'
           }}>
              <div style={{
-              backgroundColor: 'white',
-              border: '1px solid pink',
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-             }}>
-                <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} width={"100%"} height={"500px"} className='react-player' controls />
-                <h1 style={{fontWeight: 'bolder', marginTop: '1%', fontSize: '20px', width: '100%', marginBottom: '2%'}}>{dataYTB?.title}</h1>
-                <div style={{width: '100%', display: 'grid', gridTemplateColumns: '50% 50%'}}>
-                    <div style={{
-                      width: '100%',
-                    }}>
-                          <div style={{ display: 'flex', flexDirection: 'row'}}>
-                            <img alt='kiche' style={{ 
-                              width: '50px', 
-                              height: '50px',
-                              borderRadius: '50%', 
-                              marginRight: '1%',
-                              }}
-                              src={dataYTB?.data?.thumbnail[0]?.url}></img>
-                      
-                     <div style={{marginLeft: '3vh'}}>
-                        <p style={{fontWeight: 'bolder'}}>{dataYTB?.data?.channelTitle}</p>
-                        <button style={{fontSize: '12px'}}>S'abonner</button>
-                      </div>
-                      </div>   
-                    </div>
-                    <div style={{
-                      width: '100%', 
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end'
+                backgroundColor: 'white',
+                border: '1px solid pink',
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+               }}>
+                  <ReactPlayer url={`https://www.youtube.com/watch?v=${id}`} width={"100%"} height={"500px"} className='react-player' controls />
+                  <h1 style={{fontWeight: 'bolder', marginTop: '1%', fontSize: '20px', width: '100%', marginBottom: '2%'}}>{dataYTB?.data?.title}</h1>
+                  <div style={{ 
+                          width: '100%', 
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'nowrap',
+                     }}>
+                      <div onClick={() => HandleChannel(dataYTB?.data?.channelId)} style={{
+                        width: '50%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'nowrap',
+                        alignItems: 'flex-start',
+                        cursor: 'pointer'
                       }}>
-                            <p>{dataYTB?.data?.viewCount} vues</p>
-                            <button style={{margin: '2%', fontSize: '24px'}}>Like</button>
-                            <button style={{margin: '2%', fontSize: '24px'}}>Dislike</button>
-                            <button style={{margin: '2%', fontSize: '24px'}}>Partager</button>
-                    </div>
-                </div>
-                <div style={{
-                  background: 'rgba(255, 255, 255, 0.5)',
-                  width: '100%',
-                  margin: '2vh 0vh 2vh 0vh',
-                  
-                  }}>
-                  <h6 style={{marginBottom: '2vh'}}>Description</h6>
-                  <p>{dataYTB?.data?.description}</p>
-                </div>
-
-              </div> 
+                              <img alt='kiche' style={{ 
+                                width: '50px', 
+                                height: '50px',
+                                borderRadius: '50%', 
+                                marginRight: '1%',
+                                }}
+                                src={dataYTB?.data?.channelThumbnail[0]?.url}>
+                              </img>
+                        
+                       <div style={{marginLeft: '2%', marginRight: '5%'}}>
+                          <h5 style={{fontSize: '18px'}}>
+                            {dataYTB?.data?.channelBadges === null  ? 
+                                    <>{dataYTB?.data?.channelTitle}</>
+                               :     
+                                    <>
+                               {dataYTB?.data?.channelTitle} <span><VscVerifiedFilled /></span>
+                                     </>
+                            }                        
+                            </h5>
+                          <p style={{fontSize: '14px'}}>{dataYTB?.data?.subscriberCountText}</p>
+                        </div>
+                              <button style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center', 
+                                  backgroundColor: 'black',
+                                  color: 'white',
+                                  fontSize: '18px',
+                                  height: '100%',
+                                  width: '30%',
+                                  fontWeight: '550',
+                                  textAlign: 'center',
+                                  borderRadius: '30px'
+                                  }}>
+                                    S'abonner
+                              </button>
+                      </div>
+                  </div>
+                  <div id='HandleHoverD'
+                      onClick={() => setDisplayDescription(!DisplayDescription)}
+                      onMouseEnter={() => HoverEnter()}
+                      onMouseLeave={() => HoverLeave()}
+                  style={{
+                    backgroundColor: '#efeff1',
+                    width: '95%',
+                    margin: '2vh 1vw 2vh 1vw',
+                    padding: '1%',
+                    borderRadius: '7px',
+                    height: `${DisplayDescription ? 'auto' : '20vh'}`,
+                    overflow: 'hidden',
+                    cursor: `${DisplayDescription ? 'auto' : 'pointer'}`
+                    }}>
+                    <h3 style={{width: '100%'}}>{dataYTB?.data?.viewCount} vues - {dataYTB?.data?.publishDate}</h3>   
+                    <div style={{fontSize: '20px'}}>
+                      {
+                       DisplayDescription ? 
+                            <>
+                                <p>{dataYTB?.data?.description}</p>
+                                <button style={{marginTop: '2%',
+                                    marginLeft: '2%', 
+                                    border: 'none', 
+                                    backgroundColor: '#efeff1', 
+                                    fontWeight: '550',
+                                    fontSize: '18px',
+                                    cursor: 'pointer',
+                                  }}
+                                  onClick={() => setDisplayDescription(!DisplayDescription)}      
+                                    >
+                                    Moins
+                                </button>
+                            </>
+                                : <p>{dataYTB?.data?.description.substring(0, 312)}  <span style={{marginLeft: '2%', fontWeight: '550', fontSize: '18px'}}>Plus</span></p>
+                                  
+                        }
+                      </div>
+                  </div>
+  
+                </div>  
 
              <div style={{
                backgroundColor: 'skyblue',
@@ -113,18 +179,19 @@ const HandleChannel = (Channelid) => {
                flexDirection: 'column',
                flexWrap: 'nowrap',
              }}>
-                 {BanniereVideo?.data?.data?.map((element, index) => (
+                 {dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
                     <div style={{
                       width: '100%',
                       display: 'flex',
                       flexDirection: 'row',
                       flexWrap: 'nowrap',
+                      justifyContent: 'space-evenly',
                       margin: '2vh 0vh 2vh 0vh',
-
                       }} 
                       key={index} >
-                        <div style={{width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', cursor: 'pointer'}} onClick={() => HandleVideos(element?.videoId)}>
-                            <img  style={{borderRadius: '10px', height: '18vh', width: '80%'}} src={element?.thumbnail[0]?.url} alt={index}></img>
+                        <div style={{position: 'relative', width: '35%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', cursor: 'pointer'}} onClick={() => HandleVideos(element?.videoId)}>
+                            <img  style={{borderRadius: '10px', height: '18vh', width: '100%'}} src={element?.thumbnail[0]?.url} alt={index}></img>
+                            <div className={`${element?.lengthText === "EN DIRECT" ? 'IndicatorLive' : 'IndicatorView'}`}><p style={{margin: '0.3em', fontWeight: '600'}}>{element?.lengthText}</p></div>
                         </div>
                         <div style={{
                           display: 'flex',
@@ -137,14 +204,14 @@ const HandleChannel = (Channelid) => {
                             <div className="SuggesVdeo">
                                 <p style={{marginRight: '5px'}}>{element?.viewCount} vues</p>
                                 <div style={{ width: '2px', height: '2px', borderRadius: '50%', backgroundColor: 'black', MarginLeft: '5px', marginRight: '5px'}}></div>
-                                <p style={{MarginLeft: '5px', marginRight: '5px'}}>Il y a {element?.publishedTimeText}</p>
+                                <p style={{MarginLeft: '5px', marginRight: '5px'}}>{element?.publishedTimeText}</p>
                             </div>
                         </div>
                     </div>
                  ))}
              </div>
           </div>
-      }
+      
 
     </ErrorBoundary> 
       </>

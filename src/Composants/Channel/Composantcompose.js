@@ -6,7 +6,7 @@ import { StreamLive } from './LiveStreams';
 import { AllShortsChannel } from './ShortsChannel';
 import { PlaylistChannel } from './ChannelPlaylist';
 import { Subscriptions } from './Subscriptions';
-import { Liens } from './Liens';
+import { Liens } from './About';
 
 
 
@@ -81,12 +81,12 @@ function ChannelYTB({data}) {
         </Tabs>
         <Texte>
               <Contenu>{NewData.includes("Accueil") ? <ChannelHome data={data}/> : ''}</Contenu>
-              <Contenu>{NewData.includes("Vidéos") ? <AllVideos /> : ''}</Contenu>
+              <Contenu>{NewData.includes("Vidéos") ? <AllVideos /> : 'Cette Chaîne ne contient aucun vidéos'}</Contenu>
               <Contenu>{NewData.includes("Shorts") ? <AllShortsChannel /> : 'Cette Chaîne ne contient aucun shorts'}</Contenu>
-              <Contenu>{NewData.includes("En direct") ? <StreamLive /> : ''}</Contenu>
-              <Contenu>{NewData.includes("Playlists") ? <PlaylistChannel /> : 'dcdccd'}</Contenu>
+              <Contenu>{NewData.includes("En direct") ? <StreamLive /> : 'Cette Chaîne ne contient aucun direct'}</Contenu>
+              <Contenu>{NewData.includes("Playlists") ? <PlaylistChannel /> : 'Cette Chaîne ne contient aucunes playlists'}</Contenu>
               <Contenu>{NewData.includes("Chaînes") ? <Subscriptions /> : 'Cette chaîne ne présente aucune autre chaîne.'}</Contenu>
-              <Contenu>{NewData.includes("À propos") ? <Liens /> : 'sdsdsd'}</Contenu>
+              <Contenu>{NewData.includes("À propos") ? <Liens /> : 'Cette chaîne ne contient pas encore de présentation'}</Contenu>
         </Texte>
     </Composantcompose>
     

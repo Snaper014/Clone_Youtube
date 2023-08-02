@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { GetPlaylist, GetVideos } from '../utils/Appel';
 import ReactPlayer from 'react-player';
-import BarSearch from './AppBar';
+import BarSearch from './AppBarPrimary';
 import { useFetchData } from '../utils/Fetch';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallback } from './FallbackError';
@@ -149,17 +149,6 @@ export function Playlist(){
                                   }}>
                                     S'abonner
                               </button>
-                      </div>
-                      <div style={{
-                        width: '50%', 
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end'
-                        }}>
-                              <p>{DetailVideo?.data?.viewCount} vues</p>
-                              <button style={{margin: '2%', fontSize: '24px'}}>Like</button>
-                              <button style={{margin: '2%', fontSize: '24px'}}>Dislike</button>
                       </div>
                   </div>
                   <div id='HandleHoverD'
