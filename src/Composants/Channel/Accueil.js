@@ -1,10 +1,43 @@
 import * as React from "react";
-import { useData } from "../../utils/ContextProvider";
+import { useContext } from "../../Context/ContextProvider";
 import { DisplayContent } from "../../utils/utils2";
+import { GetChannelHomeUser } from "../../utils/Appel";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
-export function ChannelHome({ data }) {
+export function ChannelHome() {
+  let { chaId } = useParams();
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [`Fetch Channel Home`],
+    queryFn: () => GetChannelHomeUser(chaId),
+  });
+  console.log("dataVideos", data);
   const refWidth = React.useRef(null);
-  const { setDataContext, setOption } = useData();
+  const { setDataContext, setOption } = useContext();
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
+
+  if (isLoading) {
+    return (
+      <div style={{ margin: "0 auto", width: "15%" }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+  if (isError) {
+    return (
+      <div style={{ margin: "0 auto", width: "15%" }}>
+        <p>Une Erreur est survenu {error.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -18,6 +51,18 @@ export function ChannelHome({ data }) {
         justifyContent: "flex-start",
       }}
     >
+      {data?.data?.msg === "Chaîne sans contenu" 
+      ||
+      data?.data.msg === "Selected tab not available"
+      ? (
+        <h3 style={{width: "100%", 
+              textAlign: "center", 
+              fontWeight: "400"
+            }}>
+                Chaîne sans Contenu
+          </h3>
+        )
+      :
       <DisplayContent
         Data={data}
         refWidth={refWidth}
@@ -25,7 +70,9 @@ export function ChannelHome({ data }) {
         setOption={setOption}
         HasCaroussel
         ChannelHome
-      />
+        setResponsive={setResponsive}
+        responsive={responsive}
+      />}
     </div>
   );
 }

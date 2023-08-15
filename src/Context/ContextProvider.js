@@ -10,6 +10,8 @@ const DataProvider = ({ children, ...props }) => {
   const [option, setOption] = React.useState(
     IsChecked ? JSON.parse(IsChecked) : false,
   );
+  const [LoadNextContentSearch, setLoadNextContentSearch] = React.useState([]);
+  const [token, setToken] = React.useState("");
 
   React.useEffect(() => {
     sessionStorage.setItem("shorts", JSON.stringify(DataContext));
@@ -18,7 +20,16 @@ const DataProvider = ({ children, ...props }) => {
 
   return (
     <Context.Provider
-      value={{ DataContext, setDataContext, option, setOption }}
+      value={{
+        DataContext,
+        setDataContext,
+        option,
+        setOption,
+        LoadNextContentSearch,
+        setLoadNextContentSearch,
+        token,
+        setToken,
+      }}
       {...props}
     >
       {children}
@@ -26,7 +37,7 @@ const DataProvider = ({ children, ...props }) => {
   );
 };
 
-function useData() {
+function useContext() {
   const contexte = React.useContext(Context);
   if (!contexte) {
     throw new Error(
@@ -36,4 +47,4 @@ function useData() {
   return contexte;
 }
 
-export { useData, DataProvider };
+export { useContext, DataProvider };

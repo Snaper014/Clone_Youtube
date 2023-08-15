@@ -4,11 +4,11 @@ import { AppBarSecondary } from "./AppBarSecondary";
 import { ErrorBoundary } from "react-error-boundary";
 import { CircularProgress } from "@mui/material";
 import { ErrorFallback } from "../Composants/FallbackError";
-import BarSearch from "./AppBarPrimary";
+import { BarSearch } from "./AppBarPrimary";
 import { FetchMusique } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { DisplayContent } from "../utils/utils2";
-import { useData } from "../utils/ContextProvider";
+import { useContext } from "../Context/ContextProvider";
 
 function Zik() {
   const {
@@ -16,10 +16,18 @@ function Zik() {
     isLoading,
     isError,
     error,
-  } = useQuery({ queryKey: [`Fetch Sport`], queryFn: () => FetchMusique() });
+  } = useQuery({
+    queryKey: [`Fetch Sport`],
+    queryFn: () => FetchMusique(),
+    cacheTime: 60000,
+    staleTime: 30000,
+  });
   const refWidth = React.useRef(null);
-  const { setDataContext, setOption } = useData();
-  console.log(DataMusic);
+  const { setDataContext, setOption } = useContext();
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
+  //console.log(DataMusic);
   if (isLoading) {
     return (
       <div
@@ -163,6 +171,8 @@ function Zik() {
                   setOption={setOption}
                   LogochannelThumbnail={false}
                   HasCaroussel
+                  responsive={responsive}
+                  setResponsive={setResponsive}
                 />
               </div>
             </div>

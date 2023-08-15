@@ -4,7 +4,7 @@ import DisplayContentTrend from "./CComTendances";
 import { AppBarSecondary } from "./AppBarSecondary";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "./FallbackError";
-import BarSearch from "./AppBarPrimary";
+import { BarSearch } from "./AppBarPrimary";
 
 function Trend() {
   return (

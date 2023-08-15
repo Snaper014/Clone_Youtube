@@ -1,14 +1,13 @@
 import * as React from "react";
 import { AppBarSecondary } from "./AppBarSecondary";
 import "../App.css";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "../Composants/FallbackError";
 import { FetchHomeFeed } from "../utils/Appel";
-import BarSearch from "./AppBarPrimary";
+import { BarSearch, MobileBarSearch } from "./AppBarPrimary";
 import { CircularProgress } from "@mui/material";
 import { DisplayContent } from "../utils/utils2";
 import { useQuery } from "@tanstack/react-query";
-import { useData } from "../utils/ContextProvider";
+import { MobileSecondaryBar } from "./AppBarSecondary";
+import { useContext } from "../Context/ContextProvider";
 
 function Home() {
   const {
@@ -19,10 +18,23 @@ function Home() {
   } = useQuery({
     queryKey: [`Fetch Home Page`],
     queryFn: () => FetchHomeFeed(),
+    cacheTime: 60000,
+    staleTime: 30000,
   });
-  console.log("data Home", DataYTB);
+
+  //Enlever l'authentifciation
+  //Playlist Recherche
+  // responsive mobile/tablette
+  // test
+  // mettre sur le portfolio
+  // Faire le back-end bien plus tard dans une autre branche
+
+  //console.log("data Home", DataYTB);
   const refWidth = React.useRef(null);
-  const { setDataContext, setOption } = useData();
+  const { setDataContext, setOption } = useContext();
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
 
   if (isLoading) {
     return (
@@ -48,46 +60,54 @@ function Home() {
   }
   return (
     <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <BarSearch />
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
-          <div
-            ref={refWidth}
-            style={{
-              padding: "3vh 0px 3vh 0px",
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "space-between",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              border: "2px solid rgb(0, 255, 149)",
-              color: "black",
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "row",
-                flexWrap: "wrap",
-              }}
-            >
-              <DisplayContent
-                Data={DataYTB}
-                refWidth={refWidth}
-                setDataContext={setDataContext}
-                setOption={setOption}
-                LogochannelThumbnail={true}
-              />
-            </div>
-          </div>
+      {responsive ? (
+        <>
+          <MobileBarSearch />
+          <MobileSecondaryBar />
+        </>
+      ) : (
+        <>
+          <BarSearch />
+          <AppBarSecondary />
+        </>
+      )}
+      <div
+        ref={refWidth}
+        style={{
+          position: "relative",
+          top: `${responsive ? "8vh" : "11vh"}`,
+          left: `${responsive ? "0px" : "9.8vw"}`,
+          padding: "3vh 0px 3vh 0px",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          border: "2px solid rgb(0, 255, 149)",
+          color: "black",
+          width: `${responsive ? "100%" : "90%"}`,
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          <DisplayContent
+            Data={DataYTB}
+            refWidth={refWidth}
+            setDataContext={setDataContext}
+            setOption={setOption}
+            LogochannelThumbnail={true}
+            setResponsive={setResponsive}
+            responsive={responsive}
+          />
         </div>
-      </ErrorBoundary>
+      </div>
     </>
   );
 }

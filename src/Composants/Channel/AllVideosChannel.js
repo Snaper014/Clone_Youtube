@@ -17,6 +17,7 @@ export function AllVideos() {
     queryKey: [`Fetch Channel All videos`],
     queryFn: () => GetChannelVideos(chaId),
   });
+  console.log("dataVideos", DataVideos);
 
   if (isLoading) {
     return (
@@ -44,78 +45,95 @@ export function AllVideos() {
         flexWrap: "wrap",
       }}
     >
-      {DataVideos?.data?.data.map((items, i) => (
-        <div
-          key={i}
-          style={{
-            height: "100%",
-            display: "flex",
-            width: "23%",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            marginRight: "2%",
-            marginBottom: "3%",
-          }}
-        >
-          <Link
-            to={`/watch/${items?.videoId}`}
-            style={{
-              textDecoration: "none",
-              color: "black",
-              width: "100%",
-            }}
-          >
-            <div style={{ position: "relative", width: "100%" }}>
-              <img
-                width={"100%"}
-                style={{ borderRadius: "5%", cursor: "pointer" }}
-                alt={items?.title}
-                src={items?.thumbnail[1]?.url}
-              ></img>
-            </div>
-          </Link>
-          <h6
-            style={{
-              fontWeight: "600",
-              width: "100%",
-              fontSize: "18px",
-              marginBottom: "2%",
-            }}
-          >
-            {items?.title.length >= 63
-              ? items?.title?.substring(0, 63) + "..."
-              : items?.title}
-          </h6>
+      {DataVideos?.data?.msg === "Cette Chaîne ne contient aucun vidéos"
+        ||
+        DataVideos?.data.msg === "Selected tab not available" 
+      ? (
+        <h3 style={{width: "100%", 
+        textAlign: "center", 
+        fontWeight: "400"
+      }}>
+          Cette Chaîne ne contient aucun vidéos
+    </h3>
+        )
+      :
+      DataVideos?.data?.data.map((items, i) => (
           <div
+            key={i}
             style={{
+              height: "100%",
               display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              flexWrap: "nowrap",
-              width: "100%",
-              fontSize: "0.8em",
+              width: "23%",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              marginRight: "2%",
+              marginBottom: "3%",
             }}
           >
-            <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
-              {items?.viewCount} vues
-            </p>
+            <Link
+              to={`/watch/${items?.videoId}`}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                width: "100%",
+              }}
+            >
+              <div style={{ position: "relative", width: "100%" }}>
+                <img
+                  width={"100%"}
+                  style={{ borderRadius: "5%", cursor: "pointer" }}
+                  alt={items?.title}
+                  src={items?.thumbnail[1]?.url}
+                ></img>
+                <div className="IndicatorView">
+                  <p style={{ margin: "0.3em", fontWeight: "600" }}>
+                    {items?.lengthText}
+                  </p>
+                </div>
+              </div>
+            </Link>
+            <h6
+              style={{
+                fontWeight: "600",
+                width: "100%",
+                fontSize: "18px",
+                marginBottom: "2%",
+              }}
+            >
+              {items?.title.length >= 63
+                ? items?.title?.substring(0, 63) + "..."
+                : items?.title}
+            </h6>
             <div
               style={{
-                width: "2px",
-                height: "2px",
-                borderRadius: "50%",
-                backgroundColor: "black",
-                MarginLeft: "5px",
-                marginRight: "5px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                flexWrap: "nowrap",
+                width: "100%",
+                fontSize: "0.8em",
               }}
-            ></div>
-            <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
-              il y a {items?.publishedTimeText}
-            </p>
+            >
+              <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
+                {items?.viewCount} vues
+              </p>
+              <div
+                style={{
+                  width: "2px",
+                  height: "2px",
+                  borderRadius: "50%",
+                  backgroundColor: "black",
+                  MarginLeft: "5px",
+                  marginRight: "5px",
+                }}
+              ></div>
+              <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
+                il y a {items?.publishedTimeText}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }

@@ -13,9 +13,12 @@ export function Subscriptions() {
     isError,
     error,
   } = useQuery({
-    queryKey: [`Fetch Home Page`],
+    queryKey: [`Fetch Channel Subscriptions`],
     queryFn: () => GetSubscriptions(chaId),
   });
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
   const refWidth = React.useRef(null);
 
   if (isLoading) {
@@ -52,11 +55,26 @@ export function Subscriptions() {
         flexWrap: "wrap",
       }}
     >
-      {Subscriptions?.data?.msg ===
-        "Cette chaîne ne contient aucune playlist." && (
-        <p>Cette chaîne ne contient aucune playlist.</p>
-      )}
-      <DisplayContent Data={Subscriptions} refWidth={refWidth} HasCaroussel />
+      {Subscriptions?.data?.msg === "Cette chaîne ne présente aucune autre chaîne."
+        ||
+        Subscriptions?.data.msg === "Selected tab not available" 
+       ? 
+      (
+        <h3 style={{width: "100%", 
+        textAlign: "center", 
+        fontWeight: "400"
+      }}>
+          Cette chaîne ne présente aucune autre chaîne.
+      </h3>
+      ) :
+      <DisplayContent 
+        Data={Subscriptions} 
+        refWidth={refWidth} 
+        HasCaroussel 
+        setResponsive={setResponsive}
+        responsive={responsive}
+      />
+      }
     </div>
   );
 }

@@ -9,10 +9,11 @@ import { Link } from "react-router-dom";
 export function Liens() {
   let { chaId } = useParams();
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: [`Fetch Channel All videos`],
+    queryKey: [`Fetch Channel Liens`],
     queryFn: () => GetAbout(chaId),
   });
 
+  console.log("About", data);
   if (isLoading) {
     return (
       <div
@@ -73,9 +74,7 @@ export function Liens() {
             <span style={{ marginLeft: "5%" }}>{data?.data?.country}</span>
           </div>
           <hr />
-          {!data?.data?.links ? (
-            <div></div>
-          ) : (
+          {
             <>
               <p style={{ marginBottom: "2%", fontSize: "18px" }}>Liens</p>
               <div
@@ -87,7 +86,7 @@ export function Liens() {
                   width: "50%",
                 }}
               >
-                {data?.data?.links.map((element, index) => (
+                {!data?.data?.links ? "" : data?.data?.links.map((element, index) => (
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
@@ -100,7 +99,7 @@ export function Liens() {
                 ))}
               </div>
             </>
-          )}
+          }
         </div>
         <div
           style={{

@@ -1,38 +1,64 @@
 import * as React from "react";
-import ReactDOM from "react-dom/client";
 import "../App.css";
 import { AppBarSecondary } from "./AppBarSecondary";
-import { ErrorBoundary } from "react-error-boundary";
 import { useParams } from "react-router-dom";
 import { Recherche } from "../utils/Appel";
 import { CircularProgress } from "@mui/material";
-import { useFetchData } from "../utils/Fetch";
-import { ErrorFallback } from "../Composants/FallbackError";
-import BarSearch from "./AppBarPrimary";
+import { BarSearch } from "./AppBarPrimary";
 import { NewSearchs } from "../utils/utils";
-import { useData } from "../utils/ContextProvider";
+import { useContext } from "../Context/ContextProvider";
 import { CheckWidth } from "../utils/utils";
+import { useQuery } from "@tanstack/react-query";
+import { MobileBarSearch } from "./AppBarPrimary";
+import { MobileSecondaryBar } from "./AppBarSecondary";
+import { MobileResponsive } from "../utils/utils";
 
 function Search() {
-  let { userSearch } = useParams();
-  const { setDataContext, setOption } = useData();
-  const { execute, data: dataYTB, error, status } = useFetchData();
-  console.log(dataYTB);
+  let { search } = useParams();
+  const {
+    data: dataYTB,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [`Fetch search AppBar`, search],
+    queryFn: () => Recherche(search),
+    enabled: !!search,
+    staleTime: 1000,
+  });
+  const {
+    setDataContext,
+    setOption,
+    token,
+    setToken,
+    setLoadNextContentSearch,
+    LoadNextContentSearch,
+  } = useContext();
 
-  sessionStorage.setItem("Token", JSON.stringify(dataYTB?.data?.continuation));
   const [WidthShorts, setWidthShorts] = React.useState();
   const [MarginRight, setMarginRight] = React.useState();
   const [marginLeft, setMarginLeft] = React.useState();
   const [value, setValue] = React.useState(0);
   const [ValueDefault, setValueDefault] = React.useState(0);
+  const [WidthScreen, setWidthScreen] = React.useState(window.innerWidth);
 
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
   const refWidth = React.useRef(null);
 
-  console.log("marge", MarginRight);
+  //console.log("marge", MarginRight);
+  console.log(dataYTB);
+  //console.log("FirstValidateToken", FirstValidateToken);
+  console.log("token", token);
   console.log(ValueDefault);
+  console.log("LoadNextContent", LoadNextContentSearch);
+  const continuation = dataYTB?.data?.continuation;
 
   React.useLayoutEffect(() => {
+    setToken(continuation);
     let chargement = setTimeout(() => {
+      // console.log("refLargeur React.Layoutuseeffect", refWidth);
       CheckWidth(
         refWidth,
         setValueDefault,
@@ -45,10 +71,12 @@ function Search() {
     }, 1200);
 
     return () => clearTimeout(chargement);
-  }, [refWidth]);
+  }, [refWidth, setToken, continuation]);
 
   React.useEffect(() => {
-    const HandleResize = () =>
+    const HandleResize = () => {
+      console.log("refLargeur React.useeffect", refWidth);
+      setWidthScreen(window.innerWidth);
       CheckWidth(
         refWidth,
         setValueDefault,
@@ -58,27 +86,29 @@ function Search() {
         false,
         setValue,
       );
-    if (userSearch) {
-      execute(Recherche(userSearch));
-    }
+      MobileResponsive(setResponsive);
+    };
+
     let loading = false;
     const isScrollAtBottom = () => {
-      const Container = document.getElementById("ContainerHome");
-      const DernierEnfant = Container?.lastElementChild?.lastElementChild;
+      //const Container = document.getElementById("ContainerHome");
+      // Possible closure qui garde l'état du token en mémoire;
+      const DernierEnfant = refWidth?.current?.lastElementChild;
       if (DernierEnfant) {
         const lastElementVisible = new IntersectionObserver(
           (entries) => {
             if (entries[0].isIntersecting && !loading) {
               loading = true;
               lastElementVisible.unobserve(entries[0].target);
-              const test = sessionStorage.getItem("Token");
-              console.log("token ffff", test);
-              Recherche(userSearch, JSON.parse(test))
+              Recherche(search, token)
                 .then((response) => {
-                  console.log("response data charger", response);
-                  const div = document.createElement("div");
-                  div.style.width = "100%";
-                  ReactDOM.createRoot(div).render(
+                  console.log(
+                    "token LoadDataNext In the NewSearch",
+                    response?.data?.continuation,
+                  );
+                  console.log("response data charger OK", response);
+                  setLoadNextContentSearch((prevValues) => [
+                    ...prevValues,
                     <NewSearchs
                       data={response}
                       setDataContext={setDataContext}
@@ -87,13 +117,10 @@ function Search() {
                       WidthShorts={WidthShorts}
                       marginLeft={marginLeft}
                       MarginRight={MarginRight}
+                      WidthScreen={WidthScreen}
                     />,
-                  );
-                  Container.appendChild(div);
-                  sessionStorage.setItem(
-                    "Token",
-                    JSON.stringify(response?.data?.continuation),
-                  );
+                  ]);
+                  setToken(response?.data?.continuation);
                   loading = false;
                 })
                 .catch((error) => {
@@ -109,6 +136,7 @@ function Search() {
         );
         lastElementVisible.observe(DernierEnfant);
       }
+      return;
     };
 
     window.addEventListener("scroll", isScrollAtBottom);
@@ -118,17 +146,21 @@ function Search() {
       window.removeEventListener("resize", HandleResize);
     };
   }, [
-    execute,
-    userSearch,
+    search,
     WidthShorts,
     marginLeft,
     MarginRight,
     value,
     setOption,
+    LoadNextContentSearch,
+    setLoadNextContentSearch,
     setDataContext,
+    token,
+    setToken,
+    WidthScreen,
   ]);
 
-  if (status === "fetching") {
+  if (isLoading) {
     return (
       <div
         style={{
@@ -143,37 +175,68 @@ function Search() {
       </div>
     );
   }
-  if (status === "fail") {
+  if (isError) {
     return (
-      <div style={{ width: "100%" }}>
-        <p style={{ fontSize: "32px" }}>
-          Une Erreur est survenu {error.message}
-        </p>
+      <div style={{ margin: "0 auto", width: "15%" }}>
+        <p>Une Erreur est survenu {error.message}</p>
       </div>
     );
   }
 
   return (
     <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <BarSearch />
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
-          <div id="ContainerHome" className="Principale" ref={refWidth}>
-            <NewSearchs
-              data={dataYTB}
-              setDataContext={setDataContext}
-              setOption={setOption}
-              value={value}
-              WidthShorts={WidthShorts}
-              marginLeft={marginLeft}
-              MarginRight={MarginRight}
-            />
-          </div>
-        </div>
-      </ErrorBoundary>
+      {responsive ? (
+        <>
+          <MobileBarSearch />
+          <MobileSecondaryBar />
+        </>
+      ) : (
+        <>
+          <BarSearch />
+          <AppBarSecondary />
+        </>
+      )}
+      <div
+        ref={refWidth}
+        id="ContainerHome"
+        style={{
+          position: "relative",
+          top: `${responsive ? "8vh" : "11vh"}`,
+          left: `${responsive ? "0px" : "9.8vw"}`,
+          padding: "3vh 0px 3vh 0px",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          border: "2px solid rgb(0, 255, 149)",
+          color: "black",
+          width: `${responsive ? "100%" : "90%"}`,
+        }}
+      >
+        <NewSearchs
+          data={dataYTB}
+          setDataContext={setDataContext}
+          setOption={setOption}
+          value={value}
+          WidthShorts={WidthShorts}
+          marginLeft={marginLeft}
+          MarginRight={MarginRight}
+          WidthScreen={WidthScreen}
+        />
+        {LoadNextContentSearch.map((element, index) => (
+          <React.Fragment key={index}>
+            {React.cloneElement(element, {
+              // Surcharger ou ajouter des props ici
+              value: value,
+              WidthShorts: WidthShorts,
+              marginLeft: marginLeft,
+              MarginRight: MarginRight,
+              WidthScreen: WidthScreen,
+            })}
+          </React.Fragment>
+        ))}
+      </div>
     </>
   );
 }

@@ -6,9 +6,9 @@ import { ErrorFallback } from "../Composants/FallbackError";
 import CircularProgress from "@mui/material/CircularProgress";
 import { GetActus } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
-import BarSearch from "./AppBarPrimary";
+import { BarSearch } from "./AppBarPrimary";
 import { DisplayContent } from "../utils/utils2";
-import { useData } from "../utils/ContextProvider";
+import { useContext } from "../Context/ContextProvider";
 
 export function Actualites() {
   const {
@@ -18,7 +18,10 @@ export function Actualites() {
     error,
   } = useQuery({ queryKey: [`Fetch Actualités`], queryFn: () => GetActus() });
   const refWidth = React.useRef(null);
-  const { setDataContext, setOption } = useData();
+  const { setDataContext, setOption } = useContext();
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
   console.log(DataActus);
 
   if (isLoading) {
@@ -152,6 +155,8 @@ export function Actualites() {
                 refWidth={refWidth}
                 setDataContext={setDataContext}
                 setOption={setOption}
+                setResponsive={setResponsive}
+                responsive={responsive}
               />
             </div>
           </div>

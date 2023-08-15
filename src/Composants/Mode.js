@@ -7,8 +7,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { GetCategoryMode } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { DisplayContent } from "../utils/utils2";
-import BarSearch from "./AppBarPrimary";
-import { useData } from "../utils/ContextProvider";
+import { BarSearch } from "./AppBarPrimary";
+import { useContext } from "../Context/ContextProvider";
 
 export function Mode() {
   const {
@@ -18,8 +18,11 @@ export function Mode() {
     error,
   } = useQuery({ queryKey: [`Fetch Mode`], queryFn: () => GetCategoryMode() });
   const refWidth = React.useRef(null);
-  const { setDataContext, setOption } = useData();
+  const { setDataContext, setOption } = useContext();
   console.log(DataMode);
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
 
   if (isLoading) {
     return (
@@ -157,6 +160,8 @@ export function Mode() {
                 setDataContext={setDataContext}
                 setOption={setOption}
                 HasCaroussel={true}
+                setResponsive={setResponsive}
+                responsive={responsive}
               />
             </div>
           </div>

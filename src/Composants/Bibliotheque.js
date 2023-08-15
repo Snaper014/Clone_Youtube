@@ -1,86 +1,105 @@
 import * as React from "react";
-import { AppBarSecondary } from "./AppBarSecondary";
-import { ErrorBoundary } from "react-error-boundary";
-import "../App.css";
-import Avatar from "@mui/material/Avatar";
-import { ErrorFallback } from "../Composants/FallbackError";
-import BarSearch from "./AppBarPrimary";
+import { ContentSectionMenu } from "../utils/utils";
+import { MdOutlineVideoLibrary } from "react-icons/md";
+import { BiUserCircle } from "react-icons/bi";
+import { MobileBarSearch } from "./AppBarPrimary";
+import { MobileSecondaryBar } from "./AppBarSecondary";
 
 function Biblio() {
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
+  React.useEffect(() => {
+    const CheckResponsive = () => {
+      if (window.innerWidth <= 1024) {
+        setResponsive(true);
+      } else {
+        setResponsive(false);
+      }
+    };
+    window.addEventListener("resize", CheckResponsive);
+    return () => window.removeEventListener("resize", CheckResponsive);
+  }, []);
   return (
     <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <BarSearch />
-
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
+      {responsive ? (
+        <>
+          <MobileBarSearch />
+          <MobileSecondaryBar />
           <div
-            className="Principale"
             style={{
+              position: "relative",
+              height: "100vh",
+              backgroundColor: "#efeff1",
+              top: `${responsive ? "7vh" : "11vh"}`,
+              left: `${responsive ? "0px" : "9.8vw"}`,
+              padding: "3px 0px 0px 0px",
               display: "flex",
+              alignItems: "flex-start",
               flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              margin: "3vh 0vh 3vh 0vh",
+              justifyContent: "flex-start",
+              flexWrap: "wrap",
+              border: "2px solid rgb(0, 255, 149)",
+              color: "black",
+              width: "100%",
             }}
           >
-            <svg
-              viewBox="0 0 24 24"
-              preserveAspectRatio="xMidYMid meet"
-              focusable="false"
-              className="style-scope yt-icon"
-              style={{
-                pointerEvents: "none",
-                display: "block",
-                width: "120px",
-                height: "120px",
-              }}
-            >
-              <g class="style-scope yt-icon">
-                <path
-                  d="M11,7l6,3.5L11,14V7L11,7z M18,20H4V6H3v15h15V20z M21,18H6V3h15V18z M7,17h13V4H7V17z"
-                  className="style-scope yt-icon"
-                ></path>
-              </g>
-            </svg>
-            <h2>Regardez vos vidéos préférées</h2>
-            <p>
-              Connectez-vous pour accéder aux vidéos pour lesquelles vous avez
-              cliqué sur "J'aime" ou que vous avez enregistrées.
-            </p>
             <div
               style={{
-                display: "grid",
-                width: "25vh",
-                height: "6vh",
-                gridTemplateColumns: "30% 70%",
-                border: "1px solid gray",
-                borderRadius: "40px",
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                marginBottom: "2%",
               }}
             >
-              <Avatar
-                src="/broken-image.jpg"
-                sx={{ width: "4vh", height: "4vh", margin: "1vh auto" }}
+              <BiUserCircle fontSize={35} />
+              <p style={{ marginLeft: "5px" }}>Connexion</p>
+            </div>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                height: "60vh",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <MdOutlineVideoLibrary
+                style={{ marginBottom: "5%" }}
+                fontSize={200}
               />
-              <p
+              <h2 style={{ marginBottom: "2%" }}>Vous n'êtes pas connecté</h2>
+              <p style={{ marginBottom: "3%", textAlign: "center" }}>
+                Connectez-vous maintenant pour mettre en ligne et enregistrer
+                des vidéos, et publier des commentaires
+              </p>
+              <button
                 style={{
-                  color: "#065fd4",
-                  fontSize: "14px",
-                  fontWeight: "600",
+                  width: "25%",
+                  color: "white",
+                  border: "none",
+                  padding: "10px",
+                  backgroundColor: "#065fd4",
+                  borderRadius: "40px",
                   display: "flex",
-                  justifyContent: "flex-start",
                   alignItems: "center",
-                  width: "100%",
+                  justifyContent: "center",
                 }}
               >
-                Se connecter
-              </p>
+                <p>Connexion</p>
+              </button>
             </div>
           </div>
-        </div>
-      </ErrorBoundary>
+        </>
+      ) : (
+        <ContentSectionMenu
+          Logo={<MdOutlineVideoLibrary fontSize={120} />}
+          title="Regardez vos vidéos préférées"
+          paragraphe={`Connectez-vous pour accéder aux vidéos pour lesquelles vous avez cliqué sur "J'aime" ou que vous avez enregistrées.`}
+        />
+      )}
     </>
   );
 }

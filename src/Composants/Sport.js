@@ -6,8 +6,8 @@ import { ErrorFallback } from "../Composants/FallbackError";
 import CircularProgress from "@mui/material/CircularProgress";
 import { GetCategorySport } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
-import BarSearch from "./AppBarPrimary";
-import { useData } from "../utils/ContextProvider";
+import { BarSearch } from "./AppBarPrimary";
+import { useContext } from "../Context/ContextProvider";
 import { DisplayContent } from "../utils/utils2";
 
 export function Sport() {
@@ -21,7 +21,10 @@ export function Sport() {
     queryFn: () => GetCategorySport(),
   });
   const refWidth = React.useRef(null);
-  const { setDataContext, setOption } = useData();
+  const { setDataContext, setOption } = useContext();
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
   console.log(DataSport);
   if (isLoading) {
     return (
@@ -162,6 +165,8 @@ export function Sport() {
                 setDataContext={setDataContext}
                 setOption={setOption}
                 LogochannelThumbnail={false}
+                responsive={responsive}
+                setResponsive={setResponsive}
               />
             </div>
           </div>

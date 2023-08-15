@@ -13,10 +13,13 @@ export function PlaylistChannel() {
     isError,
     error,
   } = useQuery({
-    queryKey: [`Fetch Home Page`],
+    queryKey: [`Fetch Channel Playlist`],
     queryFn: () => GetChannelPlaylist(chaId),
   });
   const refWidth = React.useRef(null);
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
 
   if (isLoading) {
     return (
@@ -53,10 +56,25 @@ export function PlaylistChannel() {
         flexWrap: "wrap",
       }}
     >
-      {Playlist?.data?.msg === "Cette chaîne ne contient aucune playlist." && (
-        <p>Cette chaîne ne contient aucune playlist.</p>
-      )}
-      <DisplayContent Data={Playlist} refWidth={refWidth} HasCaroussel />
+      {Playlist?.data?.msg === "Cette chaîne ne contient aucune playlist."
+        ||
+        Playlist?.data.msg === "Selected tab not available" 
+       ? (
+        <h3 style={{width: "100%", 
+        textAlign: "center", 
+        fontWeight: "400"
+      }}>
+          Cette chaîne ne contient aucune playlist.
+      </h3>
+      ): 
+      <DisplayContent 
+        Data={Playlist} 
+        refWidth={refWidth} 
+        HasCaroussel
+        responsive={responsive}
+        setResponsive={setResponsive} 
+        />
+      }
     </div>
   );
 }

@@ -1,16 +1,15 @@
 import * as React from "react";
 import { AppBarSecondary } from "./AppBarSecondary";
-import { ErrorBoundary } from "react-error-boundary";
 import "../App.css";
-import BarSearch from "./AppBarPrimary";
+import { BarSearch } from "./AppBarPrimary";
 import ReactPlayer from "react-player/lazy";
 import { useQuery } from "@tanstack/react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FetchHomeShorts } from "../utils/Appel";
-import { ErrorFallback } from "../Composants/FallbackError";
 import { Carsoussel } from "./Carsoussel";
-import { useData } from "../utils/ContextProvider";
-import { useParams } from "react-router-dom";
+import { useContext } from "../Context/ContextProvider";
+import { useParams, useNavigate } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 
 function ShorterCAC40() {
   const {
@@ -24,6 +23,33 @@ function ShorterCAC40() {
     cacheTime: 60000,
     staleTime: 30000,
   });
+
+  const [WidthScreen, setWidthScreen] = React.useState(window.innerWidth);
+
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
+  const navigate = useNavigate();
+  const Back = () => {
+    navigate("/");
+  };
+
+  React.useEffect(() => {
+    const CheckResponsive = () => {
+      if (window.innerWidth <= 1024) {
+        setResponsive(true);
+        console.log("Gerts");
+        setWidthScreen(window.innerWidth);
+        console.log("Largeur d'écran", WidthScreen);
+      } else {
+        setResponsive(false);
+      }
+    };
+    window.addEventListener("resize", CheckResponsive);
+    return () => {
+      window.removeEventListener("resize", CheckResponsive);
+    };
+  }, [WidthScreen]);
 
   if (isLoading) {
     return (
@@ -50,34 +76,99 @@ function ShorterCAC40() {
 
   return (
     <>
-      <ErrorBoundary fallback={ErrorFallback}>
-        <BarSearch />
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
+      {responsive ? (
+        <div
+          style={{
+            width: "100vw",
+            height: "100vh",
+            position: "relative",
+            zIndex: "33848484",
+            backgroundColor: "black",
+            pointerEvents: "auto",
+          }}
+        >
+          {dataShorts?.data?.data.map((element, index) => {
+            if (element.type === "shorts_listing") {
+              return (
+                <Carsoussel
+                  key={index}
+                  InitialValue={0}
+                  height="92vh"
+                  mobile
+                  WidthScreen={WidthScreen}
+                >
+                  {element?.data.map((AUelment, index) => (
+                    <ReactPlayer
+                      config={{ youtube: { playerVars: { showinfo: 1 } } }}
+                      key={index}
+                      url={`https://www.youtube.com/shorts/${AUelment?.videoId}`}
+                      className="react-player ShortPlayer"
+                      width={"100%"}
+                      height={"100%"}
+                      style={{ margin: "0 auto", pointerEvents: "none" }}
+                    />
+                  ))}
+                </Carsoussel>
+              );
+            }
+            return null;
+          })}
+          <button
+            onClick={() => Back()}
+            style={{
+              width: "20%",
+              height: "3%",
+              backgroundColor: "transparent",
+              position: "fixed",
+              border: "none",
+              top: "0",
+              left: "0",
+              zIndex: "5000",
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+            }}
+          >
+            <BiArrowBack color="white" fontWeight={600} fontSize={28} />
+          </button>
+        </div>
+      ) : (
+        <>
+          <BarSearch />
+          <AppBarSecondary />
+
           <div
             style={{
+              position: "relative",
+              top: `${responsive ? "8vh" : "11vh"}`,
+              left: `${responsive ? "0px" : "9.8vw"}`,
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              flexWrap: "wrap",
               border: "2px solid rgb(0, 255, 149)",
-              width: "95%",
+              color: "black",
+              width: `${responsive ? "100%" : "90%"}`,
             }}
           >
             {dataShorts?.data?.data.map((element, index) => {
               if (element.type === "shorts_listing") {
                 return (
-                  <Carsoussel key={index} InitialValue={0}>
+                  <Carsoussel
+                    key={index}
+                    InitialValue={0}
+                    WidthScreen={WidthScreen}
+                  >
                     {element?.data.map((AUelment, index) => (
                       <ReactPlayer
+                        config={{ youtube: { playerVars: { showinfo: 1 } } }}
                         key={index}
-                        url={`https://www.youtube.com/shorts/${AUelment.videoId}`}
+                        url={`https://www.youtube.com/shorts/${AUelment?.videoId}&SameSite=None`}
                         className="react-player ShortPlayer"
-                        width={"25vw"}
+                        width={"30vw"}
                         height={"100%"}
-                        style={{ margin: "0 auto" }}
+                        style={{ margin: "0 auto", pointerEvents: "auto" }}
                       />
                     ))}
                   </Carsoussel>
@@ -86,17 +177,44 @@ function ShorterCAC40() {
               return null;
             })}
           </div>
-        </div>
-      </ErrorBoundary>
+        </>
+      )}
     </>
   );
 }
 
 function ShorterSBF30() {
-  const { DataContext, option } = useData();
+  const { DataContext, option } = useContext();
   let { IndexShorts } = useParams();
   const CheckedData = option ? DataContext?.data : DataContext?.data?.data;
+  const [WidthScreen, setWidthScreen] = React.useState(window.innerWidth);
+
+  const [responsive, setResponsive] = React.useState(
+    window.innerWidth <= 1024 ? true : false,
+  );
+  const navigate = useNavigate();
+  const Back = () => {
+    navigate("/");
+  };
+
+  React.useEffect(() => {
+    const CheckResponsive = () => {
+      if (window.innerWidth <= 1024) {
+        setResponsive(true);
+        console.log("Gerts");
+        setWidthScreen(window.innerWidth);
+        console.log("Largeur d'écran", WidthScreen);
+      } else {
+        setResponsive(false);
+      }
+    };
+    window.addEventListener("resize", CheckResponsive);
+    return () => {
+      window.removeEventListener("resize", CheckResponsive);
+    };
+  }, [WidthScreen]);
   //Régler l'histoire des shorts en erreur cross-origin qui créer des erreurs
+  // Cross Origin
   if (!DataContext) {
     return (
       <div
@@ -112,40 +230,109 @@ function ShorterSBF30() {
       </div>
     );
   }
-
   return (
     <>
-      <ErrorBoundary fallback={ErrorFallback}>
-        <BarSearch />
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
-          <div
+      {responsive ? (
+        <div
+          style={{
+            width: "100vw",
+            height: "100vh",
+            position: "relative",
+            zIndex: "1000",
+            backgroundColor: "black",
+          }}
+        >
+          <Carsoussel
+            InitialValue={IndexShorts}
+            height="92vh"
+            mobile
+            WidthScreen={WidthScreen}
+          >
+            {CheckedData.map((AUelment, index) => (
+              <ReactPlayer
+                config={{ youtube: { playerVars: { showinfo: 1 } } }}
+                key={index}
+                url={`https://www.youtube.com/shorts/${AUelment?.videoId}&SameSite=None`}
+                className="react-player ShortPlayer"
+                width={"100%"}
+                height={"100%"}
+                style={{ margin: "0 auto", pointerEvents: "none" }}
+              />
+            ))}
+          </Carsoussel>
+          <button
+            onClick={() => Back()}
             style={{
+              width: "20%",
+              height: "3%",
+              backgroundColor: "transparent",
+              position: "fixed",
+              border: "none",
+              top: "0",
+              left: "0",
+              zIndex: "5000",
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              border: "2px solid rgb(0, 255, 149)",
-              width: "95%",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
             }}
           >
-            <Carsoussel InitialValue={IndexShorts}>
+            <BiArrowBack color="white" fontWeight={600} fontSize={28} />
+          </button>
+        </div>
+      ) : (
+        <>
+          <BarSearch />
+          <AppBarSecondary />
+
+          <div
+            style={{
+              position: "relative",
+              top: `${responsive ? "8vh" : "11vh"}`,
+              left: `${responsive ? "0px" : "9.8vw"}`,
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              border: "2px solid rgb(0, 255, 149)",
+              color: "black",
+              width: `${responsive ? "100%" : "90%"}`,
+            }}
+          >
+            <Carsoussel InitialValue={IndexShorts} WidthScreen={WidthScreen}>
               {CheckedData.map((AUelment, index) => (
                 <ReactPlayer
+                  config={{ youtube: { playerVars: { showinfo: 1 } } }}
                   key={index}
-                  url={`https://www.youtube.com/shorts/${AUelment.videoId}&origin=https://www.youtube.com`}
+                  url={`https://www.youtube.com/shorts/${AUelment?.videoId}&origin=https://www.youtube.com`}
                   className="react-player ShortPlayer"
                   width={"25vw"}
                   height={"100%"}
-                  style={{ margin: "0 auto" }}
+                  style={{ margin: "0 auto", pointerEvents: "auto" }}
                 />
               ))}
             </Carsoussel>
+            <button
+              onClick={() => Back()}
+              style={{
+                width: "20%",
+                height: "3%",
+                backgroundColor: "transparent",
+                position: "fixed",
+                border: "none",
+                top: "0",
+                left: "0",
+                zIndex: "5000",
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+              }}
+            >
+              <BiArrowBack color="white" fontWeight={600} fontSize={28} />
+            </button>
           </div>
-        </div>
-      </ErrorBoundary>
+        </>
+      )}
     </>
   );
 }

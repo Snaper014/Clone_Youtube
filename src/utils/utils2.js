@@ -3,7 +3,7 @@ import "../App.css";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowDown, MdOutlinePlaylistPlay } from "react-icons/md";
 import { BsPlayFill } from "react-icons/bs";
-import { CheckWidth, MoreContent } from "./utils";
+import { CheckWidth, MoreContent, MobileResponsive } from "./utils";
 import { IoIosRadio } from "react-icons/io";
 import ReactPlayer from "react-player/lazy";
 import { VscVerifiedFilled } from "react-icons/vsc";
@@ -17,6 +17,8 @@ export const DisplayContent = ({
   LogochannelThumbnail = false,
   HasCaroussel = false,
   ChannelHome = false,
+  setResponsive,
+  responsive,
 }) => {
   const [WidthVideos, setWidthVideos] = React.useState();
   const [WidthShorts, setWidthShorts] = React.useState();
@@ -29,7 +31,7 @@ export const DisplayContent = ({
   console.log("data DisplayContent", Data);
 
   React.useEffect(() => {
-    const HandleResize = () =>
+    const HandleResize = () => {
       CheckWidth(
         refWidth,
         setWidthVideos,
@@ -39,9 +41,11 @@ export const DisplayContent = ({
         HasCaroussel,
         setValue,
       );
+      MobileResponsive(setResponsive);
+    };
     window.addEventListener("resize", HandleResize);
     return () => window.removeEventListener("resize", HandleResize);
-  }, [refWidth, HasCaroussel]);
+  }, [refWidth, HasCaroussel, setResponsive]);
 
   React.useLayoutEffect(() => {
     let chargement = setTimeout(() => {
@@ -54,11 +58,12 @@ export const DisplayContent = ({
         HasCaroussel,
         setValue,
       );
+      MobileResponsive(setResponsive);
       setLoading(false);
     }, 1200);
 
     return () => clearTimeout(chargement);
-  }, [refWidth, loading, HasCaroussel]);
+  }, [refWidth, loading, HasCaroussel, setResponsive]);
 
   return (
     <>
@@ -167,6 +172,7 @@ export const DisplayContent = ({
                           color: "white",
                           borderRadius: "2px",
                           width: "125px",
+                          whiteSpace: "nowrap",
                           fontSize: "1em",
                           display: "flex",
                           flexDirection: "row",
@@ -207,8 +213,12 @@ export const DisplayContent = ({
                   alignItems: "flex-start",
                   justifyContent: "flex-start",
                   flexDirection: "column",
-                  marginRight: `${MarginRight}`,
-                  marginLeft: `${marginLeft}`,
+                  marginRight: `${
+                    window.innerWidth <= 767 ? "0px" : MarginRight
+                  }`,
+                  marginLeft: `${
+                    window.innerWidth <= 767 ? "0px" : marginLeft
+                  }`,
                   width: `${WidthVideos}`,
                   border: "1px solid transparent",
                 }}
@@ -252,13 +262,16 @@ export const DisplayContent = ({
                     alignItems: "flex-start",
                   }}
                 >
-                  <div className="styleSousmenu">
+                  <div style={{ width: "20%" }}>
                     <Link
                       to={`/Channel/${element?.channelId}`}
                       style={{
                         textDecoration: "none",
                         color: "black",
                         width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
                       <img
@@ -306,7 +319,9 @@ export const DisplayContent = ({
                         }}
                       >
                         <h3 style={{ width: "100%", marginBottom: "1%" }}>
-                          {element?.title.substring(0, 100)}
+                          {element?.title.length >= 50
+                            ? element?.title?.substring(0, 50) + "..."
+                            : element?.title}
                         </h3>
                       </Link>
                       <Link
@@ -362,6 +377,9 @@ export const DisplayContent = ({
             );
           }
           if (element?.type === "video_listing") {
+            if (responsive && !ChannelHome) {
+              return null;
+            }
             if (HasCaroussel) {
               return (
                 <div
@@ -729,15 +747,18 @@ export const DisplayContent = ({
                               alignItems: "flex-start",
                             }}
                           >
-                            <Link
-                              to={`/Channel/${items?.channelId}`}
-                              style={{
-                                textDecoration: "none",
-                                color: "black",
-                                width: "20%",
-                              }}
-                            >
-                              <div className="styleSousmenu">
+                            <div style={{ width: "20%" }}>
+                              <Link
+                                to={`/Channel/${items?.channelId}`}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "black",
+                                  width: "100%",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                }}
+                              >
                                 <img
                                   style={{
                                     width: "50px",
@@ -753,15 +774,15 @@ export const DisplayContent = ({
                                   }
                                   alt={items?.title}
                                 ></img>
-                              </div>
-                            </Link>
+                              </Link>
+                            </div>
                             <div
                               style={{
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "flex-start",
                                 justifyContent: "flex-start",
-                                width: "85%",
+                                width: "80%",
                               }}
                             >
                               <div
@@ -863,6 +884,9 @@ export const DisplayContent = ({
             }
           }
           if (element?.type === "channel_listing") {
+            if (responsive && !ChannelHome) {
+              return null;
+            }
             return (
               <div
                 key={index}
@@ -993,6 +1017,97 @@ export const DisplayContent = ({
           }
 
           if (element?.type === "shorts_listing") {
+            if (responsive) {
+              return (
+                <div
+                  key={index}
+                  className="ContainerSearchShorts"
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
+                    flexDirection: "column",
+                    border: "2px solid orange",
+                    width: `100%`,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
+                      marginBottom: "2%",
+                    }}
+                  >
+                    <img alt="logo shorts" src="/youtube-shorts.png"></img>
+                    <h2 style={{ marginLeft: "2%" }}>{element?.title}</h2>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "flex-start",
+                      justifyContent: "flex-start",
+                      flexDirection: "row",
+                      flexWrap: "nowrap",
+                    }}
+                  >
+                    <CardCaroussel value={value} shorts mobile>
+                      {element?.data.map((items, i) => (
+                        <Link
+                          to={`/List/Shorts/${i}`}
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                            width: `${WidthShorts}`,
+                            marginRight: `${MarginRight}`,
+                            marginLeft: `${marginLeft}`,
+                          }}
+                          key={i}
+                          onClick={() => {
+                            setOption(true);
+                            setDataContext(element);
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "flex-start",
+                              justifyContent: "flex-start",
+                              flexDirection: "column",
+                              flexWrap: "nowrap",
+                              width: `100%`,
+                            }}
+                          >
+                            <img
+                              style={{ borderRadius: "10px" }}
+                              alt={items?.title}
+                              src={items?.thumbnail[0]?.url}
+                              width={WidthShorts}
+                              height="465px"
+                            ></img>
+                            <h4
+                              style={{
+                                fontWeight: "600",
+                                width: "100%",
+                                fontSize: "16px",
+                                marginBottom: "2%",
+                              }}
+                            >
+                              {items?.title.length >= 63
+                                ? items?.title?.substring(0, 63) + "..."
+                                : items?.title}
+                            </h4>
+                            <p>{items?.viewCountText}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </CardCaroussel>
+                  </div>
+                </div>
+              );
+            }
             return (
               <div
                 key={index}
@@ -1033,7 +1148,21 @@ export const DisplayContent = ({
                   {element?.data.map((items, i) => (
                     <Link
                       to={`/List/Shorts/${i}`}
-                      style={{ textDecoration: "none", color: "black" }}
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                        width: `${WidthShorts}`,
+                        marginRight: `${
+                          window.innerWidth <= 767
+                            ? `${window.innerWidth * 0.05}px`
+                            : MarginRight
+                        }`,
+                        marginLeft: `${
+                          window.innerWidth <= 767
+                            ? `${window.innerWidth * 0.015}px`
+                            : marginLeft
+                        }`,
+                      }}
                       key={i}
                       onClick={() => {
                         setOption(true);
@@ -1047,10 +1176,7 @@ export const DisplayContent = ({
                           justifyContent: "flex-start",
                           flexDirection: "column",
                           flexWrap: "nowrap",
-                          width: `${WidthShorts}`,
-                          marginRight: `${MarginRight}`,
-                          marginLeft: `${marginLeft}`,
-                          cursor: "pointer",
+                          width: `100%`,
                         }}
                       >
                         <img
@@ -1058,7 +1184,9 @@ export const DisplayContent = ({
                           alt={items?.title}
                           src={items?.thumbnail[0]?.url}
                           width={WidthShorts}
-                          height="465px"
+                          height={`${
+                            window.innerWidth <= 550 ? "250px" : "465px"
+                          }`}
                         ></img>
                         <h4
                           style={{
@@ -1097,8 +1225,12 @@ export const DisplayContent = ({
           }
 
           if (element?.type === "playlist_listing") {
+            if (responsive && !ChannelHome) {
+              return null;
+            }
             return (
               <div
+                key={index}
                 style={{
                   width: "100%",
                   backgroundColor: "white",
@@ -1146,14 +1278,14 @@ export const DisplayContent = ({
                     }}
                   >
                     <CardCaroussel value={value}>
-                      {element?.data.map((items, index) => {
+                      {element?.data.map((items, playlistindex) => {
                         return (
                           <Link
                             to={`/Playlist/${items?.videoId}/${0}/${
                               items?.playlistId
                             }`}
                             style={{ textDecoration: "none", color: "black" }}
-                            key={index}
+                            key={playlistindex}
                           >
                             <div
                               style={{
@@ -1281,6 +1413,9 @@ export const DisplayContent = ({
             );
           }
           if (element?.type === "player") {
+            if (responsive && !ChannelHome) {
+              return null;
+            }
             return (
               <div
                 key={index}
@@ -1364,6 +1499,9 @@ export const DisplayContent = ({
             );
           }
           if (element?.type === "playlist") {
+            if (responsive && !ChannelHome) {
+              return null;
+            }
             return (
               <Link
                 to={`/Playlist/${element?.videoId}/${0}/${element?.playlistId}`}
@@ -1477,6 +1615,9 @@ export const DisplayContent = ({
             );
           }
           if (element?.type === "channel") {
+            if (responsive && !ChannelHome) {
+              return null;
+            }
             return (
               <Link
                 to={`/Channel/${element?.channelId}`}

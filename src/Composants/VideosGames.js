@@ -3,7 +3,7 @@ import "../App.css";
 import { AppBarSecondary } from "./AppBarSecondary";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "../Composants/FallbackError";
-import BarSearch from "./AppBarPrimary";
+import { BarSearch } from "./AppBarPrimary";
 import { ContentTrend } from "../utils/utils";
 
 export function Games() {
