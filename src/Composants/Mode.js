@@ -1,8 +1,6 @@
 import * as React from "react";
 import "../App.css";
 import { AppBarSecondary } from "./AppBarSecondary";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "../Composants/FallbackError";
 import CircularProgress from "@mui/material/CircularProgress";
 import { GetCategoryMode } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
@@ -49,26 +47,10 @@ export function Mode() {
 
   return (
     <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
-          <div
-            ref={refWidth}
-            style={{
-              padding: "0px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              flexWwrap: "nowrap",
-              border: "2px solid rgb(0, 255, 149)",
-              color: "black",
-              width: "100%",
-            }}
-          >
+          <AppBarSecondary />
+
+          <div className="ConteneurTendances" ref={refWidth}>
             <div
               style={{
                 width: "100%",
@@ -165,8 +147,7 @@ export function Mode() {
               />
             </div>
           </div>
-        </div>
-      </ErrorBoundary>
+
     </>
   );
 }

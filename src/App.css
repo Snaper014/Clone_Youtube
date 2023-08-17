@@ -7,11 +7,9 @@
     sans-serif;
 }
 
-/* Changer la source de la taille de la police pour le mettre dans public*/
 @font-face {
     font-family: 'kenya';
-    src: url('C:\Users\Utilisateur\Desktop\kenyan_coffee_bd.otf');
-    
+    src: url('/public/kenyan\ coffee\ bd\ it.otf');
   }
 
 svg{
@@ -78,7 +76,7 @@ main{
     position: fixed;
     top: 11vh;
     width: 10%;
-    border: 2px solid orange;
+    border: 2px solid transparent;
     height: 100%;
     justify-content: flex-start;
     flex-direction: column;
@@ -113,7 +111,7 @@ main{
     box-sizing: border-box;
 }
 .SearchContainer{
-    border: 1px solid rgb(23, 184, 206);
+    border: 1px solid transparent;
     display: flex;
     width: 100%;
     align-items: flex-start;
@@ -252,15 +250,15 @@ main{
     box-sizing: border-box;
 }
 .ConteneurTendances{
-    padding: 0vh 3vh 3vh 3vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    border: 2px solid rgb(0, 255, 149);
-    color: black;
-    width: 95%;
+        position: relative;
+        width: 90%;
+        display: flex;
+        top:  11vh;
+        left: 9.8vw;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid transparent;
 }
 .BoxeTends{
     display: flex;
@@ -290,7 +288,6 @@ main{
     align-items: flex-start;
     margin-bottom: 2vh;
     margin-top: 3px;
-    white-space: nowrap;
     justify-content: flex-start;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -367,7 +364,7 @@ main{
 }
 .SectionImageChannel{
      width: 100%;
-     border: 1px solid red;
+     border: 1px solid transparent;
      height: 60vh;   
 }
 

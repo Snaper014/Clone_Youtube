@@ -17,7 +17,29 @@ export function AllVideos() {
     queryKey: [`Fetch Channel All videos`],
     queryFn: () => GetChannelVideos(chaId),
   });
+ 
+  const [WidthVideos, setWidthVideos] = React.useState();
+  const [loading, setLoading] = React.useState(true);
   console.log("dataVideos", DataVideos);
+
+
+  React.useLayoutEffect(() => {
+    let chargement = setTimeout(() => {
+        SizeVideos(setWidthVideos);
+        setLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(chargement);
+  }, []);
+
+  React.useEffect(() => {
+    const HandleResize = () => {
+      SizeVideos(setWidthVideos);
+    }
+    window.addEventListener("resize", HandleResize);
+    return () => window.removeEventListener("resize", HandleResize);
+  }, []);
+
 
   if (isLoading) {
     return (
@@ -38,10 +60,11 @@ export function AllVideos() {
     <div
       style={{
         width: "100%",
-        border: "2px solid yellow",
+        border: "2px solid transparent",
         display: "flex",
+        paddingBottom: "7vh",
         alignItems: "flex-start",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         flexWrap: "wrap",
       }}
     >
@@ -57,17 +80,17 @@ export function AllVideos() {
     </h3>
         )
       :
-      DataVideos?.data?.data.map((items, i) => (
+      (loading ? <div>chargement...</div> : 
+        DataVideos?.data?.data.map((items, i) => (
           <div
             key={i}
             style={{
               height: "100%",
               display: "flex",
-              width: "23%",
+              width: `${WidthVideos}`,
               flexDirection: "column",
               alignItems: "flex-start",
               justifyContent: "flex-start",
-              marginRight: "2%",
               marginBottom: "3%",
             }}
           >
@@ -133,7 +156,22 @@ export function AllVideos() {
               </p>
             </div>
           </div>
-        ))}
+        )))}
     </div>
   );
+}
+
+const SizeVideos = (setWidthVideos) => {
+    if(window.innerWidth <= 519){
+        setWidthVideos("100%");
+    }
+    if(window.innerWidth >= 520 && window.innerWidth <= 864){
+        setWidthVideos("46%");
+    }
+    if(window.innerWidth >= 865 && window.innerWidth <= 1024){
+        setWidthVideos("28%");
+    }
+    if(window.innerWidth > 1025){
+      setWidthVideos("23%");
+    }
 }

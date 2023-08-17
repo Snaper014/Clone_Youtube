@@ -46,7 +46,6 @@ function MobileSecondaryBar() {
         height: "7vh",
         position: "fixed",
         bottom: "0px",
-        left: "0px",
         display: "flex",
         flexDirection: "row",
         backgroundColor: "white",

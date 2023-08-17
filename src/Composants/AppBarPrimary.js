@@ -303,17 +303,6 @@ export function BarSearch() {
             Connectez-vous à YouTube pour cliquer sur "J'aime", ajouter un
             commentaire et vous abonner.
           </p>
-          <Link
-            to={"/sign-in/*"}
-            style={{
-              textDecoration: "none",
-              color: "black",
-              display: "flex",
-              marginTop: "2%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
             <div className="StyleMenuBtnConnecter">
               <div
                 style={{
@@ -343,7 +332,6 @@ export function BarSearch() {
                 Se connecter
               </p>
             </div>
-          </Link>
         </div>
         <div style={{ width: "80%", marginBottom: "2vh" }}>
           <h4 style={{ fontSize: "18px" }}>Explorer</h4>
@@ -408,14 +396,20 @@ export function BarSearch() {
 export const MobileBarSearch = ({name = ""}) => {
   //const [valeur, setValeur] = React.useState(false);
   const [champs, setChamps] = React.useState("");
-  const { setLoadNextContentSearch } = useContext();
+  const { setLoadNextContentSearch, setToken} = useContext();
   const [DisplaySearch, setDisplaySearch] = React.useState(false);
   const navigate = useNavigate();
 
   const HandleChange = (e) => setChamps(e.target.value);
   const Envoyer = () => {
     setLoadNextContentSearch([]);
+    setToken("");
+    if (window.scrollY > 0) {
+      window.scroll(0, 0);
+      // Remonter la barre de scroll pour une nouvelle recherche
+    }
     navigate(`/Recherche/${champs}`);
+    setDisplaySearch(!DisplaySearch)
   };
   const Retour = () => {
     navigate("/");

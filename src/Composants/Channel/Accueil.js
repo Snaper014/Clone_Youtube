@@ -14,8 +14,10 @@ export function ChannelHome() {
     isError,
     error,
   } = useQuery({
-    queryKey: [`Fetch Channel Home`],
+    queryKey: [`Fetch Channel Home`, chaId],
     queryFn: () => GetChannelHomeUser(chaId),
+    enabled: !!chaId,
+    staleTime: 1000,
   });
   console.log("dataVideos", data);
   const refWidth = React.useRef(null);
@@ -44,10 +46,11 @@ export function ChannelHome() {
       ref={refWidth}
       style={{
         width: "100%",
-        border: "1px solid red",
+        border: "1px solid transparent",
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+        paddingBottom: "7vh",
         justifyContent: "flex-start",
       }}
     >
@@ -68,7 +71,7 @@ export function ChannelHome() {
         refWidth={refWidth}
         setDataContext={setDataContext}
         setOption={setOption}
-        HasCaroussel
+        HasCaroussel={responsive ? false : true}
         ChannelHome
         setResponsive={setResponsive}
         responsive={responsive}

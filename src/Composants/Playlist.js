@@ -135,7 +135,7 @@ export function Playlist() {
             <div
               style={{
                 backgroundColor: "white",
-                border: "1px solid pink",
+                border: "1px solid transparent",
                 width: "100%",
                 display: "flex",
                 marginBottom: "3%",
@@ -647,7 +647,7 @@ export function Playlist() {
                           }}
                         >
                           <img
-                            alt="ChannelImage"
+                            alt={element?.lengthText}
                             style={{
                               width: `${
                                 window.innerWidth > 580 ? "35px" : "50px"
@@ -724,9 +724,8 @@ export function Playlist() {
           <BarSearch />
           <div
             ref={ref}
-            className="GridVideoyoutube"
             style={{
-              border: "2px solid red",
+              border: "2px solid transparent",
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "flex-start",
@@ -741,7 +740,7 @@ export function Playlist() {
             <div
               style={{
                 backgroundColor: "white",
-                border: "1px solid pink",
+                border: "1px solid transparent",
                 width: "60%",
                 height: "100%",
                 display: "flex",

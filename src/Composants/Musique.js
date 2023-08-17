@@ -1,9 +1,7 @@
 import * as React from "react";
 import "../App.css";
 import { AppBarSecondary } from "./AppBarSecondary";
-import { ErrorBoundary } from "react-error-boundary";
 import { CircularProgress } from "@mui/material";
-import { ErrorFallback } from "../Composants/FallbackError";
 import { BarSearch } from "./AppBarPrimary";
 import { FetchMusique } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
@@ -52,12 +50,8 @@ function Zik() {
   }
   return (
     <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
+        <AppBarSecondary />
           <div className="ConteneurTendances">
             <div
               ref={refWidth}
@@ -68,7 +62,7 @@ function Zik() {
                 justifyContent: "center",
                 flexDirection: "column",
                 flexWwrap: "nowrap",
-                border: "2px solid rgb(0, 255, 149)",
+                border: "2px solid transparent",
                 color: "black",
                 width: "100%",
               }}
@@ -177,8 +171,6 @@ function Zik() {
               </div>
             </div>
           </div>
-        </div>
-      </ErrorBoundary>
     </>
   );
 }

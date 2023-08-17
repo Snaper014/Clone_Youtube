@@ -70,13 +70,13 @@ export function PageYoutubeur() {
               justifyContent: "flex-start",
               flexDirection: "column",
               flexWrap: "wrap",
-              border: "2px solid rgb(0, 255, 149)",
+              border: "2px solid transparent",
               color: "black",
               width:  "100%",
           }}>
             <div style={{
               width: "100%",
-              border: "1px solid red",
+              border: "1px solid transparent",
             }}>
               <div
                 style={{
@@ -142,18 +142,18 @@ export function PageYoutubeur() {
                     >
                       {dataChannel?.data?.meta?.channelHandle}
                     </p>
-                    <p style={{ display: "inline", marginRight: "10px" }}>
+                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400"}}>
                     {!dataChannel?.data?.meta?.subscriberCountText ? "" : 
                       <p>{dataChannel?.data?.meta?.subscriberCountText} d'abonnés</p>
                       } 
-                    </p>
-                    <p style={{ display: "inline", marginRight: "10px" }}>
+                    </h4>
+                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400"}}>
                       {dataChannel?.data?.meta?.videosCountText === "Aucune vidéo" ?
                         dataChannel?.data?.meta?.videosCountText 
                         :
                          <p>{dataChannel?.data?.meta?.videosCountText} vidéos</p> 
                         }
-                    </p>
+                    </h4>
                   </div>
                   <div style={{ 
                       fontSize: "1.2em", 
@@ -175,6 +175,7 @@ export function PageYoutubeur() {
                   <button
                   style={{
                     display: "flex",
+                    marginBottom: "2%",
                     alignItems: "center",
                     justifyContent: "center",
                     backgroundColor: "black",
@@ -210,7 +211,7 @@ export function PageYoutubeur() {
           justifyContent: "flex-start",
           flexDirection: "column",
           flexWrap: "wrap",
-          border: "2px solid rgb(0, 255, 149)",
+          border: "2px solid transparent",
           color: "black",
           width: "90%",
         }}>
@@ -301,18 +302,18 @@ export function PageYoutubeur() {
                     >
                       {dataChannel?.data?.meta?.channelHandle}
                     </p>
-                    <p style={{ display: "inline", marginRight: "10px" }}>
+                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400"}}>
                     {!dataChannel?.data?.meta?.subscriberCountText ? "" : 
                       <p>{dataChannel?.data?.meta?.subscriberCountText} d'abonnés</p>
                       } 
-                    </p>
-                    <p style={{ display: "inline", marginRight: "10px" }}>
+                    </h4>
+                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400" }}>
                       {dataChannel?.data?.meta?.videosCountText === "Aucune vidéo" ?
                         dataChannel?.data?.meta?.videosCountText 
                         :
                          <p>{dataChannel?.data?.meta?.videosCountText} vidéos</p> 
                         }
-                    </p>
+                    </h4>
                   </div>
                   <div style={{ fontSize: "0.8em", width: "100%" }}>
                     {dataChannel?.data?.meta?.description.length >= 70 ? (

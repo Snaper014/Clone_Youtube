@@ -1,28 +1,32 @@
 import * as React from "react";
 import "../App.css";
-import DisplayContentTrend from "./CComTendances";
+import { DisplayContentTrend } from "./CComTendances";
 import { AppBarSecondary } from "./AppBarSecondary";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "./FallbackError";
 import { BarSearch } from "./AppBarPrimary";
 
 function Trend() {
   return (
     <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
-          <div className="ConteneurTendances">
+        <AppBarSecondary />
+          <div style={{
+              position: "relative",
+              width: "90%",
+              display: "flex",
+              top:  "11vh",
+              left: "9.8vw",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              border: "2px solid transparent",
+            }}>
             <div
               style={{
                 width: "100%",
                 height: "180px",
                 display: "flex",
                 flexDirection: "column",
-                marginBottom: "40px",
+                marginBottom: "1%",
                 justifyContent: "center",
               }}
             >
@@ -68,8 +72,6 @@ function Trend() {
             </div>
             <DisplayContentTrend />
           </div>
-        </div>
-      </ErrorBoundary>
     </>
   );
 }

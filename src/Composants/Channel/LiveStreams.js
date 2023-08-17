@@ -17,7 +17,26 @@ export function StreamLive() {
     queryKey: [`Fetch Channel Live Streams`],
     queryFn: () => GetChannelLives(chaId),
   });
+  const [WidthVideos, setWidthVideos] = React.useState();
+  const [loading, setLoading] = React.useState(true);
   console.log(DataLive);
+
+  React.useLayoutEffect(() => {
+    let chargement = setTimeout(() => {
+        SizeVideos(setWidthVideos);
+        setLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(chargement);
+  }, []);
+
+  React.useEffect(() => {
+    const HandleResize = () => {
+      SizeVideos(setWidthVideos);
+    }
+    window.addEventListener("resize", HandleResize);
+    return () => window.removeEventListener("resize", HandleResize);
+  }, []);
   
   if (isLoading) {
     return (
@@ -51,20 +70,24 @@ export function StreamLive() {
       <div
         style={{
           width: "100%",
-          border: "2px solid yellow",
+          border: "2px solid transparent",
           display: "flex",
           alignItems: "flex-start",
+          paddingBottom: "7vh",
           justifyContent: "space-between",
           flexWrap: "wrap",
         }}
       >
-        {DataLive?.data?.data.map((items, i) => (
+        {loading ? 
+            <div>chargement...</div> 
+        : 
+        DataLive?.data?.data.map((items, i) => (
           <Link
             to={`/watch/${items?.videoId}`}
             style={{
               textDecoration: "none",
               color: "black",
-              width: "23%",
+              width: `${WidthVideos}`,
             }}
           >
             <div
@@ -152,3 +175,19 @@ export function StreamLive() {
     </>
   );
 }
+
+const SizeVideos = (setWidthVideos) => {
+  if(window.innerWidth <= 519){
+      setWidthVideos("100%");
+  }
+  if(window.innerWidth >= 520 && window.innerWidth <= 864){
+      setWidthVideos("46%");
+  }
+  if(window.innerWidth >= 865 && window.innerWidth <= 1024){
+      setWidthVideos("28%");
+  }
+  if(window.innerWidth > 1025){
+    setWidthVideos("23%");
+  }
+}
+

@@ -115,7 +115,7 @@ function Videos() {
             <div
               style={{
                 backgroundColor: "white",
-                border: "1px solid pink",
+                border: "1px solid transparent",
                 width: "100%",
                 display: "flex",
                 marginBottom: "3%",
@@ -372,7 +372,7 @@ function Videos() {
           <div
             ref={ref}
             style={{
-              border: "2px solid red",
+              border: "2px solid transparent",
               display: "grid",
               width: "90%",
               gridTemplateColumns: "60% 40%",
@@ -384,7 +384,7 @@ function Videos() {
             <div
               style={{
                 backgroundColor: "white",
-                border: "1px solid pink",
+                border: "1px solid transparent",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -534,8 +534,8 @@ function Videos() {
 
             <div
               style={{
-                backgroundColor: "skyblue",
-                border: "1px solid skyblue",
+                backgroundColor: "white",
+                border: "1px solid transparent",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",

@@ -57,6 +57,7 @@ function Search() {
 
   React.useLayoutEffect(() => {
     setToken(continuation);
+    setWidthScreen(window.innerWidth);
     let chargement = setTimeout(() => {
       // console.log("refLargeur React.Layoutuseeffect", refWidth);
       CheckWidth(
@@ -76,7 +77,7 @@ function Search() {
   React.useEffect(() => {
     const HandleResize = () => {
       console.log("refLargeur React.useeffect", refWidth);
-      setWidthScreen(window.innerWidth);
+      MobileResponsive(setResponsive);
       CheckWidth(
         refWidth,
         setValueDefault,
@@ -86,14 +87,15 @@ function Search() {
         false,
         setValue,
       );
-      MobileResponsive(setResponsive);
+      setWidthScreen(window.innerWidth);
+      
     };
 
     let loading = false;
     const isScrollAtBottom = () => {
       //const Container = document.getElementById("ContainerHome");
       // Possible closure qui garde l'état du token en mémoire;
-      const DernierEnfant = refWidth?.current?.lastElementChild;
+      const DernierEnfant = refWidth?.current?.lastElementChild?.lastElementChild;
       if (DernierEnfant) {
         const lastElementVisible = new IntersectionObserver(
           (entries) => {
@@ -209,7 +211,7 @@ function Search() {
           justifyContent: "space-between",
           flexDirection: "row",
           flexWrap: "wrap",
-          border: "2px solid rgb(0, 255, 149)",
+          border: "2px solid transparent",
           color: "black",
           width: `${responsive ? "100%" : "90%"}`,
         }}
@@ -225,7 +227,7 @@ function Search() {
           WidthScreen={WidthScreen}
         />
         {LoadNextContentSearch.map((element, index) => (
-          <React.Fragment key={index}>
+          <div style={{width: "100%"}} key={index}>
             {React.cloneElement(element, {
               // Surcharger ou ajouter des props ici
               value: value,
@@ -234,7 +236,7 @@ function Search() {
               MarginRight: MarginRight,
               WidthScreen: WidthScreen,
             })}
-          </React.Fragment>
+          </div>
         ))}
       </div>
     </>

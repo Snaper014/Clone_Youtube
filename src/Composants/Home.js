@@ -25,6 +25,7 @@ function Home() {
   //Enlever l'authentifciation
   //Playlist Recherche
   // responsive mobile/tablette
+  //trouver une solution pour les shorts
   // test
   // mettre sur le portfolio
   // Faire le back-end bien plus tard dans une autre branche
@@ -77,13 +78,14 @@ function Home() {
           position: "relative",
           top: `${responsive ? "8vh" : "11vh"}`,
           left: `${responsive ? "0px" : "9.8vw"}`,
-          padding: "3vh 0px 3vh 0px",
+          padding:`${responsive ? "0px" : "3vh 0px 3vh 0px"}`,
           display: "flex",
           alignItems: "flex-start",
           justifyContent: "space-between",
           flexDirection: "row",
           flexWrap: "wrap",
-          border: "2px solid rgb(0, 255, 149)",
+          paddingBottom: "7vh",
+          border: "2px solid transparent",
           color: "black",
           width: `${responsive ? "100%" : "90%"}`,
         }}

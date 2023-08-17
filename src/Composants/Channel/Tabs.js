@@ -10,6 +10,7 @@ export function ButtonAndContainer() {
         <div className="SelecBTN">
             {SectionChannel.map((element, index) => (
                 <button key={index}
+                style={{cursor: "pointer"}}
                 onClick={() => setSelect(element?.button)}
                 className={select === element?.button ? "activer" : "normal"}
                 >
@@ -122,9 +123,9 @@ export const MobileButtonAndContainer = () => {
                 </> 
             : null}
           {SectionChannel.map((element, index) => (
-            <React.Fragment key={index}>
+            <div style={{width: "100%"}} key={index}>
                 {select === element?.button ? element?.contenu : null}
-            </React.Fragment>
+            </div>
             ))}  
         </>
     )

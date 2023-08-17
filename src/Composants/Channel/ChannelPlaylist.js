@@ -13,8 +13,10 @@ export function PlaylistChannel() {
     isError,
     error,
   } = useQuery({
-    queryKey: [`Fetch Channel Playlist`],
+    queryKey: [`Fetch Channel Playlist`, chaId],
     queryFn: () => GetChannelPlaylist(chaId),
+    enabled: !!chaId,
+    staleTime: 1000,
   });
   const refWidth = React.useRef(null);
   const [responsive, setResponsive] = React.useState(
@@ -49,9 +51,11 @@ export function PlaylistChannel() {
       ref={refWidth}
       style={{
         width: "100%",
-        border: "2px solid yellow",
+        border: "2px solid transparent",
         display: "flex",
+        flexDirection: `${responsive ? "column" : "row"}`,
         alignItems: "flex-start",
+        paddingBottom: "7vh",
         justifyContent: "flex-start",
         flexWrap: "wrap",
       }}
@@ -70,7 +74,8 @@ export function PlaylistChannel() {
       <DisplayContent 
         Data={Playlist} 
         refWidth={refWidth} 
-        HasCaroussel
+        HasCaroussel={responsive ? false : true}
+        ChannelHome
         responsive={responsive}
         setResponsive={setResponsive} 
         />

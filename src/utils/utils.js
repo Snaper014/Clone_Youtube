@@ -5,8 +5,6 @@ import { IoIosRadio } from "react-icons/io";
 import { BiUserCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AppBarSecondary } from "../Composants/AppBarSecondary";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "../Composants/FallbackError";
 import { BarSearch } from "../Composants/AppBarPrimary";
 import { useQuery } from "@tanstack/react-query";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
@@ -94,22 +92,20 @@ export const ButtonNavPrimaryOne = ({
 export const ContentSectionMenu = ({ Logo, title, paragraphe }) => {
   return (
     <>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <BarSearch />
-
-        <div className="GridP">
-          <div>
-            <AppBarSecondary />
-          </div>
+        <AppBarSecondary />     
           <div
             style={{
+              position: "relative",
+              width: "90%",
               display: "flex",
+              top:  "11vh",
+              left: "9.8vw",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
               height: "80vh",
-              border: "2px solid rgb(0, 255, 149)",
-              margin: "3vh 0vh 3vh 0vh",
+              border: "2px solid Transparent",
             }}
           >
             {Logo}
@@ -144,8 +140,6 @@ export const ContentSectionMenu = ({ Logo, title, paragraphe }) => {
               </p>
             </div>
           </div>
-        </div>
-      </ErrorBoundary>
     </>
   );
 };
@@ -181,6 +175,7 @@ export const CheckWidth = (
         let width = WCWC * 0.23;
         console.log(width);
         setWidthVideos(`${width}px`);
+        setWidthShorts(`${width}px`);
         setMarginLeft(`${Math.round(WCWC) * 0.005}px`);
         setMarginRight(`${Math.round(WCWC) * 0.014}px`);
         setValue(4);
@@ -189,6 +184,7 @@ export const CheckWidth = (
         let width = WCWC * 0.185;
         console.log(width);
         setWidthVideos(`${width}px`);
+        setWidthShorts(`${width}px`);
         setMarginLeft(`${Math.round(WCWC) * 0.009}px`);
         setMarginRight(`${Math.round(WCWC) * 0.006}px`);
         setValue(5);
@@ -197,6 +193,7 @@ export const CheckWidth = (
         let width = Math.round(WCWC * 0.15);
         console.log(width);
         setWidthVideos(`${width}px`);
+        setWidthShorts(`${width}px`);
         setMarginLeft(`${Math.round(WCWC) * 0.01}px`);
         setMarginRight(`${Math.round(WCWC) * 0.006}px`);
         setValue(6);
@@ -474,7 +471,7 @@ export const NewSearchs = ({
                   <div
                     style={{
                       width: "100%",
-                      border: "1px solid rgb(23, 184, 206)",
+                      border: "1px solid transparent",
                       display: "flex",
                       flexDirection: `${WidthScreen <= 500 ? "column" : "row"}`,
                       height: `${WidthScreen <= 500 ? "auto" : "112px"}`,
@@ -627,7 +624,7 @@ export const NewSearchs = ({
                   key={index}
                   style={{
                     width: "100%",
-                    border: "1px solid rgb(23, 184, 206)",
+                    border: "1px solid transparent",
                     display: "flex",
                     flexDirection: `column`,
                     alignItems: "flex-start",
@@ -707,11 +704,11 @@ export const NewSearchs = ({
                         justifyContent: "flex-start",
                       }}
                     >
-                      <p style={{ fontSize: "0.6em", marginBottom: "1%" }}>
-                        {WidthScreen <= 300
-                          ? element?.title.substring(0, 25) + "..."
+                      <h3 style={{ fontSize: "1em", marginBottom: "1%" }}>
+                        {WidthScreen <= 400
+                          ? element?.title.substring(0, 35) + "..."
                           : element?.title}
-                      </p>
+                      </h3>
                       <div
                         style={{
                           display: "flex",
@@ -723,7 +720,7 @@ export const NewSearchs = ({
                           flexDirection: "row",
                           flexWrap: "wrap",
                           width: "100%",
-                          fontSize: "18px",
+                          fontSize: "1em",
                         }}
                       >
                         {element?.viewCount === "" && null}
@@ -732,7 +729,7 @@ export const NewSearchs = ({
                             style={{
                               MarginLeft: "5px",
                               marginRight: "5px",
-                              fontSize: "0.6em",
+                              fontSize: "1em",
                             }}
                           >
                             {element?.viewCount} spectateurs
@@ -745,7 +742,7 @@ export const NewSearchs = ({
                                 style={{
                                   MarginLeft: "5px",
                                   marginRight: "5px",
-                                  fontSize: "0.6em",
+                                  fontSize: "1em",
                                 }}
                               >
                                 {element?.viewCount} de vues
@@ -762,7 +759,7 @@ export const NewSearchs = ({
                                   marginRight: "5px",
                                 }}
                               ></div>
-                              <p style={{ fontSize: "0.6em" }}>
+                              <p style={{ fontSize: "1em" }}>
                                 {element?.publishedTimeText}
                               </p>
                             </>
@@ -817,7 +814,7 @@ export const NewSearchs = ({
                       justifyContent: "flex-start",
                     }}
                   >
-                    <p style={{ fontSize: "0.6em", marginBottom: "1%" }}>
+                    <p style={{ fontSize: "0.9em", marginBottom: "1%" }}>
                       {element?.title}
                     </p>
                     <div className="ContenuHomedescripVide">
@@ -965,6 +962,7 @@ export const NewSearchs = ({
                       )}
                   </div>
                   <Link
+
                     to={`/Channel/${element?.channelId}`}
                     key={index}
                     style={{ textDecoration: "none", color: "black" }}
@@ -1047,7 +1045,7 @@ export const NewSearchs = ({
                   alignItems: "flex-start",
                   justifyContent: "flex-start",
                   flexDirection: "column",
-                  border: "2px solid orange",
+                  border: "2px solid transparent",
                   width: `100%`,
                 }}
               >
@@ -1137,7 +1135,7 @@ export const NewSearchs = ({
                   key={index}
                   style={{
                     width: "100%",
-                    border: "1px solid rgb(23, 184, 206)",
+                    border: "1px solid transparent",
                     display: "flex",
                     flexDirection: `column`,
                     alignItems: "flex-start",

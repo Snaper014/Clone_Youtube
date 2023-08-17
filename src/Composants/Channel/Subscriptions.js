@@ -13,13 +13,15 @@ export function Subscriptions() {
     isError,
     error,
   } = useQuery({
-    queryKey: [`Fetch Channel Subscriptions`],
+    queryKey: [`Fetch Channel Subscriptions`, chaId],
     queryFn: () => GetSubscriptions(chaId),
+    staleTime: 1000,
   });
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
   const refWidth = React.useRef(null);
+  console.log("Subscriptions", Subscriptions)
 
   if (isLoading) {
     return (
@@ -48,16 +50,18 @@ export function Subscriptions() {
       ref={refWidth}
       style={{
         width: "100%",
-        border: "2px solid yellow",
+        border: "2px solid transparent",
         display: "flex",
+        flexDirection: `${responsive ? "column" : "row"}`,
         alignItems: "flex-start",
+        paddingBottom: "7vh",
         justifyContent: "flex-start",
         flexWrap: "wrap",
       }}
     >
       {Subscriptions?.data?.msg === "Cette chaîne ne présente aucune autre chaîne."
         ||
-        Subscriptions?.data.msg === "Selected tab not available" 
+        Subscriptions?.data?.msg === "Selected tab not available" 
        ? 
       (
         <h3 style={{width: "100%", 
@@ -72,6 +76,7 @@ export function Subscriptions() {
         refWidth={refWidth} 
         HasCaroussel 
         setResponsive={setResponsive}
+        ChannelHome
         responsive={responsive}
       />
       }
