@@ -61,7 +61,8 @@ export function StreamLive() {
       ? (
         <h3 style={{width: "100%", 
         textAlign: "center", 
-        fontWeight: "400"
+        fontWeight: "400",
+        paddingBottom: "7vh",
       }}>
           Cette chaîne ne contient aucune vidéo.
     </h3>

@@ -162,7 +162,7 @@ export const CheckWidth = (
   setValue = 0,
 ) => {
   let Largeur = window.innerWidth;
-  const { width } = ref?.current?.getBoundingClientRect();
+  const width = ref?.current?.getBoundingClientRect().width;
   let WidthContainer = width;
   //Width Container with Caroussel
   let WCWC = width * 0.9;

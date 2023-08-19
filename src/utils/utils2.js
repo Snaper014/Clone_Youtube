@@ -1694,6 +1694,9 @@ export const DisplayContent = ({
           }
 
           if (element?.type === "playlist_listing") {
+            if(element?.title === "Recommandations personnalisées"){
+              return null;
+            }
             if (responsive && ChannelHome) {
               let button = document.getElementById(`Mobile-Buttton-${index}`);
               return (

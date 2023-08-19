@@ -2,7 +2,7 @@ import * as React from "react";
 import { AppBarSecondary } from "./AppBarSecondary";
 import "../App.css";
 import { BarSearch } from "./AppBarPrimary";
-import ReactPlayer from "react-player/lazy";
+import ReactPlayer from 'react-player/youtube';
 import { useQuery } from "@tanstack/react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FetchHomeShorts } from "../utils/Appel";
@@ -12,6 +12,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 
 function ShorterCAC40() {
+  /* 
+  Problème cross-oirigin avec le composant react-player
+  qui n'est pas modifiable
+  */
+
   const {
     data: dataShorts,
     isLoading,
@@ -20,12 +25,9 @@ function ShorterCAC40() {
   } = useQuery({
     queryKey: [`Fetch/Shorts`],
     queryFn: () => FetchHomeShorts(),
-    cacheTime: 60000,
-    staleTime: 30000,
   });
 
   const [WidthScreen, setWidthScreen] = React.useState(window.innerWidth);
-
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
@@ -74,6 +76,7 @@ function ShorterCAC40() {
     );
   }
 
+
   return (
     <>
       {responsive ? (
@@ -82,7 +85,7 @@ function ShorterCAC40() {
             width: "100vw",
             height: "100vh",
             position: "relative",
-            zIndex: "33848484",
+            zIndex: "30",
             backgroundColor: "black",
             pointerEvents: "auto",
           }}
@@ -97,14 +100,14 @@ function ShorterCAC40() {
                   mobile
                   WidthScreen={WidthScreen}
                 >
-                  {element?.data.map((AUelment, index) => (
+                  {element?.data.map((item, index) => (
                     <ReactPlayer
-                      config={{ youtube: { playerVars: { showinfo: 1 } } }}
+                      config={{ youtube: { playerVars: { showinfo: 1, origin: "http://localhost:3000", enablejsapi: 1,} }}} 
                       key={index}
-                      url={`https://www.youtube.com/shorts/${AUelment?.videoId}`}
+                      url={`https://www.youtube.com/embed/${item?.videoId}`}
                       className="react-player ShortPlayer"
-                      width={"100%"}
-                      height={"100%"}
+                      width="100%"
+                      height="100%"
                       style={{ margin: "0 auto", pointerEvents: "none" }}
                     />
                   ))}
@@ -160,11 +163,11 @@ function ShorterCAC40() {
                     InitialValue={0}
                     WidthScreen={WidthScreen}
                   >
-                    {element?.data.map((AUelment, index) => (
+                    {element?.data.map((item, index) => (
                       <ReactPlayer
-                        config={{ youtube: { playerVars: { showinfo: 1 } } }}
+                        config={{ youtube: { playerVars: { showinfo: 1 } }}} 
                         key={index}
-                        url={`https://www.youtube.com/shorts/${AUelment?.videoId}&SameSite=None`}
+                        url={`https://www.youtube.com/shorts/${item?.videoId}`}
                         className="react-player ShortPlayer"
                         width={"30vw"}
                         height={"100%"}
@@ -248,11 +251,11 @@ function ShorterSBF30() {
             mobile
             WidthScreen={WidthScreen}
           >
-            {CheckedData.map((AUelment, index) => (
+            {CheckedData.map((item, index) => (
               <ReactPlayer
                 config={{ youtube: { playerVars: { showinfo: 1 } } }}
                 key={index}
-                url={`https://www.youtube.com/shorts/${AUelment?.videoId}&SameSite=None`}
+                url={`https://www.youtube.com/embed/${item?.videoId}`}
                 className="react-player ShortPlayer"
                 width={"100%"}
                 height={"100%"}
@@ -300,11 +303,11 @@ function ShorterSBF30() {
             }}
           >
             <Carsoussel InitialValue={IndexShorts} WidthScreen={WidthScreen}>
-              {CheckedData.map((AUelment, index) => (
+              {CheckedData.map((item, index) => (
                 <ReactPlayer
                   config={{ youtube: { playerVars: { showinfo: 1 } } }}
                   key={index}
-                  url={`https://www.youtube.com/shorts/${AUelment?.videoId}&origin=https://www.youtube.com`}
+                  url={`https://www.youtube.com/shorts/${item?.videoId}`}
                   className="react-player ShortPlayer"
                   width={"25vw"}
                   height={"100%"}

@@ -56,8 +56,6 @@ function Search() {
   const continuation = dataYTB?.data?.continuation;
 
   React.useLayoutEffect(() => {
-    setToken(continuation);
-    setWidthScreen(window.innerWidth);
     let chargement = setTimeout(() => {
       // console.log("refLargeur React.Layoutuseeffect", refWidth);
       CheckWidth(
@@ -70,6 +68,8 @@ function Search() {
         setValue,
       );
     }, 1200);
+    setToken(continuation);
+    setWidthScreen(window.innerWidth);
 
     return () => clearTimeout(chargement);
   }, [refWidth, setToken, continuation]);

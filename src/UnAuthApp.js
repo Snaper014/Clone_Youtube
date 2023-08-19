@@ -4,18 +4,18 @@ import { ErrorFallback } from "./Composants/FallbackError";
 import { DataProvider } from "./Context/ContextProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./Composants/Home";
-import { Abonner } from "./Composants/Abonnements";
-import { Biblio } from "./Composants/Bibliotheque";
-import { Trend } from "./Composants/Tendances";
-import { Zik } from "./Composants/Musique";
+import { Abonner } from "./Composants/Subscriptions";
+import { Biblio } from "./Composants/Library";
+import { Trend } from "./Composants/Trends";
+import { Music } from "./Composants/Musics";
 import { Videos } from "./Composants/Videos";
 import { ShorterCAC40, ShorterSBF30 } from "./Composants/Shorts";
-import { History } from "./Composants/Historique";
+import { History } from "./Composants/Historical";
 import { Games } from "./Composants/VideosGames";
 import { Sport } from "./Composants/Sport";
 import { Erreur } from "./Composants/Error404";
-import { Search } from "./Composants/Recherche";
-import { Actualites } from "./Composants/Actus";
+import { Search } from "./Composants/Searchs";
+import { Actualites } from "./Composants/News";
 import { Knoweldge } from "./Composants/Culture";
 import { Playlist } from "./Composants/Playlist";
 import { Mode } from "./Composants/Mode";
@@ -39,7 +39,7 @@ function UnAuthApp() {
               path="/List/Shorts/:IndexShorts"
               element={<ShorterSBF30 />}
             />
-            <Route path="/musique" element={<Zik />} />
+            <Route path="/musique" element={<Music />} />
             <Route path="/Videosgames" element={<Games />} />
             <Route path="/Actus" element={<Actualites />} />
             <Route path="/Sport" element={<Sport />} />

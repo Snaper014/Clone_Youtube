@@ -60,7 +60,8 @@ export function ChannelHome() {
       ? (
         <h3 style={{width: "100%", 
               textAlign: "center", 
-              fontWeight: "400"
+              fontWeight: "400",
+              paddingBottom: "7vh",
             }}>
                 Chaîne sans Contenu
           </h3>

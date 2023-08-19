@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { DisplayContent } from "../utils/utils2";
 import { useContext } from "../Context/ContextProvider";
 
-function Zik() {
+function Music() {
   const {
     data: DataMusic,
     isLoading,
@@ -175,4 +175,4 @@ function Zik() {
   );
 }
 
-export { Zik };
+export { Music };

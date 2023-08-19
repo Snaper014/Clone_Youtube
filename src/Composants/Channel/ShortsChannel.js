@@ -91,7 +91,8 @@ export function AllShortsChannel() {
       (
         <h3 style={{width: "100%", 
               textAlign: "center", 
-              fontWeight: "400"
+              fontWeight: "400",
+              paddingBottom: "7vh",
             }}>
                 Cette Chaîne ne contient aucun shorts
           </h3>
