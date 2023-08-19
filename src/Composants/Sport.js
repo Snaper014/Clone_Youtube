@@ -48,109 +48,109 @@ export function Sport() {
   }
   return (
     <>
-        <BarSearch />
-        <AppBarSecondary />
-          <div className="ConteneurTendances" ref={refWidth}>
+      <BarSearch />
+      <AppBarSecondary />
+      <div className="ConteneurTendances" ref={refWidth}>
+        <div
+          style={{
+            width: "100%",
+            height: "180px",
+            backgroundColor: "#efeff1",
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: "40px",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              flexDirection: "row",
+            }}
+          >
             <div
               style={{
-                width: "100%",
-                height: "180px",
-                backgroundColor: "#efeff1",
+                width: "10%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                style={{
+                  height: "80px",
+                  width: "80px",
+                  borderRadius: "50%",
+                }}
+                alt="logo sport"
+                src={
+                  DataSport?.data?.meta?.avatar[0]?.url.includes("https:")
+                    ? DataSport?.data?.meta?.avatar[0]?.url
+                    : "https:" + DataSport?.data?.meta?.avatar[0]?.url
+                }
+              ></img>
+            </div>
+            <div
+              style={{
+                width: "90%",
+                height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                marginBottom: "40px",
-                justifyContent: "space-between",
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  flexDirection: "row",
-                }}
-              >
-                <div
-                  style={{
-                    width: "10%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <img
-                    style={{
-                      height: "80px",
-                      width: "80px",
-                      borderRadius: "50%",
-                    }}
-                    alt="logo sport"
-                    src={
-                      DataSport?.data?.meta?.avatar[0]?.url.includes("https:")
-                        ? DataSport?.data?.meta?.avatar[0]?.url
-                        : "https:" + DataSport?.data?.meta?.avatar[0]?.url
-                    }
-                  ></img>
-                </div>
-                <div
-                  style={{
-                    width: "90%",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  <h1 style={{ fontWeight: "400" }}>
-                    {DataSport?.data?.meta?.title}
-                  </h1>
-                  <p>{DataSport?.data?.meta?.subscriberCountText} d'abonnés</p>
-                </div>
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <h2
-                  style={{
-                    width: "12%",
-                    borderBottom: "2px solid black",
-                    fontWeight: "500",
-                    fontSize: "18px",
-                    padding: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  À LA UNE
-                </h2>
-              </div>
-            </div>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
                 alignItems: "flex-start",
-                flexDirection: "row",
-                flexWrap: "wrap",
+                justifyContent: "flex-start",
               }}
             >
-              <DisplayContent
-                Data={DataSport}
-                refWidth={refWidth}
-                setDataContext={setDataContext}
-                setOption={setOption}
-                LogochannelThumbnail={false}
-                responsive={responsive}
-                setResponsive={setResponsive}
-              />
+              <h1 style={{ fontWeight: "400" }}>
+                {DataSport?.data?.meta?.title}
+              </h1>
+              <p>{DataSport?.data?.meta?.subscriberCountText} d'abonnés</p>
             </div>
           </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+            }}
+          >
+            <h2
+              style={{
+                width: "12%",
+                borderBottom: "2px solid black",
+                fontWeight: "500",
+                fontSize: "18px",
+                padding: "10px",
+                textAlign: "center",
+              }}
+            >
+              À LA UNE
+            </h2>
+          </div>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          <DisplayContent
+            Data={DataSport}
+            refWidth={refWidth}
+            setDataContext={setDataContext}
+            setOption={setOption}
+            LogochannelThumbnail={false}
+            responsive={responsive}
+            setResponsive={setResponsive}
+          />
+        </div>
+      </div>
     </>
   );
 }

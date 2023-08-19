@@ -88,14 +88,14 @@ function Search() {
         setValue,
       );
       setWidthScreen(window.innerWidth);
-      
     };
 
     let loading = false;
     const isScrollAtBottom = () => {
       //const Container = document.getElementById("ContainerHome");
       // Possible closure qui garde l'état du token en mémoire;
-      const DernierEnfant = refWidth?.current?.lastElementChild?.lastElementChild;
+      const DernierEnfant =
+        refWidth?.current?.lastElementChild?.lastElementChild;
       if (DernierEnfant) {
         const lastElementVisible = new IntersectionObserver(
           (entries) => {
@@ -227,7 +227,7 @@ function Search() {
           WidthScreen={WidthScreen}
         />
         {LoadNextContentSearch.map((element, index) => (
-          <div style={{width: "100%"}} key={index}>
+          <div style={{ width: "100%" }} key={index}>
             {React.cloneElement(element, {
               // Surcharger ou ajouter des props ici
               value: value,

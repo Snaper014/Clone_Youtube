@@ -47,101 +47,101 @@ export function Actualites() {
 
   return (
     <>
-        <BarSearch />
-        <AppBarSecondary />
+      <BarSearch />
+      <AppBarSecondary />
 
-          <div className="ConteneurTendances" ref={refWidth}>
+      <div className="ConteneurTendances" ref={refWidth}>
+        <div
+          style={{
+            width: "100%",
+            height: "180px",
+            backgroundColor: "#efeff1",
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: "40px",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              flexDirection: "row",
+            }}
+          >
             <div
               style={{
-                width: "100%",
-                height: "180px",
-                backgroundColor: "#efeff1",
+                width: "10%",
                 display: "flex",
-                flexDirection: "column",
-                marginBottom: "40px",
-                justifyContent: "space-between",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <div
+              <img
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  flexDirection: "row",
+                  height: "80px",
+                  width: "80px",
+                  borderRadius: "50%",
                 }}
-              >
-                <div
-                  style={{
-                    width: "10%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <img
-                    style={{
-                      height: "80px",
-                      width: "80px",
-                      borderRadius: "50%",
-                    }}
-                    alt="logo actus"
-                    src="https://yt3.googleusercontent.com/qj80UVa3fFaLL9c0Cgd-BrEPuShbZnGBqrh2AArMRlfH2DZRAl4ilScrSqIRR3WIu01lSlJM=s176-c-k-c0x00ffffff-no-rj-mo"
-                  ></img>
-                </div>
-                <div
-                  style={{
-                    width: "90%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  <h1 style={{ fontWeight: "400" }}>Actualités</h1>
-                </div>
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <h2
-                  style={{
-                    width: "12%",
-                    borderBottom: "2px solid black",
-                    fontWeight: "500",
-                    fontSize: "18px",
-                    padding: "10px",
-                    textAlign: "center",
-                  }}
-                >
-                  À LA UNE
-                </h2>
-              </div>
+                alt="logo actus"
+                src="https://yt3.googleusercontent.com/qj80UVa3fFaLL9c0Cgd-BrEPuShbZnGBqrh2AArMRlfH2DZRAl4ilScrSqIRR3WIu01lSlJM=s176-c-k-c0x00ffffff-no-rj-mo"
+              ></img>
             </div>
             <div
               style={{
-                width: "100%",
+                width: "90%",
+                height: "100%",
                 display: "flex",
-                alignItems: "flex-start",
-                flexDirection: "row",
-                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "flex-start",
               }}
             >
-              <DisplayContent
-                Data={DataActus}
-                refWidth={refWidth}
-                setDataContext={setDataContext}
-                setOption={setOption}
-                setResponsive={setResponsive}
-                responsive={responsive}
-              />
+              <h1 style={{ fontWeight: "400" }}>Actualités</h1>
             </div>
           </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+            }}
+          >
+            <h2
+              style={{
+                width: "12%",
+                borderBottom: "2px solid black",
+                fontWeight: "500",
+                fontSize: "18px",
+                padding: "10px",
+                textAlign: "center",
+              }}
+            >
+              À LA UNE
+            </h2>
+          </div>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          <DisplayContent
+            Data={DataActus}
+            refWidth={refWidth}
+            setDataContext={setDataContext}
+            setOption={setOption}
+            setResponsive={setResponsive}
+            responsive={responsive}
+          />
+        </div>
+      </div>
     </>
   );
 }

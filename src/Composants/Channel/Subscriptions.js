@@ -21,7 +21,7 @@ export function Subscriptions() {
     window.innerWidth <= 1024 ? true : false,
   );
   const refWidth = React.useRef(null);
-  console.log("Subscriptions", Subscriptions)
+  console.log("Subscriptions", Subscriptions);
 
   if (isLoading) {
     return (
@@ -59,27 +59,22 @@ export function Subscriptions() {
         flexWrap: "wrap",
       }}
     >
-      {Subscriptions?.data?.msg === "Cette chaîne ne présente aucune autre chaîne."
-        ||
-        Subscriptions?.data?.msg === "Selected tab not available" 
-       ? 
-      (
-        <h3 style={{width: "100%", 
-        textAlign: "center", 
-        fontWeight: "400"
-      }}>
+      {Subscriptions?.data?.msg ===
+        "Cette chaîne ne présente aucune autre chaîne." ||
+      Subscriptions?.data?.msg === "Selected tab not available" ? (
+        <h3 style={{ width: "100%", textAlign: "center", fontWeight: "400" }}>
           Cette chaîne ne présente aucune autre chaîne.
-      </h3>
-      ) :
-      <DisplayContent 
-        Data={Subscriptions} 
-        refWidth={refWidth} 
-        HasCaroussel 
-        setResponsive={setResponsive}
-        ChannelHome
-        responsive={responsive}
-      />
-      }
+        </h3>
+      ) : (
+        <DisplayContent
+          Data={Subscriptions}
+          refWidth={refWidth}
+          HasCaroussel
+          setResponsive={setResponsive}
+          ChannelHome
+          responsive={responsive}
+        />
+      )}
     </div>
   );
 }

@@ -17,16 +17,15 @@ export function AllVideos() {
     queryKey: [`Fetch Channel All videos`],
     queryFn: () => GetChannelVideos(chaId),
   });
- 
+
   const [WidthVideos, setWidthVideos] = React.useState();
   const [loading, setLoading] = React.useState(true);
   console.log("dataVideos", DataVideos);
 
-
   React.useLayoutEffect(() => {
     let chargement = setTimeout(() => {
-        SizeVideos(setWidthVideos);
-        setLoading(false);
+      SizeVideos(setWidthVideos);
+      setLoading(false);
     }, 1200);
 
     return () => clearTimeout(chargement);
@@ -35,11 +34,10 @@ export function AllVideos() {
   React.useEffect(() => {
     const HandleResize = () => {
       SizeVideos(setWidthVideos);
-    }
+    };
     window.addEventListener("resize", HandleResize);
     return () => window.removeEventListener("resize", HandleResize);
   }, []);
-
 
   if (isLoading) {
     return (
@@ -68,20 +66,21 @@ export function AllVideos() {
         flexWrap: "wrap",
       }}
     >
-      {DataVideos?.data?.msg === "Cette Chaîne ne contient aucun vidéos"
-        ||
-        DataVideos?.data.msg === "Selected tab not available" 
-      ? (
-        <h3 style={{width: "100%", 
-        textAlign: "center", 
-        fontWeight: "400",
-        paddingBottom: "7vh",
-      }}>
+      {DataVideos?.data?.msg === "Cette Chaîne ne contient aucun vidéos" ||
+      DataVideos?.data.msg === "Selected tab not available" ? (
+        <h3
+          style={{
+            width: "100%",
+            textAlign: "center",
+            fontWeight: "400",
+            paddingBottom: "7vh",
+          }}
+        >
           Cette Chaîne ne contient aucun vidéos
-    </h3>
-        )
-      :
-      (loading ? <div>chargement...</div> : 
+        </h3>
+      ) : loading ? (
+        <div>chargement...</div>
+      ) : (
         DataVideos?.data?.data.map((items, i) => (
           <div
             key={i}
@@ -157,22 +156,23 @@ export function AllVideos() {
               </p>
             </div>
           </div>
-        )))}
+        ))
+      )}
     </div>
   );
 }
 
 const SizeVideos = (setWidthVideos) => {
-    if(window.innerWidth <= 519){
-        setWidthVideos("100%");
-    }
-    if(window.innerWidth >= 520 && window.innerWidth <= 864){
-        setWidthVideos("46%");
-    }
-    if(window.innerWidth >= 865 && window.innerWidth <= 1024){
-        setWidthVideos("28%");
-    }
-    if(window.innerWidth > 1025){
-      setWidthVideos("23%");
-    }
-}
+  if (window.innerWidth <= 519) {
+    setWidthVideos("100%");
+  }
+  if (window.innerWidth >= 520 && window.innerWidth <= 864) {
+    setWidthVideos("46%");
+  }
+  if (window.innerWidth >= 865 && window.innerWidth <= 1024) {
+    setWidthVideos("28%");
+  }
+  if (window.innerWidth > 1025) {
+    setWidthVideos("23%");
+  }
+};

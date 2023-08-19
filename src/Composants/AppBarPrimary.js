@@ -11,7 +11,12 @@ import { ButtonNavPrimaryOne } from "../utils/utils";
 import { AiFillFire } from "react-icons/ai";
 import { PiMusicNoteBold } from "react-icons/pi";
 import { LuGamepad2 } from "react-icons/lu";
-import { BsNewspaper, BsLightbulb, BsCollectionPlay, BsYoutube } from "react-icons/bs";
+import {
+  BsNewspaper,
+  BsLightbulb,
+  BsCollectionPlay,
+  BsYoutube,
+} from "react-icons/bs";
 import { useContext } from "../Context/ContextProvider";
 import { GoTrophy } from "react-icons/go";
 import { GiClothesline } from "react-icons/gi";
@@ -303,35 +308,35 @@ export function BarSearch() {
             Connectez-vous à YouTube pour cliquer sur "J'aime", ajouter un
             commentaire et vous abonner.
           </p>
-            <div className="StyleMenuBtnConnecter">
-              <div
-                style={{
-                  width: "20%",
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <BiUserCircle fontSize={35} color="#065fd4" />
-              </div>
-
-              <p
-                style={{
-                  color: "#065fd4",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  display: "flex",
-                  justifyContent: "space-around",
-                  whiteSpace: "nowrap",
-                  alignItems: "center",
-                  width: "60%",
-                  height: "100%",
-                }}
-              >
-                Se connecter
-              </p>
+          <div className="StyleMenuBtnConnecter">
+            <div
+              style={{
+                width: "20%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <BiUserCircle fontSize={35} color="#065fd4" />
             </div>
+
+            <p
+              style={{
+                color: "#065fd4",
+                fontSize: "16px",
+                fontWeight: "600",
+                display: "flex",
+                justifyContent: "space-around",
+                whiteSpace: "nowrap",
+                alignItems: "center",
+                width: "60%",
+                height: "100%",
+              }}
+            >
+              Se connecter
+            </p>
+          </div>
         </div>
         <div style={{ width: "80%", marginBottom: "2vh" }}>
           <h4 style={{ fontSize: "18px" }}>Explorer</h4>
@@ -393,10 +398,10 @@ export function BarSearch() {
   );
 }
 
-export const MobileBarSearch = ({name = ""}) => {
+export const MobileBarSearch = ({ name = "" }) => {
   //const [valeur, setValeur] = React.useState(false);
   const [champs, setChamps] = React.useState("");
-  const { setLoadNextContentSearch, setToken} = useContext();
+  const { setLoadNextContentSearch, setToken } = useContext();
   const [DisplaySearch, setDisplaySearch] = React.useState(false);
   const navigate = useNavigate();
 
@@ -409,7 +414,7 @@ export const MobileBarSearch = ({name = ""}) => {
       // Remonter la barre de scroll pour une nouvelle recherche
     }
     navigate(`/Recherche/${champs}`);
-    setDisplaySearch(!DisplaySearch)
+    setDisplaySearch(!DisplaySearch);
   };
   const Retour = () => {
     navigate("/");
@@ -449,14 +454,14 @@ export const MobileBarSearch = ({name = ""}) => {
           <BsYoutube
             onClick={Retour}
             fontSize={30}
-            style={{ color: "red", marginRight: "4px", cursor: "pointer"}}
+            style={{ color: "red", marginRight: "4px", cursor: "pointer" }}
           />
           <span
             onClick={() => {
-                if(name === ""){
-                  Retour();
-                }
-                return null;
+              if (name === "") {
+                Retour();
+              }
+              return null;
             }}
             style={{
               fontWeight: `${name === "" ? "normal" : "550"}`,
@@ -467,7 +472,7 @@ export const MobileBarSearch = ({name = ""}) => {
               fontFamily: `${name === "" ? "Kenya" : "Arial, sans-serif"}`,
             }}
           >
-            {name  === "" ? "YouTube" : `${name}`}
+            {name === "" ? "YouTube" : `${name}`}
           </span>
         </div>
 
@@ -486,8 +491,7 @@ export const MobileBarSearch = ({name = ""}) => {
             fontSize={50}
             style={{ marginLeft: "3%", cursor: "pointer" }}
           />
-          {name !== "" ? null :
-          <BiUserCircle fontSize={50} />}
+          {name !== "" ? null : <BiUserCircle fontSize={50} />}
         </div>
       </AppBar>
       {DisplaySearch ? (
@@ -558,8 +562,8 @@ export const MobileBarSearch = ({name = ""}) => {
                 >
                   <RxCross1 fontSize={28} />
                 </button>
-              )}  
-                <button
+              )}
+              <button
                 style={{
                   height: "100%",
                   border: "none",

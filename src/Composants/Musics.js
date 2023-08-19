@@ -50,127 +50,125 @@ function Music() {
   }
   return (
     <>
-        <BarSearch />
-        <AppBarSecondary />
-          <div className="ConteneurTendances">
+      <BarSearch />
+      <AppBarSecondary />
+      <div className="ConteneurTendances">
+        <div
+          ref={refWidth}
+          style={{
+            padding: "0px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            flexWwrap: "nowrap",
+            border: "2px solid transparent",
+            color: "black",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              height: "180px",
+              backgroundColor: "#efeff1",
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "40px",
+              justifyContent: "space-between",
+            }}
+          >
             <div
-              ref={refWidth}
               style={{
-                padding: "0px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                flexWwrap: "nowrap",
-                border: "2px solid transparent",
-                color: "black",
                 width: "100%",
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                flexDirection: "row",
               }}
             >
               <div
                 style={{
-                  width: "100%",
-                  height: "180px",
-                  backgroundColor: "#efeff1",
+                  width: "10%",
                   display: "flex",
-                  flexDirection: "column",
-                  marginBottom: "40px",
-                  justifyContent: "space-between",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <div
+                <img
                   style={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                    flexDirection: "row",
+                    height: "80px",
+                    width: "80px",
+                    borderRadius: "50%",
                   }}
-                >
-                  <div
-                    style={{
-                      width: "10%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <img
-                      style={{
-                        height: "80px",
-                        width: "80px",
-                        borderRadius: "50%",
-                      }}
-                      alt="logo music"
-                      src={
-                        DataMusic?.data?.meta?.avatar[0]?.url.includes("https:")
-                          ? DataMusic?.data?.meta?.avatar[0]?.url
-                          : "https:" + DataMusic?.data?.meta?.avatar[0]?.url
-                      }
-                    ></img>
-                  </div>
-                  <div
-                    style={{
-                      width: "90%",
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <h1 style={{ fontWeight: "400" }}>
-                      {DataMusic?.data?.meta?.title}
-                    </h1>
-                    <p>
-                      {DataMusic?.data?.meta?.subscriberCountText} d'abonnés
-                    </p>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  <h2
-                    style={{
-                      width: "12%",
-                      borderBottom: "2px solid black",
-                      fontWeight: "500",
-                      fontSize: "18px",
-                      padding: "10px",
-                      textAlign: "center",
-                    }}
-                  >
-                    Accueil
-                  </h2>
-                </div>
+                  alt="logo music"
+                  src={
+                    DataMusic?.data?.meta?.avatar[0]?.url.includes("https:")
+                      ? DataMusic?.data?.meta?.avatar[0]?.url
+                      : "https:" + DataMusic?.data?.meta?.avatar[0]?.url
+                  }
+                ></img>
               </div>
               <div
                 style={{
-                  width: "100%",
+                  width: "90%",
+                  height: "100%",
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "flex-start",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
+                  justifyContent: "flex-start",
                 }}
               >
-                <DisplayContent
-                  Data={DataMusic}
-                  refWidth={refWidth}
-                  setDataContext={setDataContext}
-                  setOption={setOption}
-                  LogochannelThumbnail={false}
-                  HasCaroussel
-                  responsive={responsive}
-                  setResponsive={setResponsive}
-                />
+                <h1 style={{ fontWeight: "400" }}>
+                  {DataMusic?.data?.meta?.title}
+                </h1>
+                <p>{DataMusic?.data?.meta?.subscriberCountText} d'abonnés</p>
               </div>
             </div>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+              }}
+            >
+              <h2
+                style={{
+                  width: "12%",
+                  borderBottom: "2px solid black",
+                  fontWeight: "500",
+                  fontSize: "18px",
+                  padding: "10px",
+                  textAlign: "center",
+                }}
+              >
+                Accueil
+              </h2>
+            </div>
           </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "flex-start",
+              flexDirection: "row",
+              flexWrap: "wrap",
+            }}
+          >
+            <DisplayContent
+              Data={DataMusic}
+              refWidth={refWidth}
+              setDataContext={setDataContext}
+              setOption={setOption}
+              LogochannelThumbnail={false}
+              HasCaroussel
+              responsive={responsive}
+              setResponsive={setResponsive}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

@@ -11,10 +11,9 @@ import { CheckRelatedVideos } from "../utils/utils";
 import { BsFillPlayFill } from "react-icons/bs";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { Link } from "react-router-dom";
-import {IoPlaySkipBackSharp, IoPlaySkipForwardSharp} from "react-icons/io5";
-import {IoIosArrowDown} from "react-icons/io";
+import { IoPlaySkipBackSharp, IoPlaySkipForwardSharp } from "react-icons/io5";
+import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
-
 
 export function Playlist() {
   let { index, videoPL, Identifiant } = useParams();
@@ -28,8 +27,8 @@ export function Playlist() {
   const [HeightVideos, setHeightVideos] = React.useState();
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
-    );
-    const ref = React.useRef(null);
+  );
+  const ref = React.useRef(null);
 
   React.useLayoutEffect(() => {
     const hight = window.innerHeight;
@@ -78,7 +77,7 @@ export function Playlist() {
     element.style.backgroundColor = "#efeff1";
   };
 
-  console.log("playlist", Playlist)
+  console.log("playlist", Playlist);
   console.log("data detail video", DetailVideo);
   //console.log("index" , index)
   //console.log("idPl", IDPlaylist)
@@ -149,7 +148,8 @@ export function Playlist() {
                 className="react-player"
                 controls
               />
-              <div style={{
+              <div
+                style={{
                   width: "100%",
                   backgroundColor: "black",
                   height: `${DisplayPlaylist ? "auto" : "50px"}`,
@@ -157,62 +157,74 @@ export function Playlist() {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-              }}>
-                <div style={{
+                }}
+              >
+                <div
+                  style={{
                     width: "100%",
                     display: "flex",
                     flexDirection: "row",
                     flexWrap: "nowrap",
                     alignItems: "flex-start",
                     marginBottom: "1%",
-                }}>
-                  <div style={{
-                    width: "85%",
-                    display:"flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}>
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "85%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
                     <h3>
-                    {Playlist?.data?.meta?.title?.length >= 45
-                      ? Playlist?.data?.meta?.title.substring(0, 45) + "..."
-                      : Playlist?.data?.meta?.title}
-                  </h3>
-                  <div style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "flex-start",
-                  }}>
-                  <p style={{marginRight: "2%"}}>
-                  {parseInt(index) + 1} /{" "}{Playlist?.data?.data?.length}
-                  </p>
-                    <Link to={`/Channel/${Playlist?.data?.meta?.channelId}`}
-                    style={{ textDecoration: "none", color: "white" }}
+                      {Playlist?.data?.meta?.title?.length >= 45
+                        ? Playlist?.data?.meta?.title.substring(0, 45) + "..."
+                        : Playlist?.data?.meta?.title}
+                    </h3>
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "flex-start",
+                      }}
                     >
-                    <p>
-                    {Playlist?.data?.meta?.channelTitle?.length >= 45
-                      ? Playlist?.data?.meta?.channelTitle.substring(0, 45) + "..."
-                      : Playlist?.data?.meta?.channelTitle}
-                    </p>
-                    </Link>
+                      <p style={{ marginRight: "2%" }}>
+                        {parseInt(index) + 1} / {Playlist?.data?.data?.length}
+                      </p>
+                      <Link
+                        to={`/Channel/${Playlist?.data?.meta?.channelId}`}
+                        style={{ textDecoration: "none", color: "white" }}
+                      >
+                        <p>
+                          {Playlist?.data?.meta?.channelTitle?.length >= 45
+                            ? Playlist?.data?.meta?.channelTitle.substring(
+                                0,
+                                45,
+                              ) + "..."
+                            : Playlist?.data?.meta?.channelTitle}
+                        </p>
+                      </Link>
+                    </div>
                   </div>
-
-                  </div>
-                  <div 
+                  <div
                     onClick={() => setDisplayPlaylist(!DisplayPlaylist)}
                     style={{
-                    width: "15%",
-                    height: "50px",
-                    display: "flex",
-                    alignItems: "flex-end",
-                    justifyContent: "center",
-                  }}>
-                      <IoIosArrowDown color="white" fontSize={28}/>
+                      width: "15%",
+                      height: "50px",
+                      display: "flex",
+                      alignItems: "flex-end",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <IoIosArrowDown color="white" fontSize={28} />
                   </div>
                 </div>
-                  {DisplayPlaylist ? 
+                {DisplayPlaylist ? (
                   <>
-                  <div style={{
+                    <div
+                      style={{
                         width: "100%",
                         backgroundColor: "black",
                         color: "white",
@@ -221,153 +233,180 @@ export function Playlist() {
                         alignItems: "center",
                         justifyContent: "center",
                         flexDirection: "row",
-                     }}>
-                        <button 
-                          disabled={parseInt(index) === 0 ? true : false}
-                          onClick={() => 
-                            HandlePlaylist(Playlist?.data?.data[parseInt(index) - 1]?.videoId, 
-                            parseInt(index) - 1, 
-                            Identifiant)}
-                          style={{
-                          width: "10%",
-                          marginRight: "2%", 
-                          backgroundColor: "transparent",
-                          border: "none"
-                          }}>
-                            <IoPlaySkipBackSharp 
-                              fontSize={22} 
-                              color={`${parseInt(index) === 0 ? "#cccccc" : "white"}`}
-                              />
-                        </button>
-                        <button 
-                          disabled={parseInt(index) === Playlist?.data?.data.length - 1 ? true : false}
-                          onClick={() => 
-                            HandlePlaylist(Playlist?.data?.data[(parseInt(index) + 1)]?.videoId, 
-                            parseInt(index) + 1, 
-                            Identifiant)}
-                          style={{
-                          width: "10%",
-                          backgroundColor: "transparent",
-                          border: "none"
-                          }}>
-                          <IoPlaySkipForwardSharp 
-                            fontSize={22} 
-                            color={`${parseInt(index) === Playlist?.data?.data.length - 1  ? "#cccccc" : "white"}`} 
-                            />
-                        </button>
-                      </div>
-              {Playlist?.data?.data?.map((element, i) => (
-                  <div 
-                    onClick={() =>
-                      HandlePlaylist(element?.videoId, i, Identifiant)
-                    }
-                    key={i}
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "row",
-                      flexWrap: "nowrap",
-                      justifyContent: "space-evenly",
-                      marginBottom: "1%",
-                      cursor: "pointer",
-                      backgroundColor: `${
-                        parseInt(index) === i ? "rgba(127,82,97,0.4)" : "black"
-                      }`,
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "50%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginRight: "2%",
                       }}
                     >
-                     <div style={{
-                        width: `${window.innerWidth <= 686 ? "100%" : "323px"}`,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        position: "relative",
-                      }}>
-                      <img
+                      <button
+                        disabled={parseInt(index) === 0 ? true : false}
+                        onClick={() =>
+                          HandlePlaylist(
+                            Playlist?.data?.data[parseInt(index) - 1]?.videoId,
+                            parseInt(index) - 1,
+                            Identifiant,
+                          )
+                        }
                         style={{
-                          borderRadius: "10px",
-                          height: "150px",
-                          width: `${window.innerWidth <= 686 ? "100%" : "323px"}`,
+                          width: "10%",
+                          marginRight: "2%",
+                          backgroundColor: "transparent",
+                          border: "none",
                         }}
-                        src={element?.thumbnail[0]?.url}
-                        alt={index}
                       >
-                        
-                      </img>
+                        <IoPlaySkipBackSharp
+                          fontSize={22}
+                          color={`${
+                            parseInt(index) === 0 ? "#cccccc" : "white"
+                          }`}
+                        />
+                      </button>
+                      <button
+                        disabled={
+                          parseInt(index) === Playlist?.data?.data.length - 1
+                            ? true
+                            : false
+                        }
+                        onClick={() =>
+                          HandlePlaylist(
+                            Playlist?.data?.data[parseInt(index) + 1]?.videoId,
+                            parseInt(index) + 1,
+                            Identifiant,
+                          )
+                        }
+                        style={{
+                          width: "10%",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                      >
+                        <IoPlaySkipForwardSharp
+                          fontSize={22}
+                          color={`${
+                            parseInt(index) === Playlist?.data?.data.length - 1
+                              ? "#cccccc"
+                              : "white"
+                          }`}
+                        />
+                      </button>
+                    </div>
+                    {Playlist?.data?.data?.map((element, i) => (
                       <div
+                        onClick={() =>
+                          HandlePlaylist(element?.videoId, i, Identifiant)
+                        }
+                        key={i}
                         style={{
-                          position: "absolute",
-                          width: "35px",
-                          height: "30px",
-                          bottom: "0px",
-                          right: "0px",
-                          color: "white",
-                          fontSize: "14px",
-                          backgroundColor: "black",
-                          borderRadius: "8px",
-                          pointerEvents: "none",
-                          margin: "0.3rem",
+                          width: "100%",
                           display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
+                          flexDirection: "row",
+                          flexWrap: "nowrap",
+                          justifyContent: "space-evenly",
+                          marginBottom: "1%",
+                          cursor: "pointer",
+                          backgroundColor: `${
+                            parseInt(index) === i
+                              ? "rgba(127,82,97,0.4)"
+                              : "black"
+                          }`,
                         }}
                       >
-                        <p
+                        <div
                           style={{
-                            fontWeight: "600",
-                            color: "white",
-                            margin: "0.3rem",
-                            fontSize: "1em",
+                            width: "50%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginRight: "2%",
                           }}
                         >
-                          {element?.lengthText}
-                        </p>
+                          <div
+                            style={{
+                              width: `${
+                                window.innerWidth <= 686 ? "100%" : "323px"
+                              }`,
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              position: "relative",
+                            }}
+                          >
+                            <img
+                              style={{
+                                borderRadius: "10px",
+                                height: "150px",
+                                width: `${
+                                  window.innerWidth <= 686 ? "100%" : "323px"
+                                }`,
+                              }}
+                              src={element?.thumbnail[0]?.url}
+                              alt={index}
+                            ></img>
+                            <div
+                              style={{
+                                position: "absolute",
+                                width: "35px",
+                                height: "30px",
+                                bottom: "0px",
+                                right: "0px",
+                                color: "white",
+                                fontSize: "14px",
+                                backgroundColor: "black",
+                                borderRadius: "8px",
+                                pointerEvents: "none",
+                                margin: "0.3rem",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  fontWeight: "600",
+                                  color: "white",
+                                  margin: "0.3rem",
+                                  fontSize: "1em",
+                                }}
+                              >
+                                {element?.lengthText}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            flexWrap: "wrap",
+                            width: "50%",
+                          }}
+                        >
+                          <p
+                            style={{
+                              width: "100%",
+                              fontWeight: "600",
+                              fontSize: `${
+                                window.innerWidth <= 500 ? "0.7em" : "1em"
+                              }`,
+                            }}
+                          >
+                            {element?.title.length > 60
+                              ? element?.title.substring(0, 45) + "..."
+                              : element?.title}
+                          </p>
+                          <p
+                            style={{
+                              width: "100%",
+                              fontSize: `${
+                                window.innerWidth <= 500 ? "0.7em" : "1em"
+                              }`,
+                              cursor: "pointer",
+                            }}
+                          >
+                            {element?.channelTitle}
+                          </p>
+                        </div>
                       </div>
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        flexWrap: "wrap",
-                        width: "50%",
-                      }}
-                    >
-                      <p
-                        style={{
-                          width: "100%",
-                          fontWeight: "600",
-                          fontSize: `${window.innerWidth <= 500 ? "0.7em" : "1em"}`,
-                        }}
-                      >
-                        {element?.title.length > 60
-                          ? element?.title.substring(0, 45) + "..."
-                          : element?.title}
-                      </p>
-                      <p
-                        style={{
-                          width: "100%",
-                          fontSize: `${window.innerWidth <= 500 ? "0.7em" : "1em"}`,
-                          cursor: "pointer",
-                        }}
-                      >
-                        {element?.channelTitle}
-                      </p>
-                    </div>
-                  </div>
-                ))} 
-            </>
-                  : 
-                    null
-                  }
+                    ))}
+                  </>
+                ) : null}
               </div>
 
               <h1
@@ -480,104 +519,113 @@ export function Playlist() {
                 if (element?.type === "playlist") {
                   return (
                     <div
-                    key={index}
-                    style={{
-                      width: `${WidthVideos}px`,
-                      border: "1px solid transparent",
-                      display: "flex",
-                      flexDirection: `column`,
-                      alignItems: "flex-start",
-                      justifyContent: "flex-start",
-                      flexWrap: "wrap",
-                      marginBottom: "2%",
-                    }}
-                  >
-                    <Link
-                      to={`/Playlist/${element?.videoId}/${0}/${
-                        element?.playlistId
-                      }`}
+                      key={index}
                       style={{
-                        textDecoration: "none",
-                        color: "black",
-                        width: "100%"
-                      }}
-                    >
-                      <div style={{ position: "relative", cursor: "pointer" }}>
-                        <img
-                          alt={element?.title}
-                          src={element?.thumbnail[1]?.url}
-                          width="100%"
-                          style={{ borderRadius: "10px" , height: `${
-                            window.innerWidth <= 580
-                              ? HeightVideos * 0.7
-                              : HeightVideos / 2.2
-                          }px`}}
-                        ></img>
-                        <div
-                          style={{
-                            position: "absolute",
-                            width: "100%",
-                            height: "20%",
-                            bottom: "0",
-                            color: "white",
-                            fontSize: "14px",
-                            background: "rgba(0, 0, 0, 0.5)",
-                            borderRadius: "8px",
-                            pointerEvents: "none",
-                            marginBottom: "0.3rem",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <MdOutlinePlaylistPlay
-                            color="white"
-                            fontSize={20}
-                            style={{ marginLeft: "2%" }}
-                          />
-                          <p style={{ marginRight: "2%", fontWeight: "550" }}>
-                            {element?.videoCount} vidéos
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                    <Link to={`/Playlist/${element?.videoId}/${0}/${
-                        element?.playlistId
-                      }`}
-                      style={{
-                        textDecoration: "none",
-                        color: "black",
-                        width: "100%"
-                      }}>
-                    <div
-                      style={{
-                        width: "100%",
+                        width: `${WidthVideos}px`,
+                        border: "1px solid transparent",
                         display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start"
+                        flexDirection: `column`,
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+                        flexWrap: "wrap",
+                        marginBottom: "2%",
                       }}
                     >
-                      <div
+                      <Link
+                        to={`/Playlist/${element?.videoId}/${0}/${
+                          element?.playlistId
+                        }`}
                         style={{
+                          textDecoration: "none",
+                          color: "black",
                           width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-start",
-                          justifyContent: "flex-start",
                         }}
                       >
-                        <p style={{ fontSize: "0.6em", marginBottom: "1%" }}>
-                          {window.innerWidth <= 300
-                            ? element?.title.substring(0, 25) + "..."
-                            : element?.title}
-                        </p>
-                        <p style={{ fontSize: "0.6em" }}>
-                          {element?.channelTitle}
-                        </p>
-                      </div>
+                        <div
+                          style={{ position: "relative", cursor: "pointer" }}
+                        >
+                          <img
+                            alt={element?.title}
+                            src={element?.thumbnail[1]?.url}
+                            width="100%"
+                            style={{
+                              borderRadius: "10px",
+                              height: `${
+                                window.innerWidth <= 580
+                                  ? HeightVideos * 0.7
+                                  : HeightVideos / 2.2
+                              }px`,
+                            }}
+                          ></img>
+                          <div
+                            style={{
+                              position: "absolute",
+                              width: "100%",
+                              height: "20%",
+                              bottom: "0",
+                              color: "white",
+                              fontSize: "14px",
+                              background: "rgba(0, 0, 0, 0.5)",
+                              borderRadius: "8px",
+                              pointerEvents: "none",
+                              marginBottom: "0.3rem",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <MdOutlinePlaylistPlay
+                              color="white"
+                              fontSize={20}
+                              style={{ marginLeft: "2%" }}
+                            />
+                            <p style={{ marginRight: "2%", fontWeight: "550" }}>
+                              {element?.videoCount} vidéos
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <Link
+                        to={`/Playlist/${element?.videoId}/${0}/${
+                          element?.playlistId
+                        }`}
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "flex-start",
+                              justifyContent: "flex-start",
+                            }}
+                          >
+                            <p
+                              style={{ fontSize: "0.6em", marginBottom: "1%" }}
+                            >
+                              {window.innerWidth <= 300
+                                ? element?.title.substring(0, 25) + "..."
+                                : element?.title}
+                            </p>
+                            <p style={{ fontSize: "0.6em" }}>
+                              {element?.channelTitle}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
                     </div>
-                    </Link>
-                  </div>
                   );
                 }
                 if (element?.type === "video") {
@@ -715,7 +763,8 @@ export function Playlist() {
                     </div>
                   );
                 }
-              return null;})}
+                return null;
+              })}
             </div>
           </div>
         </>

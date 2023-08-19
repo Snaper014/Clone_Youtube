@@ -78,7 +78,7 @@ function Home() {
           position: "relative",
           top: `${responsive ? "8vh" : "11vh"}`,
           left: `${responsive ? "0px" : "9.8vw"}`,
-          padding:`${responsive ? "0px 0px 7vh 0px" : "3vh 0px 3vh 0px"}`,
+          padding: `${responsive ? "0px 0px 7vh 0px" : "3vh 0px 3vh 0px"}`,
           display: "flex",
           alignItems: "flex-start",
           justifyContent: "space-between",

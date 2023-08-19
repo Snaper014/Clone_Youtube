@@ -60,27 +60,28 @@ export function PlaylistChannel() {
         flexWrap: "wrap",
       }}
     >
-      {Playlist?.data?.msg === "Cette chaîne ne contient aucune playlist."
-        ||
-        Playlist?.data.msg === "Selected tab not available" 
-       ? (
-        <h3 style={{width: "100%", 
-        textAlign: "center", 
-        fontWeight: "400",
-        paddingBottom: "7vh",
-      }}>
+      {Playlist?.data?.msg === "Cette chaîne ne contient aucune playlist." ||
+      Playlist?.data.msg === "Selected tab not available" ? (
+        <h3
+          style={{
+            width: "100%",
+            textAlign: "center",
+            fontWeight: "400",
+            paddingBottom: "7vh",
+          }}
+        >
           Cette chaîne ne contient aucune playlist.
-      </h3>
-      ): 
-      <DisplayContent 
-        Data={Playlist} 
-        refWidth={refWidth} 
-        HasCaroussel={responsive ? false : true}
-        ChannelHome
-        responsive={responsive}
-        setResponsive={setResponsive} 
+        </h3>
+      ) : (
+        <DisplayContent
+          Data={Playlist}
+          refWidth={refWidth}
+          HasCaroussel={responsive ? false : true}
+          ChannelHome
+          responsive={responsive}
+          setResponsive={setResponsive}
         />
-      }
+      )}
     </div>
   );
 }

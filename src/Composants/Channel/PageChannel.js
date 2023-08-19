@@ -23,12 +23,12 @@ export function PageYoutubeur() {
   React.useEffect(() => {
     const CheckVersion = () => {
       MobileResponsive(setResponsive);
-    }
+    };
     GetChannelHomeUser(chaId)
       .then((data) => setDataChannel(data))
       .catch((error) => setError(error));
-      window.addEventListener("resize", CheckVersion);
-      return () => window.removeEventListener("resize", CheckVersion);
+    window.addEventListener("resize", CheckVersion);
+    return () => window.removeEventListener("resize", CheckVersion);
   }, [chaId]);
 
   if (!dataChannel) {
@@ -55,16 +55,17 @@ export function PageYoutubeur() {
   }
 
   return (
-    <>{
-      responsive ?
+    <>
+      {responsive ? (
         <>
-          <MobileBarSearch name={dataChannel?.data?.meta?.title}/>
+          <MobileBarSearch name={dataChannel?.data?.meta?.title} />
           <MobileSecondaryBar />
 
-          <div style={{
+          <div
+            style={{
               position: "relative",
-              top:  "8vh",
-              left:  "0px",
+              top: "8vh",
+              left: "0px",
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "flex-start",
@@ -72,12 +73,15 @@ export function PageYoutubeur() {
               flexWrap: "wrap",
               border: "2px solid transparent",
               color: "black",
-              width:  "100%",
-          }}>
-            <div style={{
               width: "100%",
-              border: "1px solid transparent",
-            }}>
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                border: "1px solid transparent",
+              }}
+            >
               <div
                 style={{
                   width: "100%",
@@ -102,77 +106,98 @@ export function PageYoutubeur() {
                   ></div>
                 )}
               </div>
-              <div style={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <img
-                    style={{ borderRadius: "50%" }}
-                    alt={dataChannel?.data?.meta?.title}
-                    src={dataChannel?.data?.meta?.avatar[1]?.url}
-                    width="70px"
-                    height="70px"
-                  ></img>
-                  <h4 style={{ fontSize: "2em", fontWeight: "550" }}>
-                      {dataChannel?.data?.meta?.title}{" "}
-                      {dataChannel?.data?.meta?.isVerified ? (
-                        <VscVerifiedFilled />
-                      ) : null}
-                    </h4>
-                    <div
+                  style={{ borderRadius: "50%" }}
+                  alt={dataChannel?.data?.meta?.title}
+                  src={dataChannel?.data?.meta?.avatar[1]?.url}
+                  width="70px"
+                  height="70px"
+                ></img>
+                <h4 style={{ fontSize: "2em", fontWeight: "550" }}>
+                  {dataChannel?.data?.meta?.title}{" "}
+                  {dataChannel?.data?.meta?.isVerified ? (
+                    <VscVerifiedFilled />
+                  ) : null}
+                </h4>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    width: "100%",
+                    marginBottom: "2%",
+                  }}
+                >
+                  <p
                     style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      flexWrap: 'wrap',
-                      justifyContent: "center",
-                      width: "100%",
-                      marginBottom: "2%",
+                      display: "inline",
+                      marginRight: "10px",
+                      fontWeight: "600",
                     }}
                   >
-                    <p
-                      style={{
-                        display: "inline",
-                        marginRight: "10px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      {dataChannel?.data?.meta?.channelHandle}
-                    </p>
-                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400"}}>
-                    {!dataChannel?.data?.meta?.subscriberCountText ? "" : 
-                      <p>{dataChannel?.data?.meta?.subscriberCountText} d'abonnés</p>
-                      } 
-                    </h4>
-                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400"}}>
-                      {dataChannel?.data?.meta?.videosCountText === "Aucune vidéo" ?
-                        dataChannel?.data?.meta?.videosCountText 
-                        :
-                         <p>{dataChannel?.data?.meta?.videosCountText} vidéos</p> 
-                        }
-                    </h4>
-                  </div>
-                  <div style={{ 
-                      fontSize: "1.2em", 
-                      width: "100%", 
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: "2%", 
-                      }}>
-                    {dataChannel?.data?.meta?.description.length >= 70 ? (
-                      <p>
-                        {dataChannel?.data?.meta?.description.substring(0, 78) +
-                          "..."}{" "}
-                      </p>
+                    {dataChannel?.data?.meta?.channelHandle}
+                  </p>
+                  <h4
+                    style={{
+                      display: "inline",
+                      marginRight: "10px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {!dataChannel?.data?.meta?.subscriberCountText ? (
+                      ""
                     ) : (
-                      <p>{dataChannel?.data?.meta?.description}</p>
+                      <p>
+                        {dataChannel?.data?.meta?.subscriberCountText} d'abonnés
+                      </p>
                     )}
-                  </div>
-                  <button
+                  </h4>
+                  <h4
+                    style={{
+                      display: "inline",
+                      marginRight: "10px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {dataChannel?.data?.meta?.videosCountText ===
+                    "Aucune vidéo" ? (
+                      dataChannel?.data?.meta?.videosCountText
+                    ) : (
+                      <p>{dataChannel?.data?.meta?.videosCountText} vidéos</p>
+                    )}
+                  </h4>
+                </div>
+                <div
+                  style={{
+                    fontSize: "1.2em",
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "2%",
+                  }}
+                >
+                  {dataChannel?.data?.meta?.description.length >= 70 ? (
+                    <p>
+                      {dataChannel?.data?.meta?.description.substring(0, 78) +
+                        "..."}{" "}
+                    </p>
+                  ) : (
+                    <p>{dataChannel?.data?.meta?.description}</p>
+                  )}
+                </div>
+                <button
                   style={{
                     display: "flex",
                     marginBottom: "2%",
@@ -189,32 +214,33 @@ export function PageYoutubeur() {
                     borderRadius: "30px",
                   }}
                 >
-                  <BsYoutube fontSize={30} style={{marginRight: "3%"}}/>
+                  <BsYoutube fontSize={30} style={{ marginRight: "3%" }} />
                   <p>S'abonner</p>
                 </button>
               </div>
-             </div> 
-                  <MobileButtonAndContainer />
+            </div>
+            <MobileButtonAndContainer />
           </div>
-
         </>
-        :
+      ) : (
         <>
-        <BarSearch />
-        <AppBarSecondary />
-        <div style={{
-          position: "relative",
-          top:  "11vh",
-          left: "9.8vw",
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          flexDirection: "column",
-          flexWrap: "wrap",
-          border: "2px solid transparent",
-          color: "black",
-          width: "90%",
-        }}>
+          <BarSearch />
+          <AppBarSecondary />
+          <div
+            style={{
+              position: "relative",
+              top: "11vh",
+              left: "9.8vw",
+              display: "flex",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              flexDirection: "column",
+              flexWrap: "wrap",
+              border: "2px solid transparent",
+              color: "black",
+              width: "90%",
+            }}
+          >
             <div className="SectionImageChannel">
               <div
                 style={{
@@ -302,17 +328,35 @@ export function PageYoutubeur() {
                     >
                       {dataChannel?.data?.meta?.channelHandle}
                     </p>
-                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400"}}>
-                    {!dataChannel?.data?.meta?.subscriberCountText ? "" : 
-                      <p>{dataChannel?.data?.meta?.subscriberCountText} d'abonnés</p>
-                      } 
+                    <h4
+                      style={{
+                        display: "inline",
+                        marginRight: "10px",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {!dataChannel?.data?.meta?.subscriberCountText ? (
+                        ""
+                      ) : (
+                        <p>
+                          {dataChannel?.data?.meta?.subscriberCountText}{" "}
+                          d'abonnés
+                        </p>
+                      )}
                     </h4>
-                    <h4 style={{ display: "inline", marginRight: "10px", fontWeight: "400" }}>
-                      {dataChannel?.data?.meta?.videosCountText === "Aucune vidéo" ?
-                        dataChannel?.data?.meta?.videosCountText 
-                        :
-                         <p>{dataChannel?.data?.meta?.videosCountText} vidéos</p> 
-                        }
+                    <h4
+                      style={{
+                        display: "inline",
+                        marginRight: "10px",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {dataChannel?.data?.meta?.videosCountText ===
+                      "Aucune vidéo" ? (
+                        dataChannel?.data?.meta?.videosCountText
+                      ) : (
+                        <p>{dataChannel?.data?.meta?.videosCountText} vidéos</p>
+                      )}
                     </h4>
                   </div>
                   <div style={{ fontSize: "0.8em", width: "100%" }}>
@@ -336,8 +380,9 @@ export function PageYoutubeur() {
             >
               <ButtonAndContainer />
             </div>
-        </div>
+          </div>
         </>
-  }</>
+      )}
+    </>
   );
 }

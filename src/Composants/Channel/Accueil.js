@@ -8,12 +8,7 @@ import { CircularProgress } from "@mui/material";
 
 export function ChannelHome() {
   let { chaId } = useParams();
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: [`Fetch Channel Home`, chaId],
     queryFn: () => GetChannelHomeUser(chaId),
     enabled: !!chaId,
@@ -54,29 +49,30 @@ export function ChannelHome() {
         justifyContent: "flex-start",
       }}
     >
-      {data?.data?.msg === "Chaîne sans contenu" 
-      ||
-      data?.data.msg === "Selected tab not available"
-      ? (
-        <h3 style={{width: "100%", 
-              textAlign: "center", 
-              fontWeight: "400",
-              paddingBottom: "7vh",
-            }}>
-                Chaîne sans Contenu
-          </h3>
-        )
-      :
-      <DisplayContent
-        Data={data}
-        refWidth={refWidth}
-        setDataContext={setDataContext}
-        setOption={setOption}
-        HasCaroussel={responsive ? false : true}
-        ChannelHome
-        setResponsive={setResponsive}
-        responsive={responsive}
-      />}
+      {data?.data?.msg === "Chaîne sans contenu" ||
+      data?.data.msg === "Selected tab not available" ? (
+        <h3
+          style={{
+            width: "100%",
+            textAlign: "center",
+            fontWeight: "400",
+            paddingBottom: "7vh",
+          }}
+        >
+          Chaîne sans Contenu
+        </h3>
+      ) : (
+        <DisplayContent
+          Data={data}
+          refWidth={refWidth}
+          setDataContext={setDataContext}
+          setOption={setOption}
+          HasCaroussel={responsive ? false : true}
+          ChannelHome
+          setResponsive={setResponsive}
+          responsive={responsive}
+        />
+      )}
     </div>
   );
 }

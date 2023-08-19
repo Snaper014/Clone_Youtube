@@ -2,7 +2,7 @@ import * as React from "react";
 import { AppBarSecondary } from "./AppBarSecondary";
 import "../App.css";
 import { BarSearch } from "./AppBarPrimary";
-import ReactPlayer from 'react-player/youtube';
+import ReactPlayer from "react-player/youtube";
 import { useQuery } from "@tanstack/react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FetchHomeShorts } from "../utils/Appel";
@@ -76,7 +76,6 @@ function ShorterCAC40() {
     );
   }
 
-
   return (
     <>
       {responsive ? (
@@ -102,7 +101,15 @@ function ShorterCAC40() {
                 >
                   {element?.data.map((item, index) => (
                     <ReactPlayer
-                      config={{ youtube: { playerVars: { showinfo: 1, origin: "http://localhost:3000", enablejsapi: 1,} }}} 
+                      config={{
+                        youtube: {
+                          playerVars: {
+                            showinfo: 1,
+                            origin: "http://localhost:3000",
+                            enablejsapi: 1,
+                          },
+                        },
+                      }}
                       key={index}
                       url={`https://www.youtube.com/embed/${item?.videoId}`}
                       className="react-player ShortPlayer"
@@ -165,7 +172,7 @@ function ShorterCAC40() {
                   >
                     {element?.data.map((item, index) => (
                       <ReactPlayer
-                        config={{ youtube: { playerVars: { showinfo: 1 } }}} 
+                        config={{ youtube: { playerVars: { showinfo: 1 } } }}
                         key={index}
                         url={`https://www.youtube.com/shorts/${item?.videoId}`}
                         className="react-player ShortPlayer"
