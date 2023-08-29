@@ -148,28 +148,6 @@ const CardCaroussel = ({ children, value, shorts = false, mobile = false }) => {
       curr * 100 >= (children.length / value) * 100 ? curr : curr + 1,
     );
 
-  //const startXRef = React.useRef(null);
-
-  /*const handleTouchStart = (e) => {
-    startXRef.current = e.touches[0].clientX;
-    console.log("touchStartX.current", startXRef.current);
-  };
-  const handleTouchEnd = (e) => {
-    if (startXRef.current === null) {
-      return; // Pas de touchstart enregistré, ne rien faire
-    }
-
-    const deltaX = e.changedTouches[0].clientX - startXRef.current;
-    console.log("touchend", e.changedTouches[0].clientX);
-    console.log("deltaX", deltaX);
-
-    // Exécutez la translation seulement si deltaX dépasse une certaine valeur (par exemple, 50)
-    if (deltaX > 0) {
-      prev();
-    } else if (deltaX < 0) {
-      next();
-    }
-  };*/
   return (
     <div
       className="HiddenScroll"

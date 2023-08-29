@@ -6,7 +6,7 @@ import { GetCategoryCulture } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { BarSearch } from "./AppBarPrimary";
 import { useContext } from "../Context/ContextProvider";
-import { DisplayContent } from "../utils/utils2";
+import { DisplayContent } from "./Elements/Content";
 
 export function Knoweldge() {
   const {
@@ -20,7 +20,7 @@ export function Knoweldge() {
   });
   const refWidth = React.useRef(null);
   const { setDataContext, setOption } = useContext();
-  console.log(DataCultural);
+  //console.log(DataCultural);
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );

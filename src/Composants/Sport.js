@@ -6,7 +6,7 @@ import { GetCategorySport } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { BarSearch } from "./AppBarPrimary";
 import { useContext } from "../Context/ContextProvider";
-import { DisplayContent } from "../utils/utils2";
+import { DisplayContent } from "./Elements/Content";
 
 export function Sport() {
   const {
@@ -23,7 +23,7 @@ export function Sport() {
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
-  console.log(DataSport);
+  //console.log(DataSport);
   if (isLoading) {
     return (
       <div

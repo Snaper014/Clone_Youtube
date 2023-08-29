@@ -5,7 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { GetActus } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { BarSearch } from "./AppBarPrimary";
-import { DisplayContent } from "../utils/utils2";
+import { DisplayContent } from "./Elements/Content";
 import { useContext } from "../Context/ContextProvider";
 
 export function Actualites() {
@@ -20,7 +20,7 @@ export function Actualites() {
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
-  console.log(DataActus);
+  //console.log(DataActus);
 
   if (isLoading) {
     return (

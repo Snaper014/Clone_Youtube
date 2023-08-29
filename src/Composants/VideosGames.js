@@ -2,7 +2,7 @@ import * as React from "react";
 import "../App.css";
 import { AppBarSecondary } from "./AppBarSecondary";
 import { BarSearch } from "./AppBarPrimary";
-import { ContentTrend } from "../utils/utils";
+import { ContentTrend } from "./Elements/TrendContent";
 
 export function Games() {
   return (

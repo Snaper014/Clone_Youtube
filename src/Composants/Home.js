@@ -1,13 +1,13 @@
 import * as React from "react";
 import { AppBarSecondary } from "./AppBarSecondary";
 import "../App.css";
-import { FetchHomeFeed } from "../utils/Appel";
 import { BarSearch, MobileBarSearch } from "./AppBarPrimary";
 import { CircularProgress } from "@mui/material";
-import { DisplayContent } from "../utils/utils2";
-import { useQuery } from "@tanstack/react-query";
+import { DisplayContent } from "./Elements/Content";
 import { MobileSecondaryBar } from "./AppBarSecondary";
 import { useContext } from "../Context/ContextProvider";
+import { useQuery } from "@tanstack/react-query";
+import { FetchHomeFeed } from "../utils/Appel";
 
 function Home() {
   const {
@@ -18,8 +18,7 @@ function Home() {
   } = useQuery({
     queryKey: [`Fetch Home Page`],
     queryFn: () => FetchHomeFeed(),
-    cacheTime: 60000,
-    staleTime: 30000,
+    staleTime: 1000,
   });
 
   //Enlever l'authentifciation
@@ -40,6 +39,7 @@ function Home() {
   if (isLoading) {
     return (
       <div
+        data-testid="users-loading"
         style={{
           display: "flex",
           alignItems: "center",
@@ -54,7 +54,7 @@ function Home() {
   }
   if (isError) {
     return (
-      <div style={{ margin: "0 auto", width: "15%" }}>
+      <div data-testid="users-error" style={{ margin: "0 auto", width: "15%" }}>
         <p>Une Erreur est survenu {error.message}</p>
       </div>
     );

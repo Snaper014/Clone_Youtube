@@ -7,7 +7,7 @@ import { BiUserCircle, BiArrowBack } from "react-icons/bi";
 import { GoHome } from "react-icons/go";
 import { MdOutlineVideoLibrary } from "react-icons/md";
 import { GoHistory } from "react-icons/go";
-import { ButtonNavPrimaryOne } from "../utils/utils";
+import { ButtonNavPrimaryOne } from "./Elements/Buttons";
 import { AiFillFire } from "react-icons/ai";
 import { PiMusicNoteBold } from "react-icons/pi";
 import { LuGamepad2 } from "react-icons/lu";
@@ -53,6 +53,8 @@ export function BarSearch() {
   return (
     <>
       <AppBar
+        role="menubar"
+        data-testid="MenuDesktop"
         sx={{
           width: "100%",
           height: "9vh",
@@ -68,7 +70,7 @@ export function BarSearch() {
         }}
       >
         <div className="DivLogoYoutube">
-          <div className="mouseOver" onClick={() => IsTranslate()}>
+          <div className="mouseOver" role="menu" onClick={() => IsTranslate()}>
             <AiOutlineMenu fontSize={24} />
           </div>
           <div onClick={Retour} className="mouseOver">
@@ -123,6 +125,7 @@ export function BarSearch() {
             }}
           >
             <input
+              data-testid="Recherche"
               onKeyDown={handleKeyPress}
               type="text"
               className="Recherche"
@@ -208,6 +211,7 @@ export function BarSearch() {
       </AppBar>
 
       <div
+        data-testid="LateralMenu"
         className="Naviguer"
         style={{
           transform: valeur ? "translateX(0%)" : "translateX(-100%)",
@@ -234,7 +238,10 @@ export function BarSearch() {
               border: "1px solid transparent",
             }}
           >
-            <div onClick={() => IsTranslate()}>
+            <div
+              data-testid="imgForTranslateMenu"
+              onClick={() => IsTranslate()}
+            >
               <AiOutlineMenu fontSize={24} />
             </div>
             <div
@@ -276,7 +283,7 @@ export function BarSearch() {
         <ButtonNavPrimaryOne
           route="/"
           logo={<GoHome fontSize={28} />}
-          texte="Accueil"
+          texte="Acceuil"
           width={"100%"}
           height="6vh"
         />
@@ -290,7 +297,7 @@ export function BarSearch() {
         <ButtonNavPrimaryOne
           route="/Bibliothéque"
           logo={<MdOutlineVideoLibrary fontSize={28} />}
-          texte="Bibliothéque"
+          texte="Bibliothèque"
           height="6vh"
           width={"100%"}
         />
@@ -392,7 +399,11 @@ export function BarSearch() {
         />
       </div>
       {valeur ? (
-        <div className="OmberDiv" onClick={() => IsTranslate()}></div>
+        <div
+          className="OmberDiv"
+          data-testid="Shadow"
+          onClick={() => IsTranslate()}
+        ></div>
       ) : null}
     </>
   );
@@ -427,6 +438,8 @@ export const MobileBarSearch = ({ name = "" }) => {
   return (
     <>
       <AppBar
+        role="menubar"
+        data-testid="MenuMobile"
         sx={{
           width: "100%",
           height: "7vh",
@@ -540,6 +553,7 @@ export const MobileBarSearch = ({ name = "" }) => {
                   borderRadius: "40px 0 0 40px",
                   outline: "none",
                 }}
+                data-testid="Recherche"
                 onKeyDown={handleKeyPress}
                 type="text"
                 className="Recherche"

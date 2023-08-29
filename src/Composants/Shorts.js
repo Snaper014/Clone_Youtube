@@ -157,7 +157,7 @@ function ShorterCAC40() {
               justifyContent: "space-between",
               flexDirection: "row",
               flexWrap: "wrap",
-              border: "2px solid rgb(0, 255, 149)",
+              border: "2px solid transparent",
               color: "black",
               width: `${responsive ? "100%" : "90%"}`,
             }}
@@ -304,7 +304,7 @@ function ShorterSBF30() {
               justifyContent: "space-between",
               flexDirection: "row",
               flexWrap: "wrap",
-              border: "2px solid rgb(0, 255, 149)",
+              border: "2px solid transparent",
               color: "black",
               width: `${responsive ? "100%" : "90%"}`,
             }}

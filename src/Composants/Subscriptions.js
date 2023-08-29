@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ContentSectionMenu } from "../utils/utils";
+import { ContentSectionMenu } from "./Elements/MenuContent";
 import { BsCollectionPlay } from "react-icons/bs";
 
 function Abonner() {

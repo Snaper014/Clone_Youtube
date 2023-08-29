@@ -1,6 +1,7 @@
 import * as React from "react";
 import "../App.css";
-import { ContentTrend } from "../utils/utils";
+import { ContentTrend } from "./Elements/TrendContent";
+
 
 const TabTrend = [
   { button: "nouveautés", container: <ContentTrend choix="now" /> },
@@ -9,7 +10,7 @@ const TabTrend = [
 ];
 
 function DisplayContentTrend() {
-  const [select, setSelect] = React.useState("NOUVEAUTÉS");
+  const [select, setSelect] = React.useState("nouveautés");
   return (
     <>
       <div className="SelecBTN">

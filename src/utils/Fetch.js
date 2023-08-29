@@ -24,7 +24,7 @@ function useFetchData() {
   const execute = React.useCallback((promise) => {
     dispatch({ type: "fetching" });
     promise
-      .then((marvel) => dispatch({ type: "done", payload: marvel }))
+      .then((response) => dispatch({ type: "done", payload: response }))
       .catch((error) => dispatch({ type: "fail", error }));
   }, []);
 

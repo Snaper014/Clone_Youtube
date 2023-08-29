@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext } from "../../Context/ContextProvider";
-import { DisplayContent } from "../../utils/utils2";
+import { DisplayContent } from "../Elements/Content";
 import { GetChannelHomeUser } from "../../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ export function ChannelHome() {
     enabled: !!chaId,
     staleTime: 1000,
   });
-  console.log("dataVideos", data);
+  //console.log("dataVideos", data);
   const refWidth = React.useRef(null);
   const { setDataContext, setOption } = useContext();
   const [responsive, setResponsive] = React.useState(

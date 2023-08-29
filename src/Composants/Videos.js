@@ -55,7 +55,7 @@ function Videos() {
     };
   }, []);
 
-  console.log("Data", dataYTB);
+  //console.log("Data", dataYTB);
   if (isLoading) {
     return (
       <div
@@ -128,6 +128,7 @@ function Videos() {
                 height={`60vh`}
                 className="react-player"
                 controls
+                data-testid="videoPlayer"
               />
               <h1
                 style={{

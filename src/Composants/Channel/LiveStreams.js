@@ -84,6 +84,7 @@ export function StreamLive() {
           ) : (
             DataLive?.data?.data.map((items, i) => (
               <Link
+                key={i}
                 to={`/watch/${items?.videoId}`}
                 style={{
                   textDecoration: "none",
@@ -92,7 +93,6 @@ export function StreamLive() {
                 }}
               >
                 <div
-                  key={i}
                   style={{
                     height: "100%",
                     display: "flex",

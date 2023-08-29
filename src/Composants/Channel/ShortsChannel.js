@@ -10,7 +10,7 @@ import { useContext } from "../../Context/ContextProvider";
 export function AllShortsChannel() {
   let { chaId } = useParams();
   const navigate = useNavigate();
-  const { setDataContext } = useContext();
+  const { setDataContext, setOption } = useContext();
   const {
     data: DataShorts,
     isLoading,
@@ -24,14 +24,19 @@ export function AllShortsChannel() {
   const [WidthVideos, setWidthVideos] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
-  console.log(DataShorts);
+  //console.log(DataShorts);
   React.useLayoutEffect(() => {
-    let chargement = setTimeout(() => {
+    if (process.env.NODE_ENV === "test") {
       SizeVideos(setWidthVideos);
       setLoading(false);
-    }, 1200);
-
-    return () => clearTimeout(chargement);
+    }else{
+      let chargement = setTimeout(() => {
+        SizeVideos(setWidthVideos);
+        setLoading(false);
+      }, 1200);
+  
+      return () => clearTimeout(chargement);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -65,11 +70,6 @@ export function AllShortsChannel() {
     );
   }
 
-  const HandleShorts = (index, data) => {
-    setDataContext(data);
-    navigate(`/List/Shorts/${index}`);
-  };
-
   return (
     <div
       style={{
@@ -101,6 +101,7 @@ export function AllShortsChannel() {
         DataShorts?.data?.data.map((items, i) => (
           <div
             key={i}
+            data-testid={`Div-Shorts-${i}`}
             style={{
               height: "70vh",
               display: "flex",
@@ -111,7 +112,11 @@ export function AllShortsChannel() {
               cursor: "pointer",
               marginBottom: "0.5%",
             }}
-            onClick={() => HandleShorts(i, DataShorts)}
+            onClick={() => {
+              setOption(false);
+              setDataContext(DataShorts);
+              navigate(`/List/Shorts/${i}`);
+            }}
           >
             <div
               style={{

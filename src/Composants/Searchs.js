@@ -5,13 +5,13 @@ import { useParams } from "react-router-dom";
 import { Recherche } from "../utils/Appel";
 import { CircularProgress } from "@mui/material";
 import { BarSearch } from "./AppBarPrimary";
-import { NewSearchs } from "../utils/utils";
 import { useContext } from "../Context/ContextProvider";
 import { CheckWidth } from "../utils/utils";
 import { useQuery } from "@tanstack/react-query";
 import { MobileBarSearch } from "./AppBarPrimary";
 import { MobileSecondaryBar } from "./AppBarSecondary";
 import { MobileResponsive } from "../utils/utils";
+import { NewSearchs } from "./Elements/SearchsContent";
 
 function Search() {
   let { search } = useParams();
@@ -48,11 +48,11 @@ function Search() {
   const refWidth = React.useRef(null);
 
   //console.log("marge", MarginRight);
-  console.log(dataYTB);
-  //console.log("FirstValidateToken", FirstValidateToken);
-  console.log("token", token);
-  console.log(ValueDefault);
-  console.log("LoadNextContent", LoadNextContentSearch);
+  // console.log(dataYTB);
+  // //console.log("FirstValidateToken", FirstValidateToken);
+  // console.log("token", token);
+   console.log(ValueDefault);
+  // console.log("LoadNextContent", LoadNextContentSearch);
   const continuation = dataYTB?.data?.continuation;
 
   React.useLayoutEffect(() => {
@@ -229,7 +229,6 @@ function Search() {
         {LoadNextContentSearch.map((element, index) => (
           <div style={{ width: "100%" }} key={index}>
             {React.cloneElement(element, {
-              // Surcharger ou ajouter des props ici
               value: value,
               WidthShorts: WidthShorts,
               marginLeft: marginLeft,

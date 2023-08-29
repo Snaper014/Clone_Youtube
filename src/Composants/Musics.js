@@ -5,7 +5,7 @@ import { CircularProgress } from "@mui/material";
 import { BarSearch } from "./AppBarPrimary";
 import { FetchMusique } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
-import { DisplayContent } from "../utils/utils2";
+import { DisplayContent } from "./Elements/Content";
 import { useContext } from "../Context/ContextProvider";
 
 function Music() {

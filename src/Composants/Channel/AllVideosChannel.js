@@ -20,7 +20,7 @@ export function AllVideos() {
 
   const [WidthVideos, setWidthVideos] = React.useState();
   const [loading, setLoading] = React.useState(true);
-  console.log("dataVideos", DataVideos);
+  //console.log("dataVideos", DataVideos);
 
   React.useLayoutEffect(() => {
     let chargement = setTimeout(() => {

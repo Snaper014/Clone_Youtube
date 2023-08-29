@@ -4,7 +4,7 @@ import { AppBarSecondary } from "./AppBarSecondary";
 import CircularProgress from "@mui/material/CircularProgress";
 import { GetCategoryMode } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
-import { DisplayContent } from "../utils/utils2";
+import { DisplayContent } from "./Elements/Content";
 import { BarSearch } from "./AppBarPrimary";
 import { useContext } from "../Context/ContextProvider";
 
@@ -17,7 +17,7 @@ export function Mode() {
   } = useQuery({ queryKey: [`Fetch Mode`], queryFn: () => GetCategoryMode() });
   const refWidth = React.useRef(null);
   const { setDataContext, setOption } = useContext();
-  console.log(DataMode);
+  //console.log(DataMode);
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );

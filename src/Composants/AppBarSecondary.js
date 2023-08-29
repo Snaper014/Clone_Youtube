@@ -4,11 +4,15 @@ import { GoHome } from "react-icons/go";
 import { BsCollectionPlay, BsFileEarmarkPlay } from "react-icons/bs";
 import { MdOutlineVideoLibrary } from "react-icons/md";
 import { GoHistory } from "react-icons/go";
-import { ButtonNaviguation } from "../utils/utils";
+import { ButtonNaviguation } from "./Elements/Buttons";
 
 function AppBarSecondary() {
   return (
-    <div className="NaviguationGauche">
+    <div
+      role="menubar"
+      data-testid="MenuSecondaireDesktop"
+      className="NaviguationGauche"
+    >
       <ButtonNaviguation
         route="/"
         logo={<GoHome fontSize={28} />}
@@ -41,6 +45,8 @@ function AppBarSecondary() {
 function MobileSecondaryBar() {
   return (
     <div
+      role="menubar"
+      data-testid="MenuSecondaireMobile"
       style={{
         width: "100%",
         height: "7vh",

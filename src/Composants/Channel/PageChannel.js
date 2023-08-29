@@ -10,28 +10,32 @@ import { VscVerifiedFilled } from "react-icons/vsc";
 import { ButtonAndContainer, MobileButtonAndContainer } from "./Tabs";
 import { MobileResponsive } from "../../utils/utils";
 import { MobileSecondaryBar } from "../AppBarSecondary";
+import { useQuery } from "@tanstack/react-query";
 import { MobileBarSearch } from "../AppBarPrimary";
 
 export function PageYoutubeur() {
   let { chaId } = useParams();
-  const [dataChannel, setDataChannel] = React.useState(null);
-  const [error, setError] = React.useState(null);
-  console.log("DataChannel", dataChannel);
+  const { data: dataChannel, isLoading, isError, error } = useQuery({
+    queryKey: [`Fetch Channel Home`, chaId],
+    queryFn: () => GetChannelHomeUser(chaId),
+    enabled: !!chaId,
+    staleTime: 1000,
+  });
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
-  );
+    );
+    
+  //console.log("DataChannel", dataChannel);
+
   React.useEffect(() => {
     const CheckVersion = () => {
       MobileResponsive(setResponsive);
     };
-    GetChannelHomeUser(chaId)
-      .then((data) => setDataChannel(data))
-      .catch((error) => setError(error));
     window.addEventListener("resize", CheckVersion);
     return () => window.removeEventListener("resize", CheckVersion);
-  }, [chaId]);
+  }, []);
 
-  if (!dataChannel) {
+  if (isLoading) {
     return (
       <div
         style={{
@@ -46,7 +50,7 @@ export function PageYoutubeur() {
       </div>
     );
   }
-  if (error) {
+  if (isError) {
     return (
       <div style={{ margin: "0 auto", width: "15%" }}>
         <p>Une Erreur est survenu {error.message}</p>

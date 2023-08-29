@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ContentSectionMenu } from "../utils/utils";
+import { ContentSectionMenu } from "./Elements/MenuContent";
 import { MdOutlineVideoLibrary } from "react-icons/md";
 import { BiUserCircle } from "react-icons/bi";
 import { MobileBarSearch } from "./AppBarPrimary";

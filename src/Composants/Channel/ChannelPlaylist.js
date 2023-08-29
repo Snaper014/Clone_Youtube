@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { GetChannelPlaylist } from "../../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
-import { DisplayContent } from "../../utils/utils2";
+import { DisplayContent } from "../Elements/Content";
 
 export function PlaylistChannel() {
   let { chaId } = useParams();
