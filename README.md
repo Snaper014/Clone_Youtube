@@ -45,10 +45,6 @@ Follow these steps to run the application on your local machine:
  - Create React App
  - CSS (for styling)
    
-## Screenshots
-
-Insert some screenshots of your application here if you'd like.
-
 ## Acknowledgments 
 
 This project was inspired by the functionalities and design of YouTube.
