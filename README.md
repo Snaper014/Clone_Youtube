@@ -26,10 +26,10 @@ Follow these steps to run the application on your local machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/your-youtube-clone.git
+   git clone https://github.com/Snaper014/Clone_Youtube.git
 2. **Navigate to the project directory:**
     ```bash
-    cd your-youtube-clone
+    cd Clone_Youtube
 3. **Install dependencies:**
     ```bash
     npm install
