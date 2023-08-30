@@ -40,3 +40,15 @@ Follow these steps to run the application on your local machine:
 
     Visit http://localhost:3000 to see the YouTube clone in action.
 
+Technologies Used:
+ .React
+ .Create React App
+ .CSS (for styling)
+Screenshots : 
+
+Insert some screenshots of your application here if you'd like.
+
+Acknowledgments : 
+
+This project was inspired by the functionalities and design of YouTube.
+Thanks to the creators of Create React App for the development environment.
