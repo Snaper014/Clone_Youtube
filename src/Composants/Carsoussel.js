@@ -23,7 +23,7 @@ const Carsoussel = ({
 
   const handleTouchStart = (e) => {
     startXRef.current = e.touches[0].clientY;
-    console.log("touchStartX.current", startXRef.current);
+    //console.log("touchStartX.current", startXRef.current);
   };
   const handleTouchEnd = (e) => {
     if (startXRef.current === null) {
@@ -31,8 +31,8 @@ const Carsoussel = ({
     }
 
     const deltaY = e.changedTouches[0].clientY - startXRef.current;
-    console.log("touchend", e.changedTouches[0].clientY);
-    console.log("deltaY", deltaY);
+    //console.log("touchend", e.changedTouches[0].clientY);
+    //console.log("deltaY", deltaY);
 
     // Exécutez la translation seulement si deltaX dépasse une certaine valeur (par exemple, 50)
     if (deltaY > 0) {
@@ -41,7 +41,7 @@ const Carsoussel = ({
       next();
     }
   };
-  console.log("VideoPlaying", isVideoPlaying);
+  //console.log("VideoPlaying", isVideoPlaying);
 
   return (
     <div

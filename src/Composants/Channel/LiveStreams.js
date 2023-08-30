@@ -19,7 +19,7 @@ export function StreamLive() {
   });
   const [WidthVideos, setWidthVideos] = React.useState();
   const [loading, setLoading] = React.useState(true);
-  console.log(DataLive);
+  //console.log(DataLive);
 
   React.useLayoutEffect(() => {
     let chargement = setTimeout(() => {

@@ -11,7 +11,7 @@ import { useContext } from "../Context/ContextProvider";
 import { useParams, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 
-function ShorterCAC40() {
+function ShortsHome() {
   /* 
   Problème cross-oirigin avec le composant react-player
   qui n'est pas modifiable
@@ -193,7 +193,7 @@ function ShorterCAC40() {
   );
 }
 
-function ShorterSBF30() {
+function ShortsElements() {
   const { DataContext, option } = useContext();
   let { IndexShorts } = useParams();
   const CheckedData = option ? DataContext?.data : DataContext?.data?.data;
@@ -347,4 +347,4 @@ function ShorterSBF30() {
   );
 }
 
-export { ShorterCAC40, ShorterSBF30 };
+export { ShortsHome, ShortsElements };

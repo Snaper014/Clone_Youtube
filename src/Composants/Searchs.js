@@ -76,7 +76,7 @@ function Search() {
 
   React.useEffect(() => {
     const HandleResize = () => {
-      console.log("refLargeur React.useeffect", refWidth);
+      //console.log("refLargeur React.useeffect", refWidth);
       MobileResponsive(setResponsive);
       CheckWidth(
         refWidth,

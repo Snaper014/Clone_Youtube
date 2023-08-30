@@ -21,7 +21,7 @@ export function Subscriptions() {
     window.innerWidth <= 1024 ? true : false,
   );
   const refWidth = React.useRef(null);
-  console.log("Subscriptions", Subscriptions);
+  //console.log("Subscriptions", Subscriptions);
 
   if (isLoading) {
     return (

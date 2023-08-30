@@ -9,7 +9,7 @@ import { Biblio } from "./Composants/Library";
 import { Trend } from "./Composants/Trends";
 import { Music } from "./Composants/Musics";
 import { Videos } from "./Composants/Videos";
-import { ShorterCAC40, ShorterSBF30 } from "./Composants/Shorts";
+import { ShortsElements, ShortsHome } from "./Composants/Shorts";
 import { History } from "./Composants/Historical";
 import { Games } from "./Composants/VideosGames";
 import { Sport } from "./Composants/Sport";
@@ -34,10 +34,10 @@ function UnAuthApp() {
             <Route path="/Recherche/:search" element={<Search />} />
             <Route path="/watch/:id" element={<Videos />} />
             <Route path="/tendances" element={<Trend />} />
-            <Route path="/Shorts" element={<ShorterCAC40 />} />
+            <Route path="/Shorts" element={<ShortsHome />} />
             <Route
               path="/List/Shorts/:IndexShorts"
-              element={<ShorterSBF30 />}
+              element={<ShortsElements />}
             />
             <Route path="/musique" element={<Music />} />
             <Route path="/Videosgames" element={<Games />} />
