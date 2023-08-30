@@ -21,14 +21,6 @@ function Home() {
     staleTime: 1000,
   });
 
-  //Enlever l'authentifciation
-  //Playlist Recherche
-  // responsive mobile/tablette
-  //trouver une solution pour les shorts
-  // test
-  // mettre sur le portfolio
-  // Faire le back-end bien plus tard dans une autre branche
-
   //console.log("data Home", DataYTB);
   const refWidth = React.useRef(null);
   const { setDataContext, setOption } = useContext();
