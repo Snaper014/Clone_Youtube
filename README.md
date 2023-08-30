@@ -6,7 +6,7 @@ A responsive YouTube clone web application built using Create React App.
 
 ## Live Demo
 
-Check out the live demo of the application hosted on Vercel: [YouTube Clone Demo](https://your-vercel-link.com)
+Check out the live demo of the application hosted on Vercel: [YouTube Clone Demo](https://clone-youtube-gold.vercel.app/)
 
 ## Description
 
