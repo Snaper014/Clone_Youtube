@@ -21,6 +21,7 @@ function Videos() {
   } = useQuery({
     queryKey: [`Fetch Videos`, id],
     queryFn: () => GetVideos(id),
+    staleTime: 1000,
   });
   const [DisplayDescription, setDisplayDescription] = React.useState(false);
   const [WidthVideos, setWidthVideos] = React.useState();
@@ -56,6 +57,7 @@ function Videos() {
   }, []);
 
   //console.log("Data", dataYTB);
+
   if (isLoading) {
     return (
       <div
@@ -164,18 +166,30 @@ function Videos() {
                     alignItems: "flex-start",
                   }}
                 >
-                  <img
-                    alt="ChannelImage"
+                  { dataYTB?.data?.channelThumbnail === null ? 
+                    <div alt="ChannelImage"
                     style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      marginRight: "1%",
-                      marginBottom: "2%",
-                    }}
-                    src={dataYTB?.data?.channelThumbnail[0]?.url}
-                  ></img>
-
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                        marginBottom: "2%",
+                        backgroundColor: "gray"
+                    }}>
+                    </div> 
+                    :
+                      <img
+                        alt="ChannelImage"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          marginRight: "1%",
+                          marginBottom: "2%",
+                        }}
+                        src={dataYTB?.data?.channelThumbnail[0]?.url}
+                      ></img>
+                  }
                   <div style={{ marginLeft: "10%" }}>
                     <h5 style={{ fontSize: "18px" }}>
                       {dataYTB?.data?.channelBadges === null ? (
@@ -234,7 +248,8 @@ function Videos() {
                 {" "}
                 A Suivre
               </h2>
-              {dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
+            {dataYTB?.data?.relatedVideos?.data === null ? <div></div> :
+              dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
                 <div
                   key={index}
                   style={{
@@ -243,6 +258,7 @@ function Videos() {
                     justifyContent: "flex-start",
                     flexDirection: "column",
                     alignItems: "flex-start",
+                    marginBottom: "1%",
                   }}
                 >
                   <div
@@ -260,7 +276,7 @@ function Videos() {
                       style={{
                         height: `${
                           window.innerWidth <= 580
-                            ? HeightVideos * 0.7
+                            ? HeightVideos * 1.1
                             : HeightVideos / 2.2
                         }px`,
                         width: "100%",
@@ -394,7 +410,7 @@ function Videos() {
               <ReactPlayer
                 url={`https://www.youtube.com/watch?v=${id}`}
                 width={"100%"}
-                height={"500px"}
+                height={"450px"}
                 className="react-player"
                 controls
               />
@@ -428,16 +444,28 @@ function Videos() {
                     cursor: "pointer",
                   }}
                 >
-                  <img
-                    alt="ChannelImage"
+                  { dataYTB?.data?.channelThumbnail === null ? 
+                    <div alt="ChannelImage"
                     style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      marginRight: "1%",
-                    }}
-                    src={dataYTB?.data?.channelThumbnail[0]?.url}
-                  ></img>
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                        backgroundColor: "gray"
+                    }}>
+                    </div> 
+                    :
+                      <img
+                        alt="ChannelImage"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          marginRight: "1%",
+                        }}
+                        src={dataYTB?.data?.channelThumbnail[0]?.url}
+                      ></img>
+                  }
 
                   <div style={{ marginLeft: "2%", marginRight: "5%" }}>
                     <h5 style={{ fontSize: "18px" }}>
@@ -543,7 +571,8 @@ function Videos() {
                 flexWrap: "nowrap",
               }}
             >
-              {dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
+              {dataYTB?.data?.relatedVideos?.data === null ? <div></div> :  
+                dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
                 <div
                   style={{
                     width: "100%",
@@ -582,7 +611,7 @@ function Videos() {
                           : "IndicatorView"
                       }`}
                     >
-                      <p style={{ margin: "0.3em", fontWeight: "600" }}>
+                      <p style={{ margin: "0.3em", fontWeight: "600", padding: "2px" }}>
                         {element?.lengthText}
                       </p>
                     </div>
@@ -595,17 +624,16 @@ function Videos() {
                       width: "50%",
                     }}
                   >
-                    <p
+                    <h3
                       style={{
                         width: "100%",
-                        fontWeight: "600",
-                        fontSize: "20px",
+                        fontSize: "1.1em",
                       }}
                     >
-                      {element?.title.length > 60
+                      {element?.title.length > 45
                         ? element?.title.substring(0, 45) + "..."
                         : element?.title}
-                    </p>
+                    </h3>
                     <p
                       style={{
                         width: "100%",

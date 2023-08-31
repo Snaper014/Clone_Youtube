@@ -53,7 +53,7 @@ export const MobileButtonAndContainer = () => {
         })}
         <button
           style={{
-            width: "5%",
+            width: "10%",
             height: "100%",
             backgroundColor: "transparent",
             border: "none",

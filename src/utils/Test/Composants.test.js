@@ -57,10 +57,10 @@ test("Test CheckWidth function Largeur <= 767", () => {
   );
 
   // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-  expect(setWidthVideos).toHaveBeenCalledWith("496.5px");
-  expect(setWidthShorts).toHaveBeenCalledWith('225px');
-  expect(setMarginLeft).toHaveBeenCalledWith('25px');
-  expect(setMarginRight).toHaveBeenCalledWith('7.5px');
+  expect(setWidthVideos).toHaveBeenCalledWith(496.5);
+  expect(setWidthShorts).toHaveBeenCalledWith(225);
+  expect(setMarginLeft).toHaveBeenCalledWith(25);
+  expect(setMarginRight).toHaveBeenCalledWith(7.5);
   expect(setValue).toHaveBeenCalledWith(2);
 });
 
@@ -87,10 +87,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("391px");
-    expect(setWidthShorts).toHaveBeenCalledWith('255px');
-    expect(setMarginLeft).toHaveBeenCalledWith('11.9px');
-    expect(setMarginRight).toHaveBeenCalledWith('19.55px');
+    expect(setWidthVideos).toHaveBeenCalledWith(391);
+    expect(setWidthShorts).toHaveBeenCalledWith(255);
+    expect(setMarginLeft).toHaveBeenCalledWith(11.9);
+    expect(setMarginRight).toHaveBeenCalledWith(19.55);
     expect(setValue).toHaveBeenCalledWith(3);
   });
   test("Test CheckWidth function Largeur >= 1116 && Largeur <= 1603", () => {
@@ -117,10 +117,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("472.5px");
-    expect(setWidthShorts).toHaveBeenCalledWith('274.5px');
-    expect(setMarginLeft).toHaveBeenCalledWith('7.5px');
-    expect(setMarginRight).toHaveBeenCalledWith('18px');
+    expect(setWidthVideos).toHaveBeenCalledWith(472.5);
+    expect(setWidthShorts).toHaveBeenCalledWith(274.5);
+    expect(setMarginLeft).toHaveBeenCalledWith(7.5);
+    expect(setMarginRight).toHaveBeenCalledWith(18);
     expect(setValue).toHaveBeenCalledWith(5);
   });
   test("Test CheckWidth function Largeur >= 1604 && Largeur <= 1945", () => {
@@ -146,10 +146,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("425.5px");
-    expect(setWidthShorts).toHaveBeenCalledWith('273.8px');
-    expect(setMarginLeft).toHaveBeenCalledWith('9.25px');
-    expect(setMarginRight).toHaveBeenCalledWith('25.900000000000002px');
+    expect(setWidthVideos).toHaveBeenCalledWith(425.5);
+    expect(setWidthShorts).toHaveBeenCalledWith(273.8);
+    expect(setMarginLeft).toHaveBeenCalledWith(9.25);
+    expect(setMarginRight).toHaveBeenCalledWith(25.900000000000002);
     expect(setValue).toHaveBeenCalledWith(6);
   });
   test("Test CheckWidth function Largeur >= 1946 && Largeur <= 2295", () => {
@@ -175,10 +175,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("366.366px");
-    expect(setWidthShorts).toHaveBeenCalledWith('216.216px');
-    expect(setMarginLeft).toHaveBeenCalledWith('20.02px');
-    expect(setMarginRight).toHaveBeenCalledWith('12.012px');
+    expect(setWidthVideos).toHaveBeenCalledWith(366.366);
+    expect(setWidthShorts).toHaveBeenCalledWith(216.216);
+    expect(setMarginLeft).toHaveBeenCalledWith(20.02);
+    expect(setMarginRight).toHaveBeenCalledWith(12.012);
     expect(setValue).toHaveBeenCalledWith(8);
   });
 
@@ -205,10 +205,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("347px");
-    expect(setWidthShorts).toHaveBeenCalledWith('219.45px');
-    expect(setMarginLeft).toHaveBeenCalledWith('23.1px');
-    expect(setMarginRight).toHaveBeenCalledWith('13.86px');
+    expect(setWidthVideos).toHaveBeenCalledWith(347);
+    expect(setWidthShorts).toHaveBeenCalledWith(219.45);
+    expect(setMarginLeft).toHaveBeenCalledWith(23.1);
+    expect(setMarginRight).toHaveBeenCalledWith(13.86);
     expect(setValue).toHaveBeenCalledWith(9);
   });
   
@@ -235,10 +235,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("211.96800000000002px");
-    expect(setWidthShorts).toHaveBeenCalledWith('211.96800000000002px');
-    expect(setMarginLeft).toHaveBeenCalledWith('4.61px');
-    expect(setMarginRight).toHaveBeenCalledWith('12.908px');
+    expect(setWidthVideos).toHaveBeenCalledWith(211.96800000000002);
+    expect(setWidthShorts).toHaveBeenCalledWith(211.96800000000002);
+    expect(setMarginLeft).toHaveBeenCalledWith(4.61);
+    expect(setMarginRight).toHaveBeenCalledWith(12.908);
     expect(setValue).toHaveBeenCalledWith(4);
   });
  
@@ -266,10 +266,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("233.1px");
-    expect(setWidthShorts).toHaveBeenCalledWith('233.1px');
-    expect(setMarginLeft).toHaveBeenCalledWith('11.34px');
-    expect(setMarginRight).toHaveBeenCalledWith('7.5600000000000005px');
+    expect(setWidthVideos).toHaveBeenCalledWith(233.1);
+    expect(setWidthShorts).toHaveBeenCalledWith(233.1);
+    expect(setMarginLeft).toHaveBeenCalledWith(11.34);
+    expect(setMarginRight).toHaveBeenCalledWith(7.5600000000000005);
     expect(setValue).toHaveBeenCalledWith(5);
   });
 
@@ -296,10 +296,10 @@ test("Test CheckWidth function Largeur >= 768 && Largeur <= 1115", () => {
     );
   
     // Vérifiez que les fonctions de réglage ont été appelées avec les valeurs attendues
-    expect(setWidthVideos).toHaveBeenCalledWith("250px");
-    expect(setWidthShorts).toHaveBeenCalledWith('250px');
-    expect(setMarginLeft).toHaveBeenCalledWith('16.65px');
-    expect(setMarginRight).toHaveBeenCalledWith('9.99px');
+    expect(setWidthVideos).toHaveBeenCalledWith(250);
+    expect(setWidthShorts).toHaveBeenCalledWith(250);
+    expect(setMarginLeft).toHaveBeenCalledWith(16.65);
+    expect(setMarginRight).toHaveBeenCalledWith(9.99);
     expect(setValue).toHaveBeenCalledWith(6);
   });
 

@@ -431,7 +431,7 @@ export const MobileBarSearch = ({ name = "" }) => {
     navigate("/");
   };
   const handleKeyPress = (e) => {
-    if (e.code === "Enter") {
+    if (e.key === "Enter") {
       Envoyer();
     }
   };
@@ -460,8 +460,11 @@ export const MobileBarSearch = ({ name = "" }) => {
             display: "flex",
             alignItems: "center",
             marginLeft: "1%",
-            justifyContent: "center",
+            justifyContent: "flex-start",
+            flexWrap: "nowrap",
+            overflow: "hidden",
             height: "100%",
+            width: `${name === "" ? "auto" : "80%"}`
           }}
         >
           <BsYoutube
@@ -485,26 +488,25 @@ export const MobileBarSearch = ({ name = "" }) => {
               fontFamily: `${name === "" ? "Kenya" : "Arial, sans-serif"}`,
             }}
           >
-            {name === "" ? "YouTube" : `${name}`}
+            {name === "" ? "YouTube" : `${name.length > 30 ? name.substring(0, 30) + "..." : name}`}
           </span>
         </div>
 
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
-            width: "13%",
-            height: "80%",
+            height: "100%",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            width: `${name === "" ? "auto" : "20%"}`
           }}
         >
           <AiOutlineSearch
             onClick={() => setDisplaySearch(!DisplaySearch)}
-            fontSize={50}
-            style={{ marginLeft: "3%", cursor: "pointer" }}
+            fontSize={48}
+            style={{ marginLeft: "3%", cursor: "pointer"}}
           />
-          {name !== "" ? null : <BiUserCircle fontSize={50} />}
+          {name !== "" ? null : <BiUserCircle fontSize={48} />}
         </div>
       </AppBar>
       {DisplaySearch ? (

@@ -37,6 +37,7 @@ function ErrorFallback({ error, resetErrorBoundary }) {
         <p>{error.message}</p>
         <div>
           <div
+            onClick={handleClick}
             style={{
               display: "flex",
               alignItems: "center",
@@ -47,7 +48,6 @@ function ErrorFallback({ error, resetErrorBoundary }) {
             <i
               className="fa-brands fa-youtube"
               style={{ color: "red", marginRight: "2px", fontSize: "26px" }}
-              onClick={handleClick}
             ></i>
             <span
               style={{

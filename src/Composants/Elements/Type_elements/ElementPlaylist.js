@@ -148,9 +148,9 @@ export const ElementPlaylist = ({
       style={{
         textDecoration: "none",
         color: "black",
-        width: `${WidthVideos}`,
-        marginRight: `${MarginRight}`,
-        marginLeft: `${marginLeft}`,
+        width: `${WidthVideos}px`,
+        marginRight: `${MarginRight}px`,
+        marginLeft: `${marginLeft}px`,
         marginBottom: "3%",
       }}
     >

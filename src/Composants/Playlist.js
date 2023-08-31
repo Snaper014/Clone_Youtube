@@ -77,8 +77,8 @@ export function Playlist() {
     element.style.backgroundColor = "#efeff1";
   };
 
-  console.log("playlist", Playlist);
-  console.log("data detail video", DetailVideo);
+  // console.log("playlist", Playlist);
+  // console.log("data detail video", DetailVideo);
   //console.log("index" , index)
   //console.log("idPl", IDPlaylist)
   //console.log("videoPl", ViedosPlaylist)
@@ -152,7 +152,7 @@ export function Playlist() {
                 style={{
                   width: "100%",
                   backgroundColor: "black",
-                  height: `${DisplayPlaylist ? "auto" : "50px"}`,
+                  height: `${DisplayPlaylist ? "auto" : "70px"}`,
                   color: "white",
                   display: "flex",
                   flexDirection: "column",
@@ -177,7 +177,7 @@ export function Playlist() {
                       alignItems: "flex-start",
                     }}
                   >
-                    <h3>
+                    <h3 style={{marginBottom: "2%"}}>
                       {Playlist?.data?.meta?.title?.length >= 45
                         ? Playlist?.data?.meta?.title.substring(0, 45) + "..."
                         : Playlist?.data?.meta?.title}
@@ -552,7 +552,7 @@ export function Playlist() {
                               borderRadius: "10px",
                               height: `${
                                 window.innerWidth <= 580
-                                  ? HeightVideos * 0.7
+                                  ? HeightVideos * 1.1
                                   : HeightVideos / 2.2
                               }px`,
                             }}
@@ -655,7 +655,7 @@ export function Playlist() {
                           style={{
                             height: `${
                               window.innerWidth <= 580
-                                ? HeightVideos * 0.7
+                                ? HeightVideos * 1.1
                                 : HeightVideos / 2.2
                             }px`,
                             width: "100%",
@@ -799,21 +799,21 @@ export function Playlist() {
               <ReactPlayer
                 url={`https://www.youtube.com/watch?v=${ViedosPlaylist}`}
                 width={"100%"}
-                height={"500px"}
+                height={"450px"}
                 className="react-player"
                 controls
               />
-              <h1
+              <h2
                 style={{
                   fontWeight: "bolder",
                   marginTop: "1%",
-                  fontSize: "20px",
+                  fontSize: "1.1em",
                   width: "100%",
                   marginBottom: "2%",
                 }}
               >
                 {DetailVideo?.data?.title}
-              </h1>
+              </h2>
               <div
                 style={{
                   width: "100%",
@@ -1078,10 +1078,10 @@ export function Playlist() {
                         style={{
                           width: "100%",
                           fontWeight: "600",
-                          fontSize: "20px",
+                          fontSize: "1.1em",
                         }}
                       >
-                        {element?.title.length > 60
+                        {element?.title.length > 45
                           ? element?.title.substring(0, 45) + "..."
                           : element?.title}
                       </p>
@@ -1098,7 +1098,8 @@ export function Playlist() {
                   </div>
                 ))}
               </div>
-              {DetailVideo?.data?.relatedVideos?.data?.map((element, index) => (
+            {DetailVideo?.data?.relatedVideos?.data === null ? <div></div> : 
+              DetailVideo?.data?.relatedVideos?.data?.map((element, index) => (
                 <div
                   style={{
                     width: "100%",
@@ -1137,17 +1138,16 @@ export function Playlist() {
                       width: "50%",
                     }}
                   >
-                    <p
+                    <h3
                       style={{
                         width: "100%",
-                        fontWeight: "600",
-                        fontSize: "20px",
+                        fontSize: "1.1em",
                       }}
                     >
-                      {element?.title.length > 60
+                      {element?.title.length > 45
                         ? element?.title.substring(0, 45) + "..."
                         : element?.title}
-                    </p>
+                    </h3>
                     <p
                       style={{
                         width: "100%",

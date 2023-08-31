@@ -669,9 +669,9 @@ export const NewSearchs = ({
                               justifyContent: "flex-start",
                               flexDirection: "column",
                               flexWrap: "nowrap",
-                              width: `${WidthShorts}`,
-                              marginLeft: `${marginLeft}`,
-                              marginRight: `${MarginRight}`,
+                              width: `${WidthShorts}px`,
+                              marginLeft: `${marginLeft}px`,
+                              marginRight: `${MarginRight}px`,
                               cursor: "pointer",
                             }}
                           >
@@ -679,7 +679,7 @@ export const NewSearchs = ({
                               style={{ borderRadius: "10px" }}
                               alt={items?.title}
                               src={items?.thumbnail[0]?.url}
-                              width={WidthShorts}
+                              width={`${WidthShorts}px`}
                               height="465px"
                             ></img>
                             <h4

@@ -10,13 +10,6 @@ import { server } from "./server";
 import userEvent from "@testing-library/user-event";
 
 
-//Tests des fonctions utiles
-//Tests des TypeElements
-//test fonction Recherche
-//test hook usecontexte
-// Test page channel
-
-
 beforeAll(() => server.listen());
 // Reset handlers so that each test could alter them
 // without affecting other, unrelated tests.

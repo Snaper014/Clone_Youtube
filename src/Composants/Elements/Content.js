@@ -28,8 +28,6 @@ export const DisplayContent = ({
   const [loading, setLoading] = React.useState(true);
   const [select, setSelect] = React.useState(-1);
   const [expandedItems, setExpandedItems] = React.useState([]);
-
-  //Caroussel
   const [value, setValue] = React.useState(0);
   //console.log("data DisplayContent", Data?.data?.data);
   
