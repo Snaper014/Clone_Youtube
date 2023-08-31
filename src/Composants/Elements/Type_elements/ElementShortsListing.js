@@ -61,9 +61,9 @@ export const ListingShorts = ({
                 style={{
                   textDecoration: "none",
                   color: "black",
-                  width: `${WidthShorts}`,
-                  marginRight: `${MarginRight}`,
-                  marginLeft: `${marginLeft}`,
+                  width: `${WidthShorts}px`,
+                  marginRight: `${MarginRight}px`,
+                  marginLeft: `${marginLeft}px`,
                 }}
                 key={i}
                 onClick={() => {
@@ -85,7 +85,7 @@ export const ListingShorts = ({
                     style={{ borderRadius: "10px" }}
                     alt={items?.title}
                     src={items?.thumbnail[0]?.url}
-                    width={WidthShorts}
+                    width={`${WidthShorts}px`}
                     height="400px"
                   ></img>
                   <h4
@@ -164,9 +164,9 @@ export const ListingShorts = ({
                     justifyContent: "flex-start",
                     flexDirection: "column",
                     flexWrap: "nowrap",
-                    width: `${WidthShorts}`,
-                    marginLeft: `${marginLeft}`,
-                    marginRight: `${MarginRight}`,
+                    width: `${WidthShorts}px`,
+                    marginLeft: `${marginLeft}px`,
+                    marginRight: `${MarginRight}px`,
                     cursor: "pointer",
                   }}
                 >
@@ -174,7 +174,7 @@ export const ListingShorts = ({
                     style={{ borderRadius: "10px" }}
                     alt={items?.title}
                     src={items?.thumbnail[0]?.url}
-                    width={WidthShorts}
+                    width={`${WidthShorts}px`}
                     height="465px"
                   ></img>
                   <h4
@@ -241,16 +241,16 @@ export const ListingShorts = ({
             style={{
               textDecoration: "none",
               color: "black",
-              width: `${WidthShorts}`,
+              width: `${WidthShorts}px`,
               marginRight: `${
                 window.innerWidth <= 767
                   ? `${window.innerWidth * 0.05}px`
-                  : MarginRight
+                  : `${MarginRight}px`
               }`,
               marginLeft: `${
                 window.innerWidth <= 767
                   ? `${window.innerWidth * 0.015}px`
-                  : marginLeft
+                  : `${marginLeft}px`
               }`,
             }}
             key={i}
@@ -273,7 +273,7 @@ export const ListingShorts = ({
                 style={{ borderRadius: "10px" }}
                 alt={items?.title}
                 src={items?.thumbnail[0]?.url}
-                width={WidthShorts}
+                width={`${WidthShorts}px`}
                 height={`${window.innerWidth <= 550 ? "250px" : "465px"}`}
               ></img>
               <h4

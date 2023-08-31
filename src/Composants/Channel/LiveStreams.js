@@ -17,7 +17,7 @@ export function StreamLive() {
     queryKey: [`Fetch Channel Live Streams`],
     queryFn: () => GetChannelLives(chaId),
   });
-  const [WidthVideos, setWidthVideos] = React.useState();
+  const [WidthVideos, setWidthVideos] = React.useState("20%");
   const [loading, setLoading] = React.useState(true);
   //console.log(DataLive);
 

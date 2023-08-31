@@ -21,6 +21,7 @@ function Videos() {
   } = useQuery({
     queryKey: [`Fetch Videos`, id],
     queryFn: () => GetVideos(id),
+    staleTime: 1000,
   });
   const [DisplayDescription, setDisplayDescription] = React.useState(false);
   const [WidthVideos, setWidthVideos] = React.useState();
@@ -56,6 +57,7 @@ function Videos() {
   }, []);
 
   //console.log("Data", dataYTB);
+
   if (isLoading) {
     return (
       <div
@@ -164,18 +166,31 @@ function Videos() {
                     alignItems: "flex-start",
                   }}
                 >
-                  <img
-                    alt="ChannelImage"
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      marginRight: "1%",
-                      marginBottom: "2%",
-                    }}
-                    src={dataYTB?.data?.channelThumbnail[0]?.url}
-                  ></img>
-
+                  {dataYTB?.data?.channelThumbnail === null ? (
+                    <div
+                      alt="ChannelImage"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                        marginBottom: "2%",
+                        backgroundColor: "gray",
+                      }}
+                    ></div>
+                  ) : (
+                    <img
+                      alt="ChannelImage"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                        marginBottom: "2%",
+                      }}
+                      src={dataYTB?.data?.channelThumbnail[0]?.url}
+                    ></img>
+                  )}
                   <div style={{ marginLeft: "10%" }}>
                     <h5 style={{ fontSize: "18px" }}>
                       {dataYTB?.data?.channelBadges === null ? (
@@ -234,136 +249,143 @@ function Videos() {
                 {" "}
                 A Suivre
               </h2>
-              {dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
-                <div
-                  key={index}
-                  style={{
-                    width: `${WidthVideos}px`,
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                  }}
-                >
+              {dataYTB?.data?.relatedVideos?.data === null ? (
+                <div></div>
+              ) : (
+                dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
                   <div
+                    key={index}
                     style={{
-                      position: "relative",
-                      width: "100%",
+                      width: `${WidthVideos}px`,
                       display: "flex",
-                      justifyContent: "center",
-                      alignItems: "flex-end",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => HandleVideos(element?.videoId)}
-                  >
-                    <img
-                      style={{
-                        height: `${
-                          window.innerWidth <= 580
-                            ? HeightVideos * 0.7
-                            : HeightVideos / 2.2
-                        }px`,
-                        width: "100%",
-                      }}
-                      src={element?.thumbnail[0]?.url}
-                      alt={index}
-                    ></img>
-                    <div
-                      className={`${
-                        element?.lengthText === "EN DIRECT"
-                          ? "IndicatorLive"
-                          : "IndicatorView"
-                      }`}
-                    >
-                      <p style={{ margin: "0.3em", fontWeight: "600" }}>
-                        {element?.lengthText}
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "flex-start",
                       justifyContent: "flex-start",
-                      flexDirection: "row",
-                      margin: "2% 0px 2% 0px",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      marginBottom: "1%",
                     }}
                   >
                     <div
                       style={{
-                        width: "20%",
+                        position: "relative",
+                        width: "100%",
                         display: "flex",
-                        alignItems: "center",
                         justifyContent: "center",
+                        alignItems: "flex-end",
+                        cursor: "pointer",
                       }}
+                      onClick={() => HandleVideos(element?.videoId)}
                     >
                       <img
-                        alt="ChannelImage"
                         style={{
-                          width: `${window.innerWidth > 580 ? "35px" : "50px"}`,
                           height: `${
-                            window.innerWidth > 580 ? "35px" : "50px"
-                          }`,
-                          borderRadius: "50%",
-                          marginRight: "1%",
+                            window.innerWidth <= 580
+                              ? HeightVideos * 1.1
+                              : HeightVideos / 2.2
+                          }px`,
+                          width: "100%",
                         }}
-                        src={element.channelThumbnail[0]?.url}
+                        src={element?.thumbnail[0]?.url}
+                        alt={index}
                       ></img>
+                      <div
+                        className={`${
+                          element?.lengthText === "EN DIRECT"
+                            ? "IndicatorLive"
+                            : "IndicatorView"
+                        }`}
+                      >
+                        <p style={{ margin: "0.3em", fontWeight: "600" }}>
+                          {element?.lengthText}
+                        </p>
+                      </div>
                     </div>
                     <div
                       style={{
-                        width: "80%",
+                        width: "100%",
                         display: "flex",
                         alignItems: "flex-start",
                         justifyContent: "flex-start",
-                        flexDirection: "column",
+                        flexDirection: "row",
+                        margin: "2% 0px 2% 0px",
                       }}
                     >
-                      <h3
-                        style={{
-                          width: "100%",
-                          marginBottom: "3%",
-                          fontWeight: "400",
-                          fontSize: `${
-                            window.innerWidth > 580 ? "0.8em" : "1em"
-                          }`,
-                        }}
-                      >
-                        {element?.title.length >= 50
-                          ? element?.title?.substring(0, 50) + "..."
-                          : element?.title}
-                      </h3>
                       <div
                         style={{
+                          width: "20%",
                           display: "flex",
-                          alignItems: "flex-start",
+                          alignItems: "center",
                           justifyContent: "center",
-                          flexDirection: "row",
-                          flexWrap: "nowrap",
-                          fontSize: `${
-                            window.innerWidth > 580 ? "0.7em" : "1em"
-                          }`,
                         }}
                       >
-                        <p>{element?.channelTitle}</p>
+                        <img
+                          alt="ChannelImage"
+                          style={{
+                            width: `${
+                              window.innerWidth > 580 ? "35px" : "50px"
+                            }`,
+                            height: `${
+                              window.innerWidth > 580 ? "35px" : "50px"
+                            }`,
+                            borderRadius: "50%",
+                            marginRight: "1%",
+                          }}
+                          src={element.channelThumbnail[0]?.url}
+                        ></img>
+                      </div>
+                      <div
+                        style={{
+                          width: "80%",
+                          display: "flex",
+                          alignItems: "flex-start",
+                          justifyContent: "flex-start",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <h3
+                          style={{
+                            width: "100%",
+                            marginBottom: "3%",
+                            fontWeight: "400",
+                            fontSize: `${
+                              window.innerWidth > 580 ? "0.8em" : "1em"
+                            }`,
+                          }}
+                        >
+                          {element?.title.length >= 50
+                            ? element?.title?.substring(0, 50) + "..."
+                            : element?.title}
+                        </h3>
                         <div
                           style={{
                             display: "flex",
-                            alignSelf: "center",
-                            width: "3px",
-                            height: "3px",
-                            backgroundColor: "black",
-                            borderRadius: "50%",
-                            margin: "6px",
+                            alignItems: "flex-start",
+                            justifyContent: "center",
+                            flexDirection: "row",
+                            flexWrap: "nowrap",
+                            fontSize: `${
+                              window.innerWidth > 580 ? "0.7em" : "1em"
+                            }`,
                           }}
-                        ></div>
-                        <p>{element?.viewCount} vues</p>
+                        >
+                          <p>{element?.channelTitle}</p>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignSelf: "center",
+                              width: "3px",
+                              height: "3px",
+                              backgroundColor: "black",
+                              borderRadius: "50%",
+                              margin: "6px",
+                            }}
+                          ></div>
+                          <p>{element?.viewCount} vues</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </>
@@ -394,7 +416,7 @@ function Videos() {
               <ReactPlayer
                 url={`https://www.youtube.com/watch?v=${id}`}
                 width={"100%"}
-                height={"500px"}
+                height={"450px"}
                 className="react-player"
                 controls
               />
@@ -428,16 +450,29 @@ function Videos() {
                     cursor: "pointer",
                   }}
                 >
-                  <img
-                    alt="ChannelImage"
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      marginRight: "1%",
-                    }}
-                    src={dataYTB?.data?.channelThumbnail[0]?.url}
-                  ></img>
+                  {dataYTB?.data?.channelThumbnail === null ? (
+                    <div
+                      alt="ChannelImage"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                        backgroundColor: "gray",
+                      }}
+                    ></div>
+                  ) : (
+                    <img
+                      alt="ChannelImage"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                      }}
+                      src={dataYTB?.data?.channelThumbnail[0]?.url}
+                    ></img>
+                  )}
 
                   <div style={{ marginLeft: "2%", marginRight: "5%" }}>
                     <h5 style={{ fontSize: "18px" }}>
@@ -543,100 +578,109 @@ function Videos() {
                 flexWrap: "nowrap",
               }}
             >
-              {dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    justifyContent: "space-evenly",
-                    margin: "2vh 0vh 2vh 0vh",
-                  }}
-                  key={index}
-                >
+              {dataYTB?.data?.relatedVideos?.data === null ? (
+                <div></div>
+              ) : (
+                dataYTB?.data?.relatedVideos?.data?.map((element, index) => (
                   <div
                     style={{
-                      position: "relative",
-                      width: "35%",
+                      width: "100%",
                       display: "flex",
-                      justifyContent: "center",
-                      alignItems: "flex-end",
-                      cursor: "pointer",
+                      flexDirection: "row",
+                      flexWrap: "nowrap",
+                      justifyContent: "space-evenly",
+                      margin: "2vh 0vh 2vh 0vh",
                     }}
-                    onClick={() => HandleVideos(element?.videoId)}
+                    key={index}
                   >
-                    <img
-                      style={{
-                        borderRadius: "10px",
-                        height: "18vh",
-                        width: "100%",
-                      }}
-                      src={element?.thumbnail[0]?.url}
-                      alt={index}
-                    ></img>
                     <div
-                      className={`${
-                        element?.lengthText === "EN DIRECT"
-                          ? "IndicatorLive"
-                          : "IndicatorView"
-                      }`}
-                    >
-                      <p style={{ margin: "0.3em", fontWeight: "600" }}>
-                        {element?.lengthText}
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      flexWrap: "wrap",
-                      width: "50%",
-                    }}
-                  >
-                    <p
                       style={{
-                        width: "100%",
-                        fontWeight: "600",
-                        fontSize: "20px",
-                      }}
-                    >
-                      {element?.title.length > 60
-                        ? element?.title.substring(0, 45) + "..."
-                        : element?.title}
-                    </p>
-                    <p
-                      style={{
-                        width: "100%",
-                        fontSize: "16px",
+                        position: "relative",
+                        width: "35%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-end",
                         cursor: "pointer",
                       }}
-                      onClick={() => HandleChannel(element?.channelId)}
+                      onClick={() => HandleVideos(element?.videoId)}
                     >
-                      {element?.channelTitle}
-                    </p>
-                    <div className="SuggesVdeo">
-                      <p style={{ marginRight: "5px" }}>
-                        {element?.viewCount} vues
-                      </p>
-                      <div
+                      <img
                         style={{
-                          width: "2px",
-                          height: "2px",
-                          borderRadius: "50%",
-                          backgroundColor: "black",
-                          MarginLeft: "5px",
-                          marginRight: "5px",
+                          borderRadius: "10px",
+                          height: "18vh",
+                          width: "100%",
                         }}
-                      ></div>
-                      <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
-                        {element?.publishedTimeText}
+                        src={element?.thumbnail[0]?.url}
+                        alt={index}
+                      ></img>
+                      <div
+                        className={`${
+                          element?.lengthText === "EN DIRECT"
+                            ? "IndicatorLive"
+                            : "IndicatorView"
+                        }`}
+                      >
+                        <p
+                          style={{
+                            margin: "0.3em",
+                            fontWeight: "600",
+                            padding: "2px",
+                          }}
+                        >
+                          {element?.lengthText}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flexWrap: "wrap",
+                        width: "50%",
+                      }}
+                    >
+                      <h3
+                        style={{
+                          width: "100%",
+                          fontSize: "1.1em",
+                        }}
+                      >
+                        {element?.title.length > 45
+                          ? element?.title.substring(0, 45) + "..."
+                          : element?.title}
+                      </h3>
+                      <p
+                        style={{
+                          width: "100%",
+                          fontSize: "16px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => HandleChannel(element?.channelId)}
+                      >
+                        {element?.channelTitle}
                       </p>
+                      <div className="SuggesVdeo">
+                        <p style={{ marginRight: "5px" }}>
+                          {element?.viewCount} vues
+                        </p>
+                        <div
+                          style={{
+                            width: "2px",
+                            height: "2px",
+                            borderRadius: "50%",
+                            backgroundColor: "black",
+                            MarginLeft: "5px",
+                            marginRight: "5px",
+                          }}
+                        ></div>
+                        <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
+                          {element?.publishedTimeText}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </>

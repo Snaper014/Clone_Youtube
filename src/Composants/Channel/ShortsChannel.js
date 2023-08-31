@@ -21,7 +21,7 @@ export function AllShortsChannel() {
     queryFn: () => GetChannelShorts(chaId),
   });
 
-  const [WidthVideos, setWidthVideos] = React.useState();
+  const [WidthVideos, setWidthVideos] = React.useState("20%");
   const [loading, setLoading] = React.useState(true);
 
   //console.log(DataShorts);
@@ -29,12 +29,12 @@ export function AllShortsChannel() {
     if (process.env.NODE_ENV === "test") {
       SizeVideos(setWidthVideos);
       setLoading(false);
-    }else{
+    } else {
       let chargement = setTimeout(() => {
         SizeVideos(setWidthVideos);
         setLoading(false);
       }, 1200);
-  
+
       return () => clearTimeout(chargement);
     }
   }, []);

@@ -2,7 +2,6 @@ import * as React from "react";
 import "../App.css";
 import { ContentTrend } from "./Elements/TrendContent";
 
-
 const TabTrend = [
   { button: "nouveautés", container: <ContentTrend choix="now" /> },
   { button: "musique", container: <ContentTrend choix="music" /> },

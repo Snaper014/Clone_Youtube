@@ -15,7 +15,12 @@ import { MobileBarSearch } from "../AppBarPrimary";
 
 export function PageYoutubeur() {
   let { chaId } = useParams();
-  const { data: dataChannel, isLoading, isError, error } = useQuery({
+  const {
+    data: dataChannel,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: [`Fetch Channel Home`, chaId],
     queryFn: () => GetChannelHomeUser(chaId),
     enabled: !!chaId,
@@ -23,8 +28,8 @@ export function PageYoutubeur() {
   });
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
-    );
-    
+  );
+
   //console.log("DataChannel", dataChannel);
 
   React.useEffect(() => {

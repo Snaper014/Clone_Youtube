@@ -34,7 +34,6 @@ test("Redirection vers la page Jeux vidéos", async () => {
     await user.click(MenuButton);
     await user.click(screen.getByRole("link", { name: "Jeux vidéos" }));
     expect(screen.getByText("skibidi toilet 58")).toBeInTheDocument();
-
   } else {
     const MenuButton = screen.getByRole("menu");
     console.log("Avant l'apuui du bouton menu", document.body.children);

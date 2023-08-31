@@ -68,10 +68,8 @@ export const ListingVideos = ({
           {element?.data.map((items, i) => {
             if (
               expandedItems.includes(element?.title)
-                ? element?.data?.length
-                : button
-                ? i < 3
-                : element?.data?.length
+                ? i <= element?.data?.length
+                : i < 3
             ) {
               return (
                 <div
@@ -254,7 +252,7 @@ export const ListingVideos = ({
           onClick={() => {
             console.log("cliquer");
             console.log("button", button);
-            setExpandedItems([element?.title]);
+            setExpandedItems([...expandedItems, element?.title]);
             button.remove();
           }}
           style={{
@@ -331,9 +329,9 @@ export const ListingVideos = ({
                       alignItems: "flex-start",
                       justifyContent: "flex-start",
                       flexDirection: "column",
-                      width: `${WidthVideos}`,
-                      marginLeft: `${marginLeft}`,
-                      marginRight: `${MarginRight}`,
+                      width: `${WidthVideos}px`,
+                      marginLeft: `${marginLeft}px`,
+                      marginRight: `${MarginRight}px`,
                       border: "1px solid transparent",
                     }}
                     key={i}
@@ -357,7 +355,7 @@ export const ListingVideos = ({
                           alt={items?.title}
                           src={items?.thumbnail[0]?.url}
                           height="160px"
-                          width={WidthVideos}
+                          width={`${WidthVideos}px`}
                           style={{ borderRadius: "10px" }}
                         ></img>
                         <div
@@ -465,7 +463,7 @@ export const ListingVideos = ({
                             <h3
                               style={{
                                 width: "100%",
-                                fontSize: "18px",
+                                fontSize: "1.2em",
                               }}
                             >
                               {items?.title.length >= 40
@@ -501,11 +499,7 @@ export const ListingVideos = ({
                             >
                               <div
                                 className="ContenuHomedescripVide"
-                                style={{
-                                  whiteSpace: `${
-                                    window.screen <= 300 ? "wrap" : "nowrap"
-                                  }`,
-                                }}
+                                style={{ fontSize: "0.8em" }}
                               >
                                 <p style={{ marginRight: "5px" }}>
                                   {items?.viewCount} de vues
@@ -593,9 +587,9 @@ export const ListingVideos = ({
                   alignItems: "flex-start",
                   justifyContent: "flex-start",
                   flexDirection: "column",
-                  width: `${WidthVideos}`,
-                  marginLeft: `${marginLeft}`,
-                  marginRight: `${MarginRight}`,
+                  width: `${WidthVideos}px`,
+                  marginLeft: `${marginLeft}px`,
+                  marginRight: `${MarginRight}px`,
                   border: "1px solid transparent",
                 }}
                 key={i}
@@ -619,7 +613,7 @@ export const ListingVideos = ({
                       alt={items?.title}
                       src={items?.thumbnail[0]?.url}
                       height="250px"
-                      width={WidthVideos}
+                      width={`${WidthVideos}px`}
                       style={{ borderRadius: "10px" }}
                     ></img>
                     <div
@@ -644,34 +638,38 @@ export const ListingVideos = ({
                     alignItems: "flex-start",
                   }}
                 >
-                  <div style={{ width: "20%" }}>
-                    <Link
-                      to={`/Channel/${items?.channelId}`}
-                      style={{
-                        textDecoration: "none",
-                        color: "black",
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <img
+                  <div
+                    style={{ width: `${LogochannelThumbnail ? "20%" : "0%"}` }}
+                  >
+                    {LogochannelThumbnail ? (
+                      <Link
+                        to={`/Channel/${items?.channelId}`}
                         style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "50%",
-                          marginLeft: "1%",
-                          cursor: "pointer",
+                          textDecoration: "none",
+                          color: "black",
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                        src={
-                          LogochannelThumbnail
-                            ? items?.channelThumbnail[0]?.url
-                            : items?.thumbnail[0]?.url
-                        }
-                        alt={items?.title}
-                      ></img>
-                    </Link>
+                      >
+                        <img
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "50%",
+                            marginLeft: "1%",
+                            cursor: "pointer",
+                          }}
+                          src={
+                            LogochannelThumbnail
+                              ? items?.channelThumbnail[0]?.url
+                              : items?.thumbnail[0]?.url
+                          }
+                          alt={items?.title}
+                        ></img>
+                      </Link>
+                    ) : null}
                   </div>
                   <div
                     style={{
@@ -679,7 +677,7 @@ export const ListingVideos = ({
                       flexDirection: "column",
                       alignItems: "flex-start",
                       justifyContent: "flex-start",
-                      width: "80%",
+                      width: `${LogochannelThumbnail ? "80%" : "100%"}`,
                     }}
                   >
                     <div
@@ -709,18 +707,20 @@ export const ListingVideos = ({
                           {items?.title.substring(0, 100)}
                         </h3>
                       </Link>
-                      <Link
-                        to={`/Channel/${items?.channelId}`}
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          width: "100%",
-                        }}
-                      >
-                        <p style={{ width: "100%", fontSize: "18px" }}>
-                          {items?.channelTitle}
-                        </p>
-                      </Link>
+                      {LogochannelThumbnail ? (
+                        <Link
+                          to={`/Channel/${items?.channelId}`}
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                            width: "100%",
+                          }}
+                        >
+                          <p style={{ width: "100%", fontSize: "18px" }}>
+                            {items?.channelTitle}
+                          </p>
+                        </Link>
+                      ) : null}
                       {items?.lengthText !== "EN DIRECT" ? (
                         <Link
                           to={`/watch/${items?.videoId}`}

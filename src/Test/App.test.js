@@ -20,7 +20,6 @@ afterEach(() => {
 afterAll(() => server.close());
 
 test("Test du rendu composant Home version desktop", async () => {
-  
   render(<App />);
   await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
   act(() => {

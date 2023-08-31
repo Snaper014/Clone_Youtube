@@ -198,14 +198,14 @@ main{
     border-left-style: none;
     border-right-style: none;
     font-size: 17px;
-    width: 31%;
+    width: 30%;
 }
 .mobileNormal{
     background-color: white;
     height: 100%;
     border: none;
     font-size: 17px;
-    width: 31%;
+    width: 30%;
 }
 .SelecBTN{
     width: 100%;
@@ -316,7 +316,7 @@ main{
     color: white;
     font-size: 14px;
     background-color: black;
-    height: 10%;
+    height: 12%;
     font-weight: 500;
     display: flex;
     align-items: center;

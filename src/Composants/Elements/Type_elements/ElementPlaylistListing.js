@@ -70,10 +70,8 @@ export const ListingPlaylist = ({
           {element?.data.map((items, i) => {
             if (
               expandedItems.includes(element?.title)
-                ? element?.data?.length
-                : button
-                ? i < 3
-                : element?.data?.length
+                ? i <= element?.data?.length
+                : i < 3
             ) {
               return (
                 <div
@@ -218,7 +216,7 @@ export const ListingPlaylist = ({
           onClick={() => {
             console.log("cliquer");
             console.log("button", button);
-            setExpandedItems([element?.title]);
+            setExpandedItems([...expandedItems, element?.title]);
             button.remove();
           }}
           style={{
@@ -296,16 +294,16 @@ export const ListingPlaylist = ({
                       alignItems: "flex-start",
                       justifyContent: "flex-start",
                       flexDirection: "column",
-                      width: `${WidthVideos}`,
-                      marginLeft: `${marginLeft}`,
-                      marginRight: `${MarginRight}`,
+                      width: `${WidthVideos}px`,
+                      marginLeft: `${marginLeft}px`,
+                      marginRight: `${MarginRight}px`,
                       border: "1px solid transparent",
                     }}
                   >
                     <div
                       style={{
                         position: "relative",
-                        width: `${WidthVideos}`,
+                        width: `${WidthVideos}px`,
                       }}
                     >
                       <div

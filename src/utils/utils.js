@@ -29,26 +29,26 @@ export const CheckWidth = (
     if (WCWC) {
       if (Largeur <= 1175) {
         let width = WCWC * 0.23;
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${width}px`);
-        setMarginLeft(`${Math.round(WCWC) * 0.005}px`);
-        setMarginRight(`${Math.round(WCWC) * 0.014}px`);
+        setWidthVideos(width);
+        setWidthShorts(width);
+        setMarginLeft(Math.round(WCWC) * 0.005);
+        setMarginRight(Math.round(WCWC) * 0.014);
         setValue(4);
       }
       if (Largeur >= 1176 && Largeur <= 1604) {
         let width = WCWC * 0.185;
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${width}px`);
-        setMarginLeft(`${Math.round(WCWC) * 0.009}px`);
-        setMarginRight(`${Math.round(WCWC) * 0.006}px`);
+        setWidthVideos(width);
+        setWidthShorts(width);
+        setMarginLeft(Math.round(WCWC) * 0.009);
+        setMarginRight(Math.round(WCWC) * 0.006);
         setValue(5);
       }
       if (Largeur >= 1605) {
         let width = Math.round(WCWC * 0.15);
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${width}px`);
-        setMarginLeft(`${Math.round(WCWC) * 0.01}px`);
-        setMarginRight(`${Math.round(WCWC) * 0.006}px`);
+        setWidthVideos(width);
+        setWidthShorts(width);
+        setMarginLeft(Math.round(WCWC) * 0.01);
+        setMarginRight(Math.round(WCWC) * 0.006);
         setValue(6);
       }
     }
@@ -57,55 +57,55 @@ export const CheckWidth = (
       if (Largeur <= 767) {
         // console.log("Sous les 767 pixels", WidthContainer);
         let WidthShorts = WidthContainer * 0.45;
-        setWidthVideos(`${WidthContainer * 0.993}px`);
-        setWidthShorts(`${WidthShorts}px`);
-        setMarginLeft(`${WidthContainer * 0.05}px`);
-        setMarginRight(`${WidthContainer * 0.015}px`);
+        setWidthVideos(WidthContainer * 0.993);
+        setWidthShorts(WidthShorts);
+        setMarginLeft(WidthContainer * 0.05);
+        setMarginRight(WidthContainer * 0.015);
         setValue(2);
       }
       if (Largeur >= 768 && Largeur <= 1115) {
         let width = WidthContainer * 0.46;
         let WidthShorts = WidthContainer * 0.3;
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${WidthShorts}px`);
-        setMarginLeft(`${Math.round(WidthContainer) * 0.014}px`);
-        setMarginRight(`${Math.round(WidthContainer) * 0.023}px`);
+        setWidthVideos(width);
+        setWidthShorts(WidthShorts);
+        setMarginLeft(Math.round(WidthContainer) * 0.014);
+        setMarginRight(Math.round(WidthContainer) * 0.023);
         setValue(3);
       }
       if (Largeur >= 1116 && Largeur <= 1603) {
         let width = WidthContainer * 0.315;
         let WidthShorts = WidthContainer * 0.183;
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${WidthShorts}px`);
-        setMarginLeft(`${Math.round(WidthContainer) * 0.005}px`);
-        setMarginRight(`${Math.round(WidthContainer) * 0.012}px`);
+        setWidthVideos(width);
+        setWidthShorts(WidthShorts);
+        setMarginLeft(Math.round(WidthContainer) * 0.005);
+        setMarginRight(Math.round(WidthContainer) * 0.012);
         setValue(5);
       }
       if (Largeur >= 1604 && Largeur <= 1945) {
         let width = WidthContainer * 0.23;
         let WidthShorts = WidthContainer * 0.148;
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${WidthShorts}px`);
-        setMarginLeft(`${Math.round(WidthContainer) * 0.005}px`);
-        setMarginRight(`${Math.round(WidthContainer) * 0.014}px`);
+        setWidthVideos(width);
+        setWidthShorts(WidthShorts);
+        setMarginLeft(Math.round(WidthContainer) * 0.005);
+        setMarginRight(Math.round(WidthContainer) * 0.014);
         setValue(6);
       }
       if (Largeur >= 1946 && Largeur <= 2295) {
         let width = WidthContainer * 0.183;
         let WidthShorts = WidthContainer * 0.108;
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${WidthShorts}px`);
-        setMarginLeft(`${Math.round(WidthContainer) * 0.01}px`);
-        setMarginRight(`${Math.round(WidthContainer) * 0.006}px`);
+        setWidthVideos(width);
+        setWidthShorts(WidthShorts);
+        setMarginLeft(Math.round(WidthContainer) * 0.01);
+        setMarginRight(Math.round(WidthContainer) * 0.006);
         setValue(8);
       }
       if (Largeur >= 2296) {
         let width = Math.round(WidthContainer * 0.15);
         let WidthShorts = WidthContainer * 0.095;
-        setWidthVideos(`${width}px`);
-        setWidthShorts(`${WidthShorts}px`);
-        setMarginLeft(`${Math.round(WidthContainer) * 0.01}px`);
-        setMarginRight(`${Math.round(WidthContainer) * 0.006}px`);
+        setWidthVideos(width);
+        setWidthShorts(WidthShorts);
+        setMarginLeft(Math.round(WidthContainer) * 0.01);
+        setMarginRight(Math.round(WidthContainer) * 0.006);
         setValue(9);
       }
     }
@@ -125,7 +125,7 @@ export const CheckRelatedVideos = (setWidthVideos, ref, setHeightVideos) => {
     setHeightVideos(Largeur * 0.56);
   }
   if (Largeur > 781) {
-    setWidthVideos(Math.round(WidthContainer * 0.30));
+    setWidthVideos(Math.round(WidthContainer * 0.3));
     setHeightVideos(Largeur * 0.56);
   }
 };
@@ -133,12 +133,10 @@ export const CheckRelatedVideos = (setWidthVideos, ref, setHeightVideos) => {
 export const MoreContent = (numero, choice = false) => {
   let Container = document.getElementById(`Container-level-${numero}`);
   let button = document.getElementById(`Button-section-${numero}`);
-  let element = Container.querySelector(`${choice ? ".shorts" : ".MoreVideos"}`);
+  let element = Container.querySelector(
+    `${choice ? ".shorts" : ".MoreVideos"}`,
+  );
   //console.log(element);
   element.style.flexWrap = "wrap";
   button.remove();
 };
-
-
-
-

@@ -210,9 +210,9 @@ export const ElementsVideos = ({
         justifyContent: "flex-start",
         marginBottom: "2%",
         flexDirection: "column",
-        marginRight: `${window.innerWidth <= 767 ? "0px" : MarginRight}`,
-        marginLeft: `${window.innerWidth <= 767 ? "0px" : marginLeft}`,
-        width: `${WidthVideos}`,
+        marginRight: `${window.innerWidth <= 767 ? "0px" : `${MarginRight}px`}`,
+        marginLeft: `${window.innerWidth <= 767 ? "0px" : `${marginLeft}px`}`,
+        width: `${WidthVideos}px`,
         border: "1px solid transparent",
       }}
     >
@@ -229,7 +229,7 @@ export const ElementsVideos = ({
             alt={element?.title}
             src={element?.thumbnail[0]?.url}
             height="250px"
-            width={WidthVideos}
+            width={`${WidthVideos}px`}
             style={{ borderRadius: "10px" }}
           ></img>
           <div
@@ -324,7 +324,9 @@ export const ElementsVideos = ({
               }}
               to={`/Channel/${element?.channelId}`}
             >
-              <h3 style={{ width: "100%", fontSize: "18px", fontWeight: "400"}}>
+              <h3
+                style={{ width: "100%", fontSize: "18px", fontWeight: "400" }}
+              >
                 {element?.channelTitle}
               </h3>
             </Link>

@@ -39,25 +39,21 @@ function Search() {
   const [MarginRight, setMarginRight] = React.useState();
   const [marginLeft, setMarginLeft] = React.useState();
   const [value, setValue] = React.useState(0);
-  const [ValueDefault, setValueDefault] = React.useState(0);
+  const setValueDefault = (value = "") => value;
   const [WidthScreen, setWidthScreen] = React.useState(window.innerWidth);
 
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
   const refWidth = React.useRef(null);
-
   //console.log("marge", MarginRight);
-  // console.log(dataYTB);
   // //console.log("FirstValidateToken", FirstValidateToken);
   // console.log("token", token);
-   console.log(ValueDefault);
   // console.log("LoadNextContent", LoadNextContentSearch);
   const continuation = dataYTB?.data?.continuation;
 
   React.useLayoutEffect(() => {
     let chargement = setTimeout(() => {
-      // console.log("refLargeur React.Layoutuseeffect", refWidth);
       CheckWidth(
         refWidth,
         setValueDefault,
@@ -76,7 +72,6 @@ function Search() {
 
   React.useEffect(() => {
     const HandleResize = () => {
-      //console.log("refLargeur React.useeffect", refWidth);
       MobileResponsive(setResponsive);
       CheckWidth(
         refWidth,
@@ -92,8 +87,6 @@ function Search() {
 
     let loading = false;
     const isScrollAtBottom = () => {
-      //const Container = document.getElementById("ContainerHome");
-      // Possible closure qui garde l'état du token en mémoire;
       const DernierEnfant =
         refWidth?.current?.lastElementChild?.lastElementChild;
       if (DernierEnfant) {
