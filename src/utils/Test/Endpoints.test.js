@@ -1,7 +1,4 @@
-import {
-  screen,
-  renderHook,
-} from "@testing-library/react";
+import { screen, renderHook } from "@testing-library/react";
 import { Home } from "../../Composants/Home";
 import { customRender } from "../../Test/Test_utils";
 import { WrapperReactQuery } from "../../Test/Test_utils";

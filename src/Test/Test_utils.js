@@ -17,9 +17,9 @@ const WrapperReactQuery = ({ children }) => (
   <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 
-const ContextProvider = ({children}) => {
-    return <DataProvider>{children}</DataProvider>
-}
+const ContextProvider = ({ children }) => {
+  return <DataProvider>{children}</DataProvider>;
+};
 
 const AllTheProviders = ({ children }) => {
   return (
@@ -39,4 +39,4 @@ const customRender = (ui, { ...options } = {}) => {
 };
 
 // override render method
-export { customRender, WrapperReactQuery, ContextProvider};
+export { customRender, WrapperReactQuery, ContextProvider };

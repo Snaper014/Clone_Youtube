@@ -464,7 +464,7 @@ export const MobileBarSearch = ({ name = "" }) => {
             flexWrap: "nowrap",
             overflow: "hidden",
             height: "100%",
-            width: `${name === "" ? "auto" : "80%"}`
+            width: `${name === "" ? "auto" : "80%"}`,
           }}
         >
           <BsYoutube
@@ -488,7 +488,9 @@ export const MobileBarSearch = ({ name = "" }) => {
               fontFamily: `${name === "" ? "Kenya" : "Arial, sans-serif"}`,
             }}
           >
-            {name === "" ? "YouTube" : `${name.length > 30 ? name.substring(0, 30) + "..." : name}`}
+            {name === ""
+              ? "YouTube"
+              : `${name.length > 30 ? name.substring(0, 30) + "..." : name}`}
           </span>
         </div>
 
@@ -498,13 +500,13 @@ export const MobileBarSearch = ({ name = "" }) => {
             height: "100%",
             alignItems: "center",
             justifyContent: "center",
-            width: `${name === "" ? "auto" : "20%"}`
+            width: `${name === "" ? "auto" : "20%"}`,
           }}
         >
           <AiOutlineSearch
             onClick={() => setDisplaySearch(!DisplaySearch)}
             fontSize={48}
-            style={{ marginLeft: "3%", cursor: "pointer"}}
+            style={{ marginLeft: "3%", cursor: "pointer" }}
           />
           {name !== "" ? null : <BiUserCircle fontSize={48} />}
         </div>

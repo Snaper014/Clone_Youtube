@@ -245,7 +245,7 @@ export const ListingShorts = ({
               marginRight: `${
                 window.innerWidth <= 767
                   ? `${window.innerWidth * 0.05}px`
-                  :  `${MarginRight}px`
+                  : `${MarginRight}px`
               }`,
               marginLeft: `${
                 window.innerWidth <= 767

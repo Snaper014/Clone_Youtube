@@ -177,7 +177,7 @@ export function Playlist() {
                       alignItems: "flex-start",
                     }}
                   >
-                    <h3 style={{marginBottom: "2%"}}>
+                    <h3 style={{ marginBottom: "2%" }}>
                       {Playlist?.data?.meta?.title?.length >= 45
                         ? Playlist?.data?.meta?.title.substring(0, 45) + "..."
                         : Playlist?.data?.meta?.title}
@@ -1098,87 +1098,92 @@ export function Playlist() {
                   </div>
                 ))}
               </div>
-            {DetailVideo?.data?.relatedVideos?.data === null ? <div></div> : 
-              DetailVideo?.data?.relatedVideos?.data?.map((element, index) => (
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    margin: "2vh 0vh 2vh 0vh",
-                  }}
-                  key={index}
-                >
-                  <div
-                    style={{
-                      width: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "flex-end",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => HandleVideos(element?.videoId)}
-                  >
-                    <img
-                      style={{
-                        borderRadius: "10px",
-                        height: "18vh",
-                        width: "80%",
-                      }}
-                      src={element?.thumbnail[0]?.url}
-                      alt={index}
-                    ></img>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      flexWrap: "wrap",
-                      width: "50%",
-                    }}
-                  >
-                    <h3
+              {DetailVideo?.data?.relatedVideos?.data === null ? (
+                <div></div>
+              ) : (
+                DetailVideo?.data?.relatedVideos?.data?.map(
+                  (element, index) => (
+                    <div
                       style={{
                         width: "100%",
-                        fontSize: "1.1em",
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "nowrap",
+                        margin: "2vh 0vh 2vh 0vh",
                       }}
+                      key={index}
                     >
-                      {element?.title.length > 45
-                        ? element?.title.substring(0, 45) + "..."
-                        : element?.title}
-                    </h3>
-                    <p
-                      style={{
-                        width: "100%",
-                        fontSize: "16px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => HandleChannel(element?.channelId)}
-                    >
-                      {element?.channelTitle}
-                    </p>
-                    <div className="SuggesVdeo">
-                      <p style={{ marginRight: "5px" }}>
-                        {element?.viewCount} vues
-                      </p>
                       <div
                         style={{
-                          width: "2px",
-                          height: "2px",
-                          borderRadius: "50%",
-                          backgroundColor: "black",
-                          MarginLeft: "5px",
-                          marginRight: "5px",
+                          width: "50%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "flex-end",
+                          cursor: "pointer",
                         }}
-                      ></div>
-                      <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
-                        Il y a {element?.publishedTimeText}
-                      </p>
+                        onClick={() => HandleVideos(element?.videoId)}
+                      >
+                        <img
+                          style={{
+                            borderRadius: "10px",
+                            height: "18vh",
+                            width: "80%",
+                          }}
+                          src={element?.thumbnail[0]?.url}
+                          alt={index}
+                        ></img>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          flexWrap: "wrap",
+                          width: "50%",
+                        }}
+                      >
+                        <h3
+                          style={{
+                            width: "100%",
+                            fontSize: "1.1em",
+                          }}
+                        >
+                          {element?.title.length > 45
+                            ? element?.title.substring(0, 45) + "..."
+                            : element?.title}
+                        </h3>
+                        <p
+                          style={{
+                            width: "100%",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => HandleChannel(element?.channelId)}
+                        >
+                          {element?.channelTitle}
+                        </p>
+                        <div className="SuggesVdeo">
+                          <p style={{ marginRight: "5px" }}>
+                            {element?.viewCount} vues
+                          </p>
+                          <div
+                            style={{
+                              width: "2px",
+                              height: "2px",
+                              borderRadius: "50%",
+                              backgroundColor: "black",
+                              MarginLeft: "5px",
+                              marginRight: "5px",
+                            }}
+                          ></div>
+                          <p style={{ MarginLeft: "5px", marginRight: "5px" }}>
+                            Il y a {element?.publishedTimeText}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  ),
+                )
+              )}
             </div>
           </div>
         </>

@@ -125,7 +125,7 @@ export const CheckRelatedVideos = (setWidthVideos, ref, setHeightVideos) => {
     setHeightVideos(Largeur * 0.56);
   }
   if (Largeur > 781) {
-    setWidthVideos(Math.round(WidthContainer * 0.30));
+    setWidthVideos(Math.round(WidthContainer * 0.3));
     setHeightVideos(Largeur * 0.56);
   }
 };
@@ -133,12 +133,10 @@ export const CheckRelatedVideos = (setWidthVideos, ref, setHeightVideos) => {
 export const MoreContent = (numero, choice = false) => {
   let Container = document.getElementById(`Container-level-${numero}`);
   let button = document.getElementById(`Button-section-${numero}`);
-  let element = Container.querySelector(`${choice ? ".shorts" : ".MoreVideos"}`);
+  let element = Container.querySelector(
+    `${choice ? ".shorts" : ".MoreVideos"}`,
+  );
   //console.log(element);
   element.style.flexWrap = "wrap";
   button.remove();
 };
-
-
-
-

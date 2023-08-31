@@ -8,7 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { FetchHomeShorts } from "../utils/Appel";
 import { Carsoussel } from "./Carsoussel";
 import { useContext } from "../Context/ContextProvider";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 
 function ShortsHome() {
@@ -171,15 +171,15 @@ function ShortsHome() {
                   >
                     {element?.data.map((item, index) => (
                       <ReactPlayer
-                      config={{
-                        youtube: {
-                          playerVars: {
-                            showinfo: 1,
-                            origin: "http://localhost:3000",
-                            enablejsapi: 1,
+                        config={{
+                          youtube: {
+                            playerVars: {
+                              showinfo: 1,
+                              origin: "http://localhost:3000",
+                              enablejsapi: 1,
+                            },
                           },
-                        },
-                      }}
+                        }}
                         key={index}
                         url={`https://www.youtube.com/shorts/${item?.videoId}`}
                         className="react-player ShortPlayer"
@@ -266,15 +266,15 @@ function ShortsElements() {
           >
             {CheckedData.map((item, index) => (
               <ReactPlayer
-              config={{
-                youtube: {
-                  playerVars: {
-                    showinfo: 1,
-                    origin: "http://localhost:3000",
-                    enablejsapi: 1,
+                config={{
+                  youtube: {
+                    playerVars: {
+                      showinfo: 1,
+                      origin: "http://localhost:3000",
+                      enablejsapi: 1,
+                    },
                   },
-                },
-              }}
+                }}
                 key={index}
                 url={`https://www.youtube.com/embed/${item?.videoId}`}
                 className="react-player ShortPlayer"
@@ -326,15 +326,15 @@ function ShortsElements() {
             <Carsoussel InitialValue={IndexShorts} WidthScreen={WidthScreen}>
               {CheckedData.map((item, index) => (
                 <ReactPlayer
-                config={{
-                  youtube: {
-                    playerVars: {
-                      showinfo: 1,
-                      origin: "http://localhost:3000",
-                      enablejsapi: 1,
+                  config={{
+                    youtube: {
+                      playerVars: {
+                        showinfo: 1,
+                        origin: "http://localhost:3000",
+                        enablejsapi: 1,
+                      },
                     },
-                  },
-                }}
+                  }}
                   key={index}
                   url={`https://www.youtube.com/shorts/${item?.videoId}`}
                   className="react-player ShortPlayer"

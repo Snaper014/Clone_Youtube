@@ -324,7 +324,9 @@ export const ElementsVideos = ({
               }}
               to={`/Channel/${element?.channelId}`}
             >
-              <h3 style={{ width: "100%", fontSize: "18px", fontWeight: "400"}}>
+              <h3
+                style={{ width: "100%", fontSize: "18px", fontWeight: "400" }}
+              >
                 {element?.channelTitle}
               </h3>
             </Link>

@@ -499,7 +499,7 @@ export const ListingVideos = ({
                             >
                               <div
                                 className="ContenuHomedescripVide"
-                                style={{fontSize: "0.8em"}}
+                                style={{ fontSize: "0.8em" }}
                               >
                                 <p style={{ marginRight: "5px" }}>
                                   {items?.viewCount} de vues
@@ -638,8 +638,10 @@ export const ListingVideos = ({
                     alignItems: "flex-start",
                   }}
                 >
-                  <div style={{ width: `${LogochannelThumbnail ? "20%" : "0%"}` }}>
-                    {LogochannelThumbnail ?
+                  <div
+                    style={{ width: `${LogochannelThumbnail ? "20%" : "0%"}` }}
+                  >
+                    {LogochannelThumbnail ? (
                       <Link
                         to={`/Channel/${items?.channelId}`}
                         style={{
@@ -667,7 +669,7 @@ export const ListingVideos = ({
                           alt={items?.title}
                         ></img>
                       </Link>
-                     : null}
+                    ) : null}
                   </div>
                   <div
                     style={{
@@ -705,7 +707,7 @@ export const ListingVideos = ({
                           {items?.title.substring(0, 100)}
                         </h3>
                       </Link>
-                      {LogochannelThumbnail ?
+                      {LogochannelThumbnail ? (
                         <Link
                           to={`/Channel/${items?.channelId}`}
                           style={{
@@ -718,7 +720,7 @@ export const ListingVideos = ({
                             {items?.channelTitle}
                           </p>
                         </Link>
-                       : null}
+                      ) : null}
                       {items?.lengthText !== "EN DIRECT" ? (
                         <Link
                           to={`/watch/${items?.videoId}`}

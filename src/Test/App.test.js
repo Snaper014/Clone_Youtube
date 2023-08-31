@@ -9,7 +9,6 @@ import { App } from "../App";
 import { server } from "./server";
 import userEvent from "@testing-library/user-event";
 
-
 beforeAll(() => server.listen());
 // Reset handlers so that each test could alter them
 // without affecting other, unrelated tests.
@@ -21,7 +20,6 @@ afterEach(() => {
 afterAll(() => server.close());
 
 test("Test du rendu composant Home version desktop", async () => {
-  
   render(<App />);
   await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
   act(() => {

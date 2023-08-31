@@ -30,7 +30,7 @@ export const DisplayContent = ({
   const [expandedItems, setExpandedItems] = React.useState([]);
   const [value, setValue] = React.useState(0);
   //console.log("data DisplayContent", Data?.data?.data);
-  
+
   React.useLayoutEffect(() => {
     if (process.env.NODE_ENV === "test") {
       CheckWidth(
@@ -62,7 +62,7 @@ export const DisplayContent = ({
       return () => clearTimeout(chargement);
     }
   }, [refWidth, loading, HasCaroussel, setResponsive]);
-  
+
   React.useEffect(() => {
     const HandleResize = () => {
       CheckWidth(
@@ -125,7 +125,7 @@ export const DisplayContent = ({
           if (element?.type === "channel_listing") {
             return (
               <ListingChannel
-                 key={index}
+                key={index}
                 element={element}
                 responsive={responsive}
                 ChannelHome={ChannelHome}

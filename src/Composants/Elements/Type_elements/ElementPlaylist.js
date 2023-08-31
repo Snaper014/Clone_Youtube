@@ -143,7 +143,7 @@ export const ElementPlaylist = ({
   }
   return (
     <Link
-      key={index}  
+      key={index}
       to={`/Playlist/${element?.videoId}/${0}/${element?.playlistId}`}
       style={{
         textDecoration: "none",

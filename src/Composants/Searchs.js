@@ -39,7 +39,7 @@ function Search() {
   const [MarginRight, setMarginRight] = React.useState();
   const [marginLeft, setMarginLeft] = React.useState();
   const [value, setValue] = React.useState(0);
-  const setValueDefault = (value = "") => value; 
+  const setValueDefault = (value = "") => value;
   const [WidthScreen, setWidthScreen] = React.useState(window.innerWidth);
 
   const [responsive, setResponsive] = React.useState(

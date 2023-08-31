@@ -190,7 +190,7 @@ export const ListingChannel = ({
         <div
           id={`Mobile-Buttton-${index}`}
           onClick={() => {
-            setExpandedItems([...expandedItems ,element?.title]);
+            setExpandedItems([...expandedItems, element?.title]);
             button.remove();
           }}
           style={{
