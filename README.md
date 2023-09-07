@@ -49,3 +49,7 @@ Follow these steps to run the application on your local machine:
 
 This project was inspired by the functionalities and design of YouTube.
 Thanks to the creators of Create React App for the development environment.
+
+## Contributing 
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue on the GitHub repository.
