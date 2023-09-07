@@ -201,6 +201,9 @@ function ShortsHome() {
 }
 
 function ShortsElements() {
+  //Trouver une solution pour améliorer la vitesse du rendu
+  //stocker la data sur la session storage ne permet d'avoir une bonne perfomance
+  //redux
   const { DataContext, option } = useContext();
   let { IndexShorts } = useParams();
   const CheckedData = option ? DataContext?.data : DataContext?.data?.data;
