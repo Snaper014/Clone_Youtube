@@ -46,7 +46,7 @@ export function BarSearch() {
     navigate("/");
   };
   const handleKeyPress = (e) => {
-    if (e.code === "Enter") {
+    if (e.code === "Enter" || e.key === "Enter") {
       Envoyer();
     }
   };
@@ -431,7 +431,7 @@ export const MobileBarSearch = ({ name = "" }) => {
     navigate("/");
   };
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || e.code === "Enter") {
       Envoyer();
     }
   };
@@ -462,7 +462,7 @@ export const MobileBarSearch = ({ name = "" }) => {
             marginLeft: "1%",
             justifyContent: "flex-start",
             flexWrap: "nowrap",
-            overflow: "hidden",
+            overflow: `${name === "" ? "auto" : "hidden"}`,
             height: "100%",
             width: `${name === "" ? "auto" : "80%"}`,
           }}
