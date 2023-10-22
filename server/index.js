@@ -2,6 +2,11 @@ const express = require("express");
 const morgan = require("morgan");
 const BodyParser = require('body-parser');
 
+// Authentification
+// jwt token
+// mongoDB
+// modal schema
+// routes
 
 const app = express();
 const port = 5000;
@@ -12,9 +17,13 @@ app
 
 //middleware 
 
-app.get("/test", (res, req) => {
+app.get("/", (req, res) => {
+    const message = "Server Youtube";
+    res.json({message, status: "My Man"})
+})
+app.get("/test", (req, res) => {
     const message = "Hello world";
-    res.send({message, status: "test"})
+    res.json({message, status: "test"})
 })
 
 app.listen(port, () => console.log(`Notre application démarre sur le http://localhost:${port}`));
