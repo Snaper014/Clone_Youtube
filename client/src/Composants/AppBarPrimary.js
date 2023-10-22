@@ -464,7 +464,7 @@ export const MobileBarSearch = ({ name = "" }) => {
             flexWrap: "nowrap",
             overflow: `${name === "" ? "auto" : "hidden"}`,
             height: "100%",
-            width: `${name === "" ? "auto" : "80%"}`,
+            width: `${name === "" ? "35%" : "80%"}`,
           }}
         >
           <BsYoutube

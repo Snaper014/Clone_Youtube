@@ -13,7 +13,6 @@ export const ListingShorts = ({
   responsive,
   MarginRight,
   marginLeft,
-  setOption,
   setDataContext,
   HasCaroussel,
 }) => {
@@ -57,7 +56,7 @@ export const ListingShorts = ({
           <CardCaroussel value={value} shorts mobile>
             {element?.data.map((items, i) => (
               <Link
-                to={`/List/Shorts/${i}`}
+                to={`/List/Shorts/${items?.videoId}`}
                 style={{
                   textDecoration: "none",
                   color: "black",
@@ -67,8 +66,10 @@ export const ListingShorts = ({
                 }}
                 key={i}
                 onClick={() => {
-                  setOption(true);
-                  setDataContext(element);
+                  const filteredData = element?.data.map(
+                    (item) => item?.videoId,
+                  );
+                  setDataContext(filteredData);
                 }}
               >
                 <div
@@ -149,12 +150,14 @@ export const ListingShorts = ({
           <CardCaroussel value={value} shorts>
             {element?.data.map((items, i) => (
               <Link
-                to={`/List/Shorts/${i}`}
+                to={`/List/Shorts/${items?.videoId}`}
                 style={{ textDecoration: "none", color: "black" }}
                 key={i}
                 onClick={() => {
-                  setOption(true);
-                  setDataContext(element);
+                  const filteredData = element?.data.map(
+                    (item) => item?.videoId,
+                  );
+                  setDataContext(filteredData);
                 }}
               >
                 <div
@@ -237,7 +240,7 @@ export const ListingShorts = ({
       >
         {element?.data.map((items, i) => (
           <Link
-            to={`/List/Shorts/${i}`}
+            to={`/List/Shorts/${items.videoId}`}
             style={{
               textDecoration: "none",
               color: "black",
@@ -255,8 +258,10 @@ export const ListingShorts = ({
             }}
             key={i}
             onClick={() => {
-              setOption(true);
-              setDataContext(element);
+              const filteredData = element?.data.map(
+                (item) => item?.videoId,
+              );
+              setDataContext(filteredData);
             }}
           >
             <div

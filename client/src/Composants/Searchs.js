@@ -28,7 +28,6 @@ function Search() {
   });
   const {
     setDataContext,
-    setOption,
     token,
     setToken,
     setLoadNextContentSearch,
@@ -107,7 +106,6 @@ function Search() {
                     <NewSearchs
                       data={response}
                       setDataContext={setDataContext}
-                      setOption={setOption}
                       value={value}
                       WidthShorts={WidthShorts}
                       marginLeft={marginLeft}
@@ -146,7 +144,6 @@ function Search() {
     marginLeft,
     MarginRight,
     value,
-    setOption,
     LoadNextContentSearch,
     setLoadNextContentSearch,
     setDataContext,
@@ -212,7 +209,6 @@ function Search() {
         <NewSearchs
           data={dataYTB}
           setDataContext={setDataContext}
-          setOption={setOption}
           value={value}
           WidthShorts={WidthShorts}
           marginLeft={marginLeft}

@@ -9,7 +9,6 @@ import { BsPlayFill } from "react-icons/bs";
 export const NewSearchs = ({
   data,
   setDataContext,
-  setOption,
   value,
   WidthShorts,
   marginLeft,
@@ -654,12 +653,14 @@ export const NewSearchs = ({
                   >
                     {element?.data.map((items, i) => (
                       <Link
-                        to={`/List/Shorts/${i}`}
+                        to={`/List/Shorts/${items.videoId}`}
                         style={{ textDecoration: "none", color: "black" }}
                         key={i}
                         onClick={() => {
-                          setOption(true);
-                          setDataContext(element);
+                          const filteredData = element?.data.map(
+                            (item) => item?.videoId,
+                          );
+                          setDataContext(filteredData);
                         }}
                       >
                         <div

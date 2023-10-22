@@ -10,7 +10,7 @@ import { useContext } from "../../Context/ContextProvider";
 export function AllShortsChannel() {
   let { chaId } = useParams();
   const navigate = useNavigate();
-  const { setDataContext, setOption } = useContext();
+  const { setDataContext } = useContext();
   const {
     data: DataShorts,
     isLoading,
@@ -113,9 +113,11 @@ export function AllShortsChannel() {
               marginBottom: "0.5%",
             }}
             onClick={() => {
-              setOption(false);
-              setDataContext(DataShorts);
-              navigate(`/List/Shorts/${i}`);
+              const filteredData = DataShorts.data?.data.map(
+                (item) => item?.videoId,
+              );
+              setDataContext(filteredData);
+              navigate(`/List/Shorts/${items?.videoId}`);
             }}
           >
             <div

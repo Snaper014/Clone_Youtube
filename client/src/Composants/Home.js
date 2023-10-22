@@ -31,7 +31,7 @@ function Home() {
 
   //console.log("data Home", DataYTB);
   const refWidth = React.useRef(null);
-  const { setDataContext, setOption } = useContext();
+  const { setDataContext } = useContext();
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
@@ -102,7 +102,6 @@ function Home() {
             Data={DataYTB}
             refWidth={refWidth}
             setDataContext={setDataContext}
-            setOption={setOption}
             LogochannelThumbnail={true}
             setResponsive={setResponsive}
             responsive={responsive}

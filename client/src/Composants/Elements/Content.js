@@ -14,7 +14,6 @@ export const DisplayContent = ({
   Data,
   refWidth,
   setDataContext = "",
-  setOption = "",
   LogochannelThumbnail = false,
   HasCaroussel = false,
   ChannelHome = false,
@@ -151,7 +150,6 @@ export const DisplayContent = ({
                 WidthShorts={WidthShorts}
                 MarginRight={MarginRight}
                 marginLeft={marginLeft}
-                setOption={setOption}
                 setDataContext={setDataContext}
                 HasCaroussel={HasCaroussel}
               />
