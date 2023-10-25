@@ -22,12 +22,14 @@ import { GoTrophy } from "react-icons/go";
 import { GiClothesline } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import { useUser, UserButton } from "@clerk/clerk-react";
 
 export function BarSearch() {
   const [valeur, setValeur] = React.useState(false);
   const [champs, setChamps] = React.useState("");
   const navigate = useNavigate();
   const { setLoadNextContentSearch, setToken } = useContext();
+  const { isSignedIn } = useUser();
 
   const IsTranslate = () => {
     setValeur(!valeur);
@@ -160,6 +162,11 @@ export function BarSearch() {
           </div>
         </div>
 
+      {isSignedIn ? 
+        <UserButton 
+            afterSignOutUrl="/" 
+          /> 
+        : 
         <div
           style={{
             width: "170px",
@@ -168,7 +175,7 @@ export function BarSearch() {
             justifyContent: "center",
           }}
         >
-          <Link
+           <Link
             style={{
               textDecoration: "none",
               color: "black",
@@ -176,6 +183,7 @@ export function BarSearch() {
               justifyContent: "center",
               alignItems: "center",
             }}
+            to={"/login"}
           >
             <div className="StyleMenuBtnConnecter">
               <div
@@ -207,7 +215,7 @@ export function BarSearch() {
               </p>
             </div>
           </Link>
-        </div>
+        </div>}
       </AppBar>
 
       <div
@@ -311,7 +319,7 @@ export function BarSearch() {
         <hr style={{ height: "3px", color: "black" }} />
 
         <div className="StyleMenuBtn">
-          <p style={{ marginBottom: "3%" }}>
+          <p style={{ marginBottom: "15px" }}>
             Connectez-vous à YouTube pour cliquer sur "J'aime", ajouter un
             commentaire et vous abonner.
           </p>
@@ -327,7 +335,15 @@ export function BarSearch() {
             >
               <BiUserCircle fontSize={35} color="#065fd4" />
             </div>
-
+            <Link
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            to={"/login"}
+          >    
             <p
               style={{
                 color: "#065fd4",
@@ -343,6 +359,7 @@ export function BarSearch() {
             >
               Se connecter
             </p>
+            </Link>
           </div>
         </div>
         <div style={{ width: "80%", marginBottom: "2vh" }}>

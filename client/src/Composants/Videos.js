@@ -9,6 +9,9 @@ import { useQuery } from "@tanstack/react-query";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { BarSearch, MobileBarSearch } from "./AppBarPrimary";
 import { CheckRelatedVideos } from "../utils/utils";
+import {  useAuth, useUser } from "@clerk/clerk-react";
+import { GetHistory } from "../redux/History";
+import { useContext } from "../Context/ContextProvider";
 
 function Videos() {
   const navigate = useNavigate();
@@ -27,10 +30,13 @@ function Videos() {
   const [WidthVideos, setWidthVideos] = React.useState();
   const [HeightVideos, setHeightVideos] = React.useState();
   const ref = React.useRef(null);
+  const { isSignedIn, user } = useUser();
+  const {getToken} = useAuth();
+  const {fetchToken} = useContext();
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
-
+ 
   React.useLayoutEffect(() => {
     const hight = window.innerHeight;
     setHeightVideos(hight * 0.5);
@@ -41,6 +47,7 @@ function Videos() {
     return () => clearTimeout(chargement);
   }, []);
 
+ 
   React.useEffect(() => {
     const CheckResponsive = () => {
       if (window.innerWidth <= 1024) {
@@ -50,13 +57,17 @@ function Videos() {
         setResponsive(false);
       }
     };
+    fetchToken(getToken);
+    //console.log("BigToken", localStorage.getItem("jwt-auth"));
+    if(isSignedIn){
+      console.log('fetch getHistory')
+      GetHistory();
+    }
     window.addEventListener("resize", CheckResponsive);
     return () => {
       window.removeEventListener("resize", CheckResponsive);
     };
-  }, []);
-
-  //console.log("Data", dataYTB);
+  }, [fetchToken, getToken, isSignedIn]);
 
   if (isLoading) {
     return (

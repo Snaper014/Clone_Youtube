@@ -9,7 +9,14 @@ const DataProvider = ({ children, ...props }) => {
   const [LoadNextContentSearch, setLoadNextContentSearch] = React.useState([]);
   const [token, setToken] = React.useState("");
 
+  const fetchToken = async (getToken) => {
+    const token = await getToken()
+    .then(res => localStorage.setItem('jwt-auth', JSON.stringify(res)))
+    .catch(error => console.log(error));
+    return token;
+  }  
   React.useEffect(() => {
+    //remplacer par le local storage
     sessionStorage.setItem("shorts", JSON.stringify(DataContext));
   }, [DataContext]);
 
@@ -22,6 +29,7 @@ const DataProvider = ({ children, ...props }) => {
         setLoadNextContentSearch,
         token,
         setToken,
+        fetchToken,
       }}
       {...props}
     >

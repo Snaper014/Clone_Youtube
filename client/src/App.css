@@ -368,7 +368,6 @@ main{
      height: 60vh;   
 }
 
-/* Ne pas oublier ce petit detail mouseover*/
 .HoverColorGray:hover{
     background-color: #efeff1;
 }
@@ -390,6 +389,25 @@ main{
       scrollbar-width: none;  /* Firefox */
     }
     
+  /* Custom Clerk composants*/
+ .cl-signIn-root{
+    margin: 10px;
+ }
+ .cl-signUp-root{
+    margin-top: 10px;
+ }
+  .cl-userButton-root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+  }
+  .cl-avatarBox{
+    height: 45px;
+    width: 45px;
+
+  } 
+  /*cl-userButtonAvatarBox 🔒️ cl-internal-11ewti4*/
+
 
 
 

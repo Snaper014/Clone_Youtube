@@ -59,6 +59,7 @@ function Home() {
       </div>
     );
   }
+
   return (
     <>
       {responsive ? (
