@@ -29,10 +29,9 @@ const APICreatePlaylist = (response) =>
   API.post("/library", { data: response });
 const AddVideosPlaylist = (name, response) =>
   API.post("/library/add", { name, data: response });
-  const DeleteVideoPlaylist = (response) => 
-  API.delete("/library", {data: response});
-  const DeletePlaylist = (id) => 
-    API.delete(`/library/remove/${id}`);
+const DeleteVideoPlaylist = (response) =>
+  API.delete("/library", { data: response });
+const DeletePlaylist = (id) => API.delete(`/library/remove/${id}`);
 const LikeOrDislike = (type, response) =>
   API.post(`/likes?type=${type}`, { data: response });
 const CheckLikeOrDislike = (id) => API.get(`/likes/check/${id}`);

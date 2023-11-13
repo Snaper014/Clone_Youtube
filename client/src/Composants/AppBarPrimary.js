@@ -24,6 +24,7 @@ import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { Avatar, Alert } from "@mui/material";
 import { GetSubs } from "../actions/Actions";
+import { UserAccount } from "./Elements/modals/MenuMobile";
 import Snackbar from "@mui/material/Snackbar";
 
 export function BarSearch() {
@@ -623,9 +624,16 @@ export function BarSearch() {
 export const MobileBarSearch = ({ name = "" }) => {
   //const [valeur, setValeur] = React.useState(false);
   const [champs, setChamps] = React.useState("");
-  const { setLoadNextContentSearch, setToken } = useContext();
+  const { setLoadNextContentSearch, setToken, user, setUser } = useContext();
   const [DisplaySearch, setDisplaySearch] = React.useState(false);
+  const [displayMenu, setDisplayMenu] = React.useState(false);
   const navigate = useNavigate();
+
+  const Logout = () => {
+    setUser(null);
+    localStorage.removeItem("jwt-auth");
+    setDisplayMenu(false);
+  };
 
   const HandleChange = (e) => setChamps(e.target.value);
   const Envoyer = () => {
@@ -648,6 +656,13 @@ export const MobileBarSearch = ({ name = "" }) => {
   };
   return (
     <>
+      {displayMenu ? (
+        <UserAccount
+          Logout={Logout}
+          user={user}
+          setDisplayMenu={setDisplayMenu}
+        />
+      ) : null}
       <AppBar
         role="menubar"
         data-testid="MenuMobile"
@@ -719,7 +734,18 @@ export const MobileBarSearch = ({ name = "" }) => {
             fontSize={48}
             style={{ marginLeft: "3%", cursor: "pointer" }}
           />
-          {name !== "" ? null : <BiUserCircle fontSize={48} />}
+          {name !== "" ? null : user ? (
+            <Avatar
+              onClick={() => setDisplayMenu(true)}
+              alt={user?.username}
+              src={user?.image}
+              sx={{ width: 40, height: 40, bgcolor: user?.color }}
+            >
+              {user?.username.charAt(0)}
+            </Avatar>
+          ) : (
+            <BiUserCircle fontSize={48} onClick={() => navigate("/login")} />
+          )}
         </div>
       </AppBar>
       {DisplaySearch ? (

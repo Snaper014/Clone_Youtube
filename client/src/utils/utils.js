@@ -54,7 +54,7 @@ export const GetInfosSubs = (data, isLibrary = false) => {
     numberSubs: data?.data?.subscriberCountText,
     updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
   };
-  const result = isLibrary ?  Libresponse : response;
+  const result = isLibrary ? Libresponse : response;
   return result;
 };
 
@@ -93,8 +93,8 @@ export const AddInfosLikes = (data, id, type, isLibrary = false) => {
     idVideo: id,
     thumbnail: data?.data?.thumbnail[0]?.url,
     channelThumbnail: data?.data?.channelThumbnail[1]?.url
-    ? data?.data?.channelThumbnail[1]?.url
-    : data?.data?.channelThumbnail[0]?.url,
+      ? data?.data?.channelThumbnail[1]?.url
+      : data?.data?.channelThumbnail[0]?.url,
     title: data?.data?.title,
     channelTitle: data?.data?.channelTitle,
     publishDate: data?.data?.publishDate,
@@ -107,7 +107,7 @@ export const AddInfosLikes = (data, id, type, isLibrary = false) => {
     typeLike: type,
     updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
   };
- const result = isLibrary ? Libresponse : response; 
+  const result = isLibrary ? Libresponse : response;
 
   return result;
 };
@@ -244,4 +244,3 @@ export const MoreContent = (numero, choice = false) => {
   element.style.flexWrap = "wrap";
   button.remove();
 };
-

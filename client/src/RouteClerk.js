@@ -50,7 +50,7 @@ function ClerkProviderWithRoutes() {
             path="/Playlist/:videoPL/:index/:Identifiant"
             element={<Playlist />}
           />
-          <Route path="/plyst/:id" element={<DetailsPlaylist />}/>
+          <Route path="/plyst/:id" element={<DetailsPlaylist />} />
           <Route path="/Culture" element={<Knoweldge />} />
           <Route path="/Mode" element={<Mode />} />
           <Route path="/Channel/:chaId" element={<PageYoutubeur />} />

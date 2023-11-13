@@ -9,7 +9,13 @@ import Snackbar from "@mui/material/Snackbar";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
-const ModalPlaylist = ({ dataYTB, user, id , isLibrary = false, responsive = 1440}) => {
+const ModalPlaylist = ({
+  dataYTB,
+  user,
+  id,
+  isLibrary = false,
+  responsive = 1440,
+}) => {
   const [open, setOpen] = React.useState(false);
   const [Notification, setNotification] = React.useState(false);
   const [listPlaylist, setListPlaylist] = React.useState([]);
@@ -23,16 +29,15 @@ const ModalPlaylist = ({ dataYTB, user, id , isLibrary = false, responsive = 144
     setNotification(false);
   };
 
-
-const handleCheck = (e) => {
+  const handleCheck = (e) => {
     const value = e.target.checked;
     const name = e.target.name;
 
-    if(value){
-        AddVideosPlaylist(name, AddInfosLikes(dataYTB, id, '', isLibrary));
-        setNotification(true);
-    }else return null;
-}
+    if (value) {
+      AddVideosPlaylist(name, AddInfosLikes(dataYTB, id, "", isLibrary));
+      setNotification(true);
+    } else return null;
+  };
 
   React.useEffect(() => {
     if (user) {
@@ -51,7 +56,7 @@ const handleCheck = (e) => {
       <MdPlaylistAdd
         fontSize={30}
         onClick={handleOpen}
-        style={{cursor: "pointer" }}
+        style={{ cursor: "pointer" }}
       />
       <Modal
         open={open}
@@ -65,7 +70,7 @@ const handleCheck = (e) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: `${responsive <= 600 ? '100%' : "400px"}`,
+            width: `${responsive <= 600 ? "100%" : "400px"}`,
             bgcolor: "white",
             display: "flex",
             alignItems: "flex-start",
@@ -78,12 +83,17 @@ const handleCheck = (e) => {
           }}
         >
           <Snackbar
-              open={Notification}
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              autoHideDuration={3000}
-              message={<>Vous avez ajouté la vidéo dans la playlist <strong>succès!</strong></>}
-              onClose={handleNotifClose}
-            ></Snackbar>
+            open={Notification}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            autoHideDuration={3000}
+            message={
+              <>
+                Vous avez ajouté la vidéo dans la playlist{" "}
+                <strong>succès!</strong>
+              </>
+            }
+            onClose={handleNotifClose}
+          ></Snackbar>
           <div
             style={{
               height: "200px",
@@ -94,85 +104,89 @@ const handleCheck = (e) => {
               alignItems: "flex-start",
             }}
           >
-            {!user ?   
-              <div
-              style={{
-                height: "200px",
-                width: "90%",
-                border: "none",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                alignItems: "flex-start",
-                justifyContent: "center",
-              }}
-            >
-               <h4>Regarder à nouveau cette vidéo plus tard ?</h4>
-               <p>Connectez-vous pour ajouter la vidéo à une playlist.</p>
-               <Link to={"/login"}
-                    style={{
-                        textDecoration: "none",
-                        color: "#065fd4",
-                        fontWeight: "500",
-                        fontSize: "1em"
-                    }}
-               >
-                  Se connecter
-               </Link>
-            </div>
-            :
-            <div
-              style={{
-                height: "200px",
-                width: "90%",
-                border: "none",
-                display: "flex",
-                alignItems: "flex-start",
-              }}
-            >
+            {!user ? (
               <div
                 style={{
+                  height: "200px",
                   width: "90%",
-                  height: "100%",
+                  border: "none",
                   display: "flex",
-                  overflowY: "scroll",
                   flexDirection: "column",
+                  gap: "10px",
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                }}
+              >
+                <h4>Regarder à nouveau cette vidéo plus tard ?</h4>
+                <p>Connectez-vous pour ajouter la vidéo à une playlist.</p>
+                <Link
+                  to={"/login"}
+                  style={{
+                    textDecoration: "none",
+                    color: "#065fd4",
+                    fontWeight: "500",
+                    fontSize: "1em",
+                  }}
+                >
+                  Se connecter
+                </Link>
+              </div>
+            ) : (
+              <div
+                style={{
+                  height: "200px",
+                  width: "90%",
+                  border: "none",
+                  display: "flex",
                   alignItems: "flex-start",
                 }}
               >
-                {!listPlaylist?.length ? 
-                  <p>Créer une playlist pour ajouter la vidéo.</p> 
-                  : 
+                <div
+                  style={{
+                    width: "90%",
+                    height: "100%",
+                    display: "flex",
+                    overflowY: "scroll",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  {!listPlaylist?.length ? (
+                    <p>Créer une playlist pour ajouter la vidéo.</p>
+                  ) : (
                     listPlaylist.map((element, index) => (
-                  <div 
-                      key={index}
-                      style={{
-                       width: "100%",
-                       height: "25px",
-                       display: "flex",
-                       alignItems: "flex-start",
-                       flexDirection: "row",
-                       fontSize: "1.2em",
-                       fontWeight: "500",
-                       marginBottom: "10px",
-                       flexWrap: "nowrap" 
-                  }}>
-                    <label style={{width: "80%"}}>
-                        {element?.length >= 40 ? 
-                            element.length.substring(0, 37) + "..." 
-                        : element}
-                    </label>
-                    <input 
-                      style={{width: "20%", height: "100%"}}
-                      key={index}
-                      type="checkbox"
-                      name={element}
-                      onChange={handleCheck}
-                  />
-                  </div>  
-                ))}
+                      <div
+                        key={index}
+                        style={{
+                          width: "100%",
+                          height: "25px",
+                          display: "flex",
+                          alignItems: "flex-start",
+                          flexDirection: "row",
+                          fontSize: "1.2em",
+                          fontWeight: "500",
+                          marginBottom: "10px",
+                          flexWrap: "nowrap",
+                        }}
+                      >
+                        <label style={{ width: "80%" }}>
+                          {element?.length >= 40
+                            ? element.length.substring(0, 37) + "..."
+                            : element}
+                        </label>
+                        <input
+                          style={{ width: "20%", height: "100%" }}
+                          key={index}
+                          type="checkbox"
+                          name={element}
+                          onChange={handleCheck}
+                        />
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
-            </div>}
+            )}
             <div
               onClick={handleClose}
               style={{
@@ -184,7 +198,7 @@ const handleCheck = (e) => {
                 justifyContent: "center",
               }}
             >
-              <RxCross1 fontSize={30}/>
+              <RxCross1 fontSize={30} />
             </div>
           </div>
         </Box>

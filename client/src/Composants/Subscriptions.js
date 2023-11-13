@@ -27,7 +27,6 @@ function Abonner() {
     setOpen(false);
   };
 
-
   React.useEffect(() => {
     const CheckResponsive = () => setResponsive(window.innerWidth);
     if (user) {
@@ -43,25 +42,27 @@ function Abonner() {
 
   return (
     <>
-      {responsive <= 1024 ? 
-            <ContainerMobile styles={{
-              position: "relative",
-              height: `${!user ?  '100vh' : 'auto'}`,
-              backgroundColor: `${!user ? "#efeff1" : 'white'}`,
-              top: `7vh`,
-              left: `0px`,
-              padding: "3px 0px 120px 0px",
-              display: "flex",
-              alignItems: "flex-start",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              flexWrap: "wrap",
-              border: "none",
-              color: "black",
-              width: "100%",
-            }}>
-            {!user ? 
-              <>
+      {responsive <= 1024 ? (
+        <ContainerMobile
+          styles={{
+            position: "relative",
+            height: `${!user ? "100vh" : "auto"}`,
+            backgroundColor: `${!user ? "#efeff1" : "white"}`,
+            top: `7vh`,
+            left: `0px`,
+            padding: "3px 0px 120px 0px",
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
+            border: "none",
+            color: "black",
+            width: "100%",
+          }}
+        >
+          {!user ? (
+            <>
               <div
                 style={{
                   width: "100%",
@@ -110,229 +111,243 @@ function Abonner() {
                   <p>Connexion</p>
                 </button>
               </div>
-              </> 
-            : 
-          <div 
-            style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: `${responsive <= 500 ? "column" : 'row'}`,
-            justifyContent: `${responsive <= 500 ? "flex-start" :  "space-between"}`,
-            flexWrap: "wrap",
-            alignItems: "flex-start",
-            border: "2px solid Transparent",
-          }}>
-          {!Data.length ? (
-              <p>chargement...</p>
-            ) : (
-              Data.map((element, index) => {
-                return (
-                  <div
-                    style={{
-                      width: `${responsive <= 500 ? "100%" : 
-                      `${responsive <= 700 && responsive > 500 ? '50%' : '25%'}`}`,
-                      display: "flex",
-                      cursor: "pointer",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      margin: "20px 0px",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Link
-                      to={`/Channel/${element?.channelId}`}
-                      key={index}
+            </>
+          ) : (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: `${responsive <= 500 ? "column" : "row"}`,
+                justifyContent: `${
+                  responsive <= 500 ? "flex-start" : "space-between"
+                }`,
+                flexWrap: "wrap",
+                alignItems: "flex-start",
+                border: "2px solid Transparent",
+              }}
+            >
+              {Data.length === 0 ? (
+                <p>Vous n'avez aucun abonnement</p>
+              ) : (
+                !Data ? <p>chargement...</p> :
+               Data.map((element, index) => {
+                  return (
+                    <div
                       style={{
-                        textDecoration: "none",
-                        color: "black",
+                        width: `${
+                          responsive <= 500
+                            ? "100%"
+                            : `${
+                                responsive <= 700 && responsive > 500
+                                  ? "50%"
+                                  : "25%"
+                              }`
+                        }`,
                         display: "flex",
-                        width: "100%",
+                        cursor: "pointer",
                         flexDirection: "column",
                         alignItems: "center",
+                        margin: "20px 0px",
                         justifyContent: "center",
                       }}
                     >
-                      <div style={{ width: "50%", marginBottom: "1%" }}>
-                        <img
-                          alt={element?.channelTitle}
-                          width={"100%"}
-                          style={{ borderRadius: "50%" }}
-                          src={element?.channelThumbnail}
-                        ></img>
-                      </div>
-                      <h4 style={{ marginBottom: "1%" }}>
-                        {element?.channelTitle}
-                      </h4>
-                      <p style={{ marginBottom: "8%" }}>
-                        {element?.numberSubs}
-                      </p>
-                    </Link>
-                    <button
-                      onClick={() => {
-                        if (user) {
-                          DeleteSubs(element?.channelId)
-                            .then((response) => {
-                              setData(response?.data?.data);
-                              setOpen(true);
-                            })
-                            .catch((error) => console.log(error));
-                        }
-                      }}
-                      style={{
-                        border: "none",
-                        width: "48%",
-                        cursor: "pointer",
-                        fontSize: "16px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-evenly",
-                        backgroundColor: "#efeff1",
-                        borderRadius: "30px",
-                        fontWeight: "550",
-                        height: "50px",
-                      }}
-                    >
-                      abonné <AiOutlineCheck color="black" />
-                    </button>
-                  </div>
-                );
-              })
-            )}
-          <Snackbar
-            open={open}
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            autoHideDuration={3000}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="success"
-              sx={{ width: "100%" }}
-            >
-              Vous vous etes désabonné avec <strong>succès!</strong>
-            </Alert>
-          </Snackbar>
-        </div>
-      }  
-    </ContainerMobile>
-       : 
-       <ContainerDesktop Styles={{
-        position: "relative",
-        width: "90%",
-        height: `${user ? "auto" : "80vh"}`,
-        display: "flex",
-        top: "11vh",
-        left: "9.8vw",
-        padding: `${user ? "20px 0px" : "0px"}`,
-        flexDirection: `${user ? "row" : "column"}`,
-        justifyContent: `${user ? "space-between" : "center"}`,
-        flexWrap: "wrap",
-        alignItems: `${user ? "flex-start" : "center"}`,
-        border: "2px solid Transparent",
-      }}>
-        {user ? (
-        <>
-          {!Data.length ? (
-              <p>chargement...</p>
-            ) : (
-              Data.map((element, index) => {
-                return (
-                  <div
-                    style={{
-                      width: "20%",
-                      display: "flex",
-                      cursor: "pointer",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: "45vh",
-                    }}
-                  >
-                    <Link
-                      to={`/Channel/${element?.channelId}`}
-                      key={index}
-                      style={{
-                        textDecoration: "none",
-                        color: "black",
-                        display: "flex",
-                        width: "100%",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <div style={{ width: "50%", marginBottom: "1%" }}>
-                        <img
-                          alt={element?.channelTitle}
-                          width={"100%"}
-                          style={{ borderRadius: "50%" }}
-                          src={element?.channelThumbnail}
-                        ></img>
-                      </div>
-                      <h4 style={{ marginBottom: "1%" }}>
-                        {element?.channelTitle}
-                      </h4>
-                      <p style={{ marginBottom: "8%" }}>
-                        {element?.numberSubs}
-                      </p>
-                    </Link>
-                    <button
-                      onClick={() => {
-                        if (user) {
-                          DeleteSubs(element?.channelId)
-                            .then((response) => {
-                              setData(response?.data?.data);
-                              setOpen(true);
-                            })
-                            .catch((error) => console.log(error));
-                        }
-                      }}
-                      style={{
-                        border: "none",
-                        width: "48%",
-                        cursor: "pointer",
-                        fontSize: "16px",
-                        padding: "1vw",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-evenly",
-                        backgroundColor: "#efeff1",
-                        borderRadius: "30px",
-                        fontWeight: "550",
-                        height: "15%",
-                      }}
-                    >
-                      abonné <AiOutlineCheck color="black" />
-                    </button>
-                  </div>
-                );
-              })
-            )}
-          <Snackbar
-            open={open}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            autoHideDuration={3000}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="success"
-              sx={{ width: "100%" }}
-            >
-              Vous vous etes désabonné avec <strong>succès!</strong>
-            </Alert>
-          </Snackbar>
-        </>
+                      <Link
+                        to={`/Channel/${element?.channelId}`}
+                        key={index}
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                          display: "flex",
+                          width: "100%",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div style={{ width: "50%", marginBottom: "1%" }}>
+                          <img
+                            alt={element?.channelTitle}
+                            width={"100%"}
+                            style={{ borderRadius: "50%" }}
+                            src={element?.channelThumbnail}
+                          ></img>
+                        </div>
+                        <h4 style={{ marginBottom: "1%" }}>
+                          {element?.channelTitle}
+                        </h4>
+                        <p style={{ marginBottom: "8%" }}>
+                          {element?.numberSubs}
+                        </p>
+                      </Link>
+                      <button
+                        onClick={() => {
+                          if (user) {
+                            DeleteSubs(element?.channelId)
+                              .then((response) => {
+                                setData(response?.data?.data);
+                                setOpen(true);
+                              })
+                              .catch((error) => console.log(error));
+                          }
+                        }}
+                        style={{
+                          border: "none",
+                          width: "48%",
+                          cursor: "pointer",
+                          fontSize: "16px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-evenly",
+                          backgroundColor: "#efeff1",
+                          borderRadius: "30px",
+                          fontWeight: "550",
+                          height: "50px",
+                        }}
+                      >
+                        abonné <AiOutlineCheck color="black" />
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+              <Snackbar
+                open={open}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                autoHideDuration={3000}
+                onClose={handleClose}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  sx={{ width: "100%" }}
+                >
+                  Vous vous etes désabonné avec <strong>succès!</strong>
+                </Alert>
+              </Snackbar>
+            </div>
+          )}
+        </ContainerMobile>
       ) : (
-        <ContentSectionMenu
-          Logo={<BsCollectionPlay fontSize={120} />}
-          title="Ne manquez pas les nouvelles vidéos"
-          paragraphe="Connectez-vous pour découvrir les nouveautés de vos chaînes YouTube préférées"
-        />
+        <ContainerDesktop
+          Styles={{
+            position: "relative",
+            width: "90%",
+            height: `${user ? "auto" : "80vh"}`,
+            display: "flex",
+            top: "11vh",
+            left: "9.8vw",
+            padding: `${user ? "20px 0px" : "0px"}`,
+            flexDirection: `${user ? "row" : "column"}`,
+            justifyContent: `${user ? "space-between" : "center"}`,
+            flexWrap: "wrap",
+            alignItems: `${user ? "flex-start" : "center"}`,
+            border: "2px solid Transparent",
+          }}
+        >
+          {user ? (
+            <>
+              {!Data.length ? (
+                <p>Vous n'avez aucun abonnement</p>
+              ) : (
+                !Data ? <p>chargement...</p>
+                  :
+                Data.map((element, index) => {
+                  return (
+                    <div
+                      style={{
+                        width: "20%",
+                        display: "flex",
+                        cursor: "pointer",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: "45vh",
+                      }}
+                    >
+                      <Link
+                        to={`/Channel/${element?.channelId}`}
+                        key={index}
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                          display: "flex",
+                          width: "100%",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <div style={{ width: "50%", marginBottom: "1%" }}>
+                          <img
+                            alt={element?.channelTitle}
+                            width={"100%"}
+                            style={{ borderRadius: "50%" }}
+                            src={element?.channelThumbnail}
+                          ></img>
+                        </div>
+                        <h4 style={{ marginBottom: "1%" }}>
+                          {element?.channelTitle}
+                        </h4>
+                        <p style={{ marginBottom: "8%" }}>
+                          {element?.numberSubs}
+                        </p>
+                      </Link>
+                      <button
+                        onClick={() => {
+                          if (user) {
+                            DeleteSubs(element?.channelId)
+                              .then((response) => {
+                                setData(response?.data?.data);
+                                setOpen(true);
+                              })
+                              .catch((error) => console.log(error));
+                          }
+                        }}
+                        style={{
+                          border: "none",
+                          width: "48%",
+                          cursor: "pointer",
+                          fontSize: "16px",
+                          padding: "1vw",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-evenly",
+                          backgroundColor: "#efeff1",
+                          borderRadius: "30px",
+                          fontWeight: "550",
+                          height: "15%",
+                        }}
+                      >
+                        abonné <AiOutlineCheck color="black" />
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+              <Snackbar
+                open={open}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                autoHideDuration={3000}
+                onClose={handleClose}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  sx={{ width: "100%" }}
+                >
+                  Vous vous etes désabonné avec <strong>succès!</strong>
+                </Alert>
+              </Snackbar>
+            </>
+          ) : (
+            <ContentSectionMenu
+              Logo={<BsCollectionPlay fontSize={120} />}
+              title="Ne manquez pas les nouvelles vidéos"
+              paragraphe="Connectez-vous pour découvrir les nouveautés de vos chaînes YouTube préférées"
+            />
+          )}
+        </ContainerDesktop>
       )}
-  </ContainerDesktop>
-
-      }
     </>
   );
 }

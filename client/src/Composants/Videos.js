@@ -5,7 +5,7 @@ import "../App.css";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineCheck, AiFillLike, AiFillDislike } from "react-icons/ai";
 import { ModalPlaylist } from "./Elements/modals/ModalPlaylist";
-import { MdKeyboardArrowDown} from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import { GetVideos } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { VscVerifiedFilled } from "react-icons/vsc";
@@ -40,12 +40,14 @@ function Videos() {
   });
   const [DisplayDescription, setDisplayDescription] = React.useState(false);
   const [open, setOpen] = React.useState({
-      subscriber: false,
-      like: false,
-      dislike: false
+    subscriber: false,
+    like: false,
+    dislike: false,
   });
   const handleOpen = (open) => {
-     setOpen(prev => {return {...prev, [open]: true}})
+    setOpen((prev) => {
+      return { ...prev, [open]: true };
+    });
   };
   const handleClose = () => setOpen(false);
   const [check, setCheck] = React.useState({
@@ -139,7 +141,7 @@ function Videos() {
     );
   }
 
-  console.log("DATAYTB", dataYTB)
+  console.log("DATAYTB", dataYTB);
 
   const HandleVideos = (id) => {
     navigate(`/watch/${id}`);
@@ -171,7 +173,7 @@ function Videos() {
                 display: "flex",
                 marginBottom: "3%",
                 flexDirection: "column",
-                gap: '5px'
+                gap: "5px",
               }}
             >
               <ReactPlayer
@@ -194,11 +196,10 @@ function Videos() {
                 {dataYTB?.data?.title}
               </h1>
               <p style={{ width: "100%", marginBottom: "3%" }}>
-                {dataYTB?.data?.viewCount} vues - {
-                  new Date(dataYTB?.data?.publishDate)
+                {dataYTB?.data?.viewCount} vues -{" "}
+                {new Date(dataYTB?.data?.publishDate)
                   .toLocaleString("fr-FR", { timeZone: "UTC" })
-                  .substring(0, 11)
-                  }
+                  .substring(0, 11)}
               </p>
               <div
                 style={{
@@ -207,7 +208,7 @@ function Videos() {
                   flexDirection: "row",
                   justifyContent: "space-between",
                   flexWrap: "wrap",
-                  margin: '15px 0px',
+                  margin: "15px 0px",
                   alignItems: "flex-start",
                   cursor: "pointer",
                 }}
@@ -246,30 +247,32 @@ function Videos() {
                       src={dataYTB?.data?.channelThumbnail[0]?.url}
                     ></img>
                   )}
-                    <h5 style={{ 
-                        fontSize: "18px", 
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: "3px",
-                        marginRight: "5px"
-                      }}>
-                      {dataYTB?.data?.channelBadges === null ? (
-                        <p>{dataYTB?.data?.channelTitle}</p>
-                      ) : (
-                        <>
-                          {dataYTB?.data?.channelTitle}{" "}
-                          <span>
-                            <VscVerifiedFilled />
-                          </span>
-                        </>
-                      )}
-                    </h5>
-                    <p style={{ fontSize: "14px" }}>
-                      {dataYTB?.data?.subscriberCountText}
-                    </p>
+                  <h5
+                    style={{
+                      fontSize: "18px",
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "3px",
+                      marginRight: "5px",
+                    }}
+                  >
+                    {dataYTB?.data?.channelBadges === null ? (
+                      <p>{dataYTB?.data?.channelTitle}</p>
+                    ) : (
+                      <>
+                        {dataYTB?.data?.channelTitle}{" "}
+                        <span>
+                          <VscVerifiedFilled />
+                        </span>
+                      </>
+                    )}
+                  </h5>
+                  <p style={{ fontSize: "14px" }}>
+                    {dataYTB?.data?.subscriberCountText}
+                  </p>
                 </div>
                 <button
-                   onClick={() => {
+                  onClick={() => {
                     if (user) {
                       AddSub(GetInfosSubs(dataYTB))
                         .then((response) => {
@@ -279,26 +282,40 @@ function Videos() {
                           });
                         })
                         .catch((error) => console.log(error));
-                    }else{
-                        handleOpen("subscriber");
+                    } else {
+                      handleOpen("subscriber");
                     }
                   }}
                   style={{
                     display: "flex",
-                      alignItems: "center",
-                      cursor: "pointer",
-                      border: `${!user ? "1px solid black" : (check.isSubs ? "none" : "1px solid black")}`,
-                      justifyContent: `${!user ? "center" :(
-                        check.isSubs ? "space-evenly" : "center")
-                      }`,
-                      backgroundColor: `${!user ? "black" : (check.isSubs ? "#efeff1" : "black")}`,
-                      color: `${!user ? "white" : (check.isSubs ? "black" : "white")}`,
-                      fontSize: "18px",
-                      height: "50px",
-                      width: "128px",
-                      fontWeight: "550",
-                      textAlign: "center",
-                      borderRadius: "30px",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    border: `${
+                      !user
+                        ? "1px solid black"
+                        : check.isSubs
+                        ? "none"
+                        : "1px solid black"
+                    }`,
+                    justifyContent: `${
+                      !user
+                        ? "center"
+                        : check.isSubs
+                        ? "space-evenly"
+                        : "center"
+                    }`,
+                    backgroundColor: `${
+                      !user ? "black" : check.isSubs ? "#efeff1" : "black"
+                    }`,
+                    color: `${
+                      !user ? "white" : check.isSubs ? "black" : "white"
+                    }`,
+                    fontSize: "18px",
+                    height: "50px",
+                    width: "128px",
+                    fontWeight: "550",
+                    textAlign: "center",
+                    borderRadius: "30px",
                   }}
                 >
                   {check.isSubs ? (
@@ -311,88 +328,90 @@ function Videos() {
                 </button>
               </div>
               <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "nowrap",
-                    alignItems: "center",
-                    justifyContent: "space-evenly",
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "nowrap",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <AiFillLike
+                  onClick={() => {
+                    if (user) {
+                      LikeOrDislike("like", AddInfosLikes(dataYTB, id, "like"))
+                        .then((response) => {
+                          console.log(response?.data?.data);
+                          setCheck((prev) => {
+                            return {
+                              ...prev,
+                              isLike: response?.data?.data,
+                              isDislike: false,
+                            };
+                          });
+                        })
+                        .catch((error) => console.log(error));
+                    } else {
+                      handleOpen("like");
+                    }
                   }}
-                >
-                  <AiFillLike
-                    onClick={() => {
-                      if(user){
-                        LikeOrDislike("like", AddInfosLikes(dataYTB, id, "like"))
-                          .then((response) => {
-                            console.log(response?.data?.data);
-                            setCheck((prev) => {
-                              return {
-                                ...prev,
-                                isLike: response?.data?.data,
-                                isDislike: false,
-                              };
-                            });
-                          })
-                          .catch((error) => console.log(error));
-                      }else{
-                        handleOpen("like");
-                      }
-                    }}
-                    fontSize={30}
-                    color={`${!user ? 'black' : (check.isLike ? "blue" : "black")}`}
-                    style={{ cursor: "pointer" }}
-                  />
-                  <AiFillDislike
-                    onClick={() => {
-                      if(user){
-                        LikeOrDislike(
-                          "dislike",
-                          AddInfosLikes(dataYTB, id, "dislike"),
-                        )
-                          .then((response) => {
-                            console.log(response?.data?.data);
-                            setCheck((prev) => {
-                              return {
-                                ...prev,
-                                isDislike: response?.data?.data,
-                                isLike: false,
-                              };
-                            });
-                          })
-                          .catch((error) => console.log(error));
-                      }else{
-                        handleOpen("dislike");
-                      }
-                    }}
-                    fontSize={30}
-                    color={`${!user ? 'black' : (check.isDislike ? "red" : "black")}`}
-                    style={{ cursor: "pointer" }}
-                  />
-                  <ModalPlaylist 
-                      user={user}
-                      id={id} 
-                      dataYTB={dataYTB}
-                      responsive={window.innerWidth}
-                  />
-                  <ModalSub 
-                    open={open.subscriber} 
-                    handleClose={handleClose}
-                    responsive={window.innerWidth} 
-                  />
-                  <ModalLike 
-                    open={open.like} 
-                    handleClose={handleClose}
-                    responsive={window.innerWidth} 
-                    type="like"
-                  />
-                  <ModalLike 
-                    open={open.dislike} 
-                    handleClose={handleClose}
-                    responsive={window.innerWidth}
-                    type="dislike"
-                  />
-                </div>
+                  fontSize={30}
+                  color={`${!user ? "black" : check.isLike ? "blue" : "black"}`}
+                  style={{ cursor: "pointer" }}
+                />
+                <AiFillDislike
+                  onClick={() => {
+                    if (user) {
+                      LikeOrDislike(
+                        "dislike",
+                        AddInfosLikes(dataYTB, id, "dislike"),
+                      )
+                        .then((response) => {
+                          console.log(response?.data?.data);
+                          setCheck((prev) => {
+                            return {
+                              ...prev,
+                              isDislike: response?.data?.data,
+                              isLike: false,
+                            };
+                          });
+                        })
+                        .catch((error) => console.log(error));
+                    } else {
+                      handleOpen("dislike");
+                    }
+                  }}
+                  fontSize={30}
+                  color={`${
+                    !user ? "black" : check.isDislike ? "red" : "black"
+                  }`}
+                  style={{ cursor: "pointer" }}
+                />
+                <ModalPlaylist
+                  user={user}
+                  id={id}
+                  dataYTB={dataYTB}
+                  responsive={window.innerWidth}
+                />
+                <ModalSub
+                  open={open.subscriber}
+                  handleClose={handleClose}
+                  responsive={window.innerWidth}
+                />
+                <ModalLike
+                  open={open.like}
+                  handleClose={handleClose}
+                  responsive={window.innerWidth}
+                  type="like"
+                />
+                <ModalLike
+                  open={open.dislike}
+                  handleClose={handleClose}
+                  responsive={window.innerWidth}
+                  type="dislike"
+                />
+              </div>
             </div>
 
             <div
@@ -691,20 +710,34 @@ function Videos() {
                             });
                           })
                           .catch((error) => console.log(error));
-                      }else{
-                          handleOpen("subscriber");
+                      } else {
+                        handleOpen("subscriber");
                       }
                     }}
                     style={{
                       display: "flex",
                       alignItems: "center",
                       cursor: "pointer",
-                      border: `${!user ? "1px solid black" : (check.isSubs ? "none" : "1px solid black")}`,
-                      justifyContent: `${!user ? "center" :(
-                        check.isSubs ? "space-evenly" : "center")
+                      border: `${
+                        !user
+                          ? "1px solid black"
+                          : check.isSubs
+                          ? "none"
+                          : "1px solid black"
                       }`,
-                      backgroundColor: `${!user ? "black" : (check.isSubs ? "#efeff1" : "black")}`,
-                      color: `${!user ? "white" : (check.isSubs ? "black" : "white")}`,
+                      justifyContent: `${
+                        !user
+                          ? "center"
+                          : check.isSubs
+                          ? "space-evenly"
+                          : "center"
+                      }`,
+                      backgroundColor: `${
+                        !user ? "black" : check.isSubs ? "#efeff1" : "black"
+                      }`,
+                      color: `${
+                        !user ? "white" : check.isSubs ? "black" : "white"
+                      }`,
                       fontSize: "18px",
                       height: "50px",
                       width: "128px",
@@ -735,8 +768,11 @@ function Videos() {
                 >
                   <AiFillLike
                     onClick={() => {
-                      if(user){
-                        LikeOrDislike("like", AddInfosLikes(dataYTB, id, "like"))
+                      if (user) {
+                        LikeOrDislike(
+                          "like",
+                          AddInfosLikes(dataYTB, id, "like"),
+                        )
                           .then((response) => {
                             console.log(response?.data?.data);
                             setCheck((prev) => {
@@ -748,17 +784,19 @@ function Videos() {
                             });
                           })
                           .catch((error) => console.log(error));
-                      }else{
+                      } else {
                         handleOpen("like");
                       }
                     }}
                     fontSize={30}
-                    color={`${!user ? 'black' : (check.isLike ? "blue" : "black")}`}
+                    color={`${
+                      !user ? "black" : check.isLike ? "blue" : "black"
+                    }`}
                     style={{ cursor: "pointer" }}
                   />
                   <AiFillDislike
                     onClick={() => {
-                      if(user){
+                      if (user) {
                         LikeOrDislike(
                           "dislike",
                           AddInfosLikes(dataYTB, id, "dislike"),
@@ -774,27 +812,25 @@ function Videos() {
                             });
                           })
                           .catch((error) => console.log(error));
-                      }else{
+                      } else {
                         handleOpen("dislike");
                       }
                     }}
                     fontSize={30}
-                    color={`${!user ? 'black' : (check.isDislike ? "red" : "black")}`}
+                    color={`${
+                      !user ? "black" : check.isDislike ? "red" : "black"
+                    }`}
                     style={{ cursor: "pointer" }}
                   />
-                  <ModalPlaylist 
-                      user={user}
-                      id={id} 
-                      dataYTB={dataYTB}
-                  />
-                  <ModalSub open={open.subscriber} handleClose={handleClose}/>
-                  <ModalLike 
-                    open={open.like} 
-                    handleClose={handleClose} 
+                  <ModalPlaylist user={user} id={id} dataYTB={dataYTB} />
+                  <ModalSub open={open.subscriber} handleClose={handleClose} />
+                  <ModalLike
+                    open={open.like}
+                    handleClose={handleClose}
                     type="like"
                   />
-                  <ModalLike 
-                    open={open.dislike} 
+                  <ModalLike
+                    open={open.dislike}
                     handleClose={handleClose}
                     type="dislike"
                   />
@@ -813,11 +849,10 @@ function Videos() {
                 }}
               >
                 <h3 style={{ width: "100%", marginBottom: "7px" }}>
-                  {dataYTB?.data?.viewCount} vues - {
-                  new Date(dataYTB?.data?.publishDate)
-                  .toLocaleString("fr-FR", { timeZone: "UTC" })
-                  .substring(0, 11)
-                  }
+                  {dataYTB?.data?.viewCount} vues -{" "}
+                  {new Date(dataYTB?.data?.publishDate)
+                    .toLocaleString("fr-FR", { timeZone: "UTC" })
+                    .substring(0, 11)}
                 </h3>
                 <div style={{ fontSize: "20px" }}>
                   {DisplayDescription ? (
@@ -842,16 +877,24 @@ function Videos() {
                     </>
                   ) : (
                     <>
-                      <p style={{width: "100%", height: "140px", overflow: "hidden"}}>
-                        {dataYTB?.data?.description.substring(0, 312) + "..."} 
+                      <p
+                        style={{
+                          width: "100%",
+                          height: "140px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {dataYTB?.data?.description.substring(0, 312) + "..."}
                       </p>
-                      <div style={{
-                        width: "100%", 
-                        display: "flex", 
-                        alignItems: "center",
-                        justifyContent: "center"
-                      }}>
-                        <MdKeyboardArrowDown fontSize={30}/>
+                      <div
+                        style={{
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <MdKeyboardArrowDown fontSize={30} />
                       </div>
                     </>
                   )}

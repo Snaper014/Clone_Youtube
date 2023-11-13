@@ -13,6 +13,7 @@ export const ElementsVideos = ({
   MarginRight,
   marginLeft,
   WidthVideos,
+  category,
 }) => {
   if (ChannelHome) {
     if (responsive) {
@@ -254,42 +255,44 @@ export const ElementsVideos = ({
           alignItems: "flex-start",
         }}
       >
-        <div style={{ width: "20%" }}>
-          <Link
-            to={`/Channel/${element?.channelId}`}
-            style={{
-              textDecoration: "none",
-              color: "black",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img
+        {category ? null : (
+          <div style={{ width: "20%" }}>
+            <Link
+              to={`/Channel/${element?.channelId}`}
               style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-                marginRight: "1%",
-                cursor: "pointer",
+                textDecoration: "none",
+                color: "black",
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-              src={
-                LogochannelThumbnail
-                  ? element?.channelThumbnail[0]?.url
-                  : element?.thumbnail[0]?.url
-              }
-              alt={element?.title}
-            ></img>
-          </Link>
-        </div>
+            >
+              <img
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  marginRight: "1%",
+                  cursor: "pointer",
+                }}
+                src={
+                  LogochannelThumbnail
+                    ? element?.channelThumbnail[0]?.url
+                    : element?.thumbnail[0]?.url
+                }
+                alt={element?.title}
+              ></img>
+            </Link>
+          </div>
+        )}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
             justifyContent: "flex-start",
-            width: "85%",
+            width: `${category ? "100%" : "85%"}`,
           }}
         >
           <div

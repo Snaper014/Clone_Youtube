@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import { RxCross1 } from "react-icons/rx";
 import { APICreatePlaylist } from "../../../actions/Actions";
 
-const CreatePlaylist = ({responsive}) => {
+const CreatePlaylist = ({ responsive }) => {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState({
     titlePlaylist: "",
@@ -28,7 +28,10 @@ const CreatePlaylist = ({responsive}) => {
 
   return (
     <div>
-      <Button sx={{ color: "black", fontSize: "25px", fontWeight: "500" }} onClick={handleOpen}>
+      <Button
+        sx={{ color: "black", fontSize: "25px", fontWeight: "500" }}
+        onClick={handleOpen}
+      >
         Créer Playlist
       </Button>
       <Modal
@@ -43,7 +46,7 @@ const CreatePlaylist = ({responsive}) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: `${responsive <= 500 ? '90%' : 400}`,
+            width: `${responsive <= 500 ? "90%" : 400}`,
             bgcolor: "white",
             display: "flex",
             alignItems: "flex-start",
@@ -127,10 +130,10 @@ const CreatePlaylist = ({responsive}) => {
               width: "10%",
               alignItems: "flex-start",
               justifyContent: "flex-start",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
-            <RxCross1 fontSize={30}/>
+            <RxCross1 fontSize={30} />
           </div>
         </Box>
       </Modal>

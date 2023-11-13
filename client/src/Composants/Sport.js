@@ -46,6 +46,8 @@ export function Sport() {
       </div>
     );
   }
+  console.log("data", DataSport);
+
   return (
     <>
       <BarSearch />
@@ -148,6 +150,7 @@ export function Sport() {
             LogochannelThumbnail={false}
             responsive={responsive}
             setResponsive={setResponsive}
+            category
           />
         </div>
       </div>

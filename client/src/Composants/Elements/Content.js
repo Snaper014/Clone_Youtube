@@ -18,6 +18,7 @@ export const DisplayContent = ({
   ChannelHome = false,
   setResponsive,
   responsive,
+  category = false,
 }) => {
   const [WidthVideos, setWidthVideos] = React.useState(0);
   const [WidthShorts, setWidthShorts] = React.useState(0);
@@ -97,6 +98,7 @@ export const DisplayContent = ({
                 MarginRight={MarginRight}
                 marginLeft={marginLeft}
                 WidthVideos={WidthVideos}
+                category={category}
               />
             );
           }

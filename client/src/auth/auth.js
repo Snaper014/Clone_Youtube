@@ -2,14 +2,14 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { BsYoutube } from "react-icons/bs";
 import { GoogleLogin } from "@react-oauth/google";
-import { createOrGetUser, ConnexionUser } from "../actions/decode";
+import { ConnexionUser } from "../actions/decode";
 import { useNavigate } from "react-router-dom";
 import { useHref } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import { GetSignIn, GetSignUp } from "../actions/Actions";
 import { useContext } from "../Context/ContextProvider";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-// Ne pas oublier Auth Google
 
 const Auth = () => {
   const href = useHref();
@@ -20,6 +20,18 @@ const Auth = () => {
     first: false,
     second: false,
   });
+  const [notification, setNotification] = React.useState({
+      username: [false, ''],
+      email: [false, ''],
+      password: [false, ''],
+      confirmpassword: [false, ''],
+      existingName: [false, ''],
+      existingUser: [false, ''],
+      GoogleExistingName: [false, ''],
+      GoogleExistingUser: [false, ''],
+      LoginUsername: [false, ''],
+      loginPassword: [false, '']
+  })
   const [widthScreen, setWidthScreen] = React.useState(window.innerWidth);
   const [query, setQuery] = React.useState({
     username: "",
@@ -49,14 +61,60 @@ const Auth = () => {
     if (isSignIn) {
       GetSignIn(query)
         .then((response) => ConnexionUser(response, navigate, setUser))
-        .catch((error) => console.log(error));
-      // rajouter les messages plus de notif plus tard
+        .catch((error) => {
+          const reason = error?.response?.data?.reason;
+          const message = error?.response?.data?.message;
+          if(reason === "No existingUser"){
+            setNotification(prev => {
+              return {...prev, LoginUsername: [true, message]}
+            })
+          }
+          if(reason === "passwordIncorrect"){
+            setNotification(prev => {
+              return {...prev, loginPassword: [true, message]}
+            })
+          }
+          console.log("error", error);
+          console.log("Login failed");
+        });
+
     } else {
       GetSignUp(query)
         .then((response) => ConnexionUser(response, navigate, setUser))
         .catch((error) => {
-          console.log("error", error);
-          // rajouter les messages plus de notif plus tard
+          const reason = error?.response?.data?.reason;
+          const message = error?.response?.data?.message;
+          if(reason === "username"){
+            setNotification(prev => {
+              return {...prev, username: [true, message]}
+            })
+          }
+          if(reason === "email non valide"){
+            setNotification(prev => {
+              return {...prev, email: [true, message]}
+            })
+          }
+          if(reason === "password"){
+            setNotification(prev => {
+              return {...prev, password: [true, message]}
+            })
+          }
+          if(reason === "confirmpassword"){
+            setNotification(prev => {
+              return {...prev, confirmpassword: [true, message]}
+            })
+          }
+          if(reason === "existingName"){
+            setNotification(prev => {
+              return {...prev, existingName: [true, message]}
+            })
+          }
+          if(reason === "existingUser"){
+            setNotification(prev => {
+              return {...prev, existingUser: [true, message]}
+            })
+          }
+          console.log("error", error);          
         });
     }
   };
@@ -66,6 +124,7 @@ const Auth = () => {
     window.addEventListener("resize", Changes);
     return () => window.removeEventListener("resize", Changes);
   }, [widthScreen]);
+
 
   return (
     <>
@@ -96,7 +155,7 @@ const Auth = () => {
           }}
         >
           <BsYoutube fontSize={30} color="#DE1B1B" />
-          {widthScreen <= 315 ? null :  <p>Retour à l'Acceuil</p>}
+          {widthScreen <= 315 ? null : <p>Retour à l'Acceuil</p>}
         </Link>
         <Link
           to={`${isSignIn ? "/register" : "/login"}`}
@@ -124,9 +183,7 @@ const Auth = () => {
         <div
           style={{
             width: `${widthScreen <= 500 ? "100%" : "400px"}`,
-            height: `${
-              widthScreen <= 500 ? "auto" : isSignIn ? "475px" : "650px"
-            }`,
+            height: "auto",
             border: `${
               widthScreen <= 500 ? "1px solid transparent" : "4px solid black"
             }`,
@@ -201,21 +258,78 @@ const Auth = () => {
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
                   console.log(credentialResponse);
-                  createOrGetUser(credentialResponse);
-                  navigate("/");
+                  const decoded = jwtDecode(credentialResponse.credential);
+                  console.log("jwt", decoded);
+                  const { name, email, sub, picture } = decoded;
+                  const SignUp = {
+                    username: name,
+                    email: email,
+                    password: sub,
+                    image: picture,
+                    AuthByGoogle: true
+                  }
+                  console.log("SignUp", SignUp);
+                  const SignIn = {
+                    username: email,
+                    password: sub
+                  };
+                  if(isSignIn){
+                    GetSignIn(SignIn)
+                      .then((response) => ConnexionUser(response, navigate, setUser))
+                      .catch((error => console.log(error)))
+                  }else{
+                       GetSignUp(SignUp)
+                       .then((response) => ConnexionUser(response, navigate, setUser))
+                       .catch((error => {
+                            const reason = error?.response?.data?.reason;
+                            const message = error?.response?.data?.message;
+                          if(reason === "ExistingName"){
+                            setNotification(prev => {
+                              return {...prev, GoogleExistingName: [true, message]}
+                            })
+                          }
+                          if(reason === "ExistingUser"){
+                            setNotification(prev => {
+                              return {...prev, GoogleExistingUser: [true, message]}
+                            })
+                          }
+                          console.log("error", error);
+                          console.log("Login Failed");
+                      }))
+                  }
                 }}
                 onError={(error) => {
-                  console.log(error);
+                  console.log("error", error);
                   console.log("Login Failed");
                 }}
                 type="icon"
                 logo_alignment="center"
-                size="medium"
+                size="large"
                 text="signin_with"
                 shape="square"
               />
             </button>
           </div>
+          {notification?.GoogleExistingName?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification?.GoogleExistingName?.at(1)}
+                  </span> 
+              : null}
+              {notification?.GoogleExistingUser?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification?.GoogleExistingUser?.at(1)}
+                  </span> 
+              : null}
           <div
             style={{
               width: "100%",
@@ -259,7 +373,7 @@ const Auth = () => {
                 htmlFor="username"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
               >
-                Adresse email :
+                Le nom d'utilisateur ou adresse email :
               </label>
               <input
                 id="username"
@@ -267,7 +381,12 @@ const Auth = () => {
                 required
                 type="text"
                 value={query.username}
-                onChange={(e) => handleParam(e)}
+                onChange={(e) => {
+                  handleParam(e)
+                  setNotification(prev => {
+                    return {...prev, LoginUsername: [false, '']}
+                  })
+                }}
                 aria-label="username"
                 className="zoom"
                 style={{
@@ -279,6 +398,16 @@ const Auth = () => {
                   marginBottom: "6px",
                 }}
               />
+              {notification?.LoginUsername?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification?.LoginUsername?.at(1)}
+                  </span> 
+              : null}
               <label
                 htmlFor="password"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -305,7 +434,12 @@ const Auth = () => {
                   required
                   value={query.password}
                   aria-label="password"
-                  onChange={(e) => handleParam(e)}
+                  onChange={(e) => {
+                    handleParam(e)
+                    setNotification(prev => {
+                      return {...prev, loginPassword: [false, '']}
+                    })
+                  }}
                   style={{
                     width: "90%",
                     height: "40px",
@@ -345,6 +479,16 @@ const Auth = () => {
                   )}
                 </i>
               </div>
+              {notification?.loginPassword?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification?.loginPassword?.at(1)}
+                  </span> 
+              : null}
               <input
                 className="btn-submit-form zoom"
                 type="submit"
@@ -374,7 +518,15 @@ const Auth = () => {
                 required
                 type="text"
                 value={query.username}
-                onChange={(e) => handleParam(e)}
+                onChange={(e) => {
+                  handleParam(e)
+                  setNotification(prev => {
+                    return {...prev, username: [false, '']}
+                  })
+                  setNotification(prev => {
+                    return {...prev, existingName: [false, '']}
+                  })
+                }}
                 aria-label="username"
                 className="zoom"
                 style={{
@@ -388,6 +540,26 @@ const Auth = () => {
                   marginBottom: "16px",
                 }}
               />
+              {notification.username?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification.username?.at(1)}
+                  </span> 
+              : null}
+              {notification.existingName?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification.existingName?.at(1)}
+                  </span> 
+              : null}
               <label
                 htmlFor="username"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -399,7 +571,15 @@ const Auth = () => {
                 name="email"
                 required
                 value={query.email}
-                onChange={(e) => handleParam(e)}
+                onChange={(e) => {
+                  handleParam(e)
+                  setNotification(prev => {
+                    return {...prev, email: [false, '']}
+                  })
+                  setNotification(prev => {
+                    return {...prev, existingUser: [false, '']}
+                  })
+                }}
                 type="text"
                 aria-label="email"
                 className="zoom"
@@ -414,6 +594,26 @@ const Auth = () => {
                   marginBottom: "16px",
                 }}
               />
+              {notification.email?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification.email?.at(1)}
+                  </span> 
+              : null}
+              {notification.existingUser?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification.existingUser?.at(1)}
+                  </span> 
+              : null}
               <label
                 htmlFor="password"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -439,7 +639,12 @@ const Auth = () => {
                   required
                   value={query.password}
                   aria-label="password"
-                  onChange={(e) => handleParam(e)}
+                  onChange={(e) => {
+                    handleParam(e)
+                    setNotification(prev => {
+                      return {...prev, password: [false, '']}
+                    })
+                  }}
                   style={{
                     width: "90%",
                     height: "40px",
@@ -479,6 +684,16 @@ const Auth = () => {
                   )}
                 </i>
               </div>
+              {notification.password?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification.password?.at(1)}
+                  </span> 
+              : null}
               <label
                 htmlFor="confirmpassword"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -505,7 +720,12 @@ const Auth = () => {
                   onKeyDown={handleKeyPress}
                   value={query.confirmpassword}
                   aria-label="confirmpassword"
-                  onChange={(e) => handleParam(e)}
+                  onChange={(e) => {
+                    handleParam(e)
+                    setNotification(prev => {
+                      return {...prev, confirmpassword: [false, '']}
+                    })
+                  }}
                   style={{
                     width: "90%",
                     height: "40px",
@@ -545,6 +765,16 @@ const Auth = () => {
                   )}
                 </i>
               </div>
+              {notification.confirmpassword?.at(0) ? 
+                  <span style={{
+                      marginBottom: "16px",
+                      fontSize: "0.8em", 
+                      fontWeight: "500", 
+                      color: "#DE1B1B"
+                    }}>
+                      {notification.confirmpassword?.at(1)}
+                  </span> 
+              : null}
               <input
                 type="submit"
                 name="submit"

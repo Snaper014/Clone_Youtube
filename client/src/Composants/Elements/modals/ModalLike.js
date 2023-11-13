@@ -4,73 +4,75 @@ import Modal from "@mui/material/Modal";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
-const ModalLike = ({open, handleClose, type, responsive = 1440}) => {
-
+const ModalLike = ({ open, handleClose, type, responsive = 1440 }) => {
   return (
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: `${responsive <= 600 ? '100%' : 400}`,
-            bgcolor: "white",
-            display: "flex",
-            alignItems: "flex-start",
-            flexDirection: "row",
-            flexWrap: "nowrap",
-            borderRadius: "7px",
-            border: "none",
-            boxShadow: 24,
-            p: 3,
-          }}
-        >  
-        <div
-        style={{
-        height: "200px",
-        width: "90%",
-        border: "none",
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        }}
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
     >
-        <h4>Vous {type === "like" ? "aimez" : "n'aimez pas"} cette vidéo ?</h4>
-        <p>Connectez-vous pour donner votre avis.</p>
-        <Link to={"/login"}
-            style={{
-                textDecoration: "none",
-                color: "#065fd4",
-                fontWeight: "500",
-                fontSize: "1em"
-            }}
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: `${responsive <= 600 ? "100%" : 400}`,
+          bgcolor: "white",
+          display: "flex",
+          alignItems: "flex-start",
+          flexDirection: "row",
+          flexWrap: "nowrap",
+          borderRadius: "7px",
+          border: "none",
+          boxShadow: 24,
+          p: 3,
+        }}
+      >
+        <div
+          style={{
+            height: "200px",
+            width: "90%",
+            border: "none",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
         >
+          <h4>
+            Vous {type === "like" ? "aimez" : "n'aimez pas"} cette vidéo ?
+          </h4>
+          <p>Connectez-vous pour donner votre avis.</p>
+          <Link
+            to={"/login"}
+            style={{
+              textDecoration: "none",
+              color: "#065fd4",
+              fontWeight: "500",
+              fontSize: "1em",
+            }}
+          >
             Se connecter
-        </Link>
-    </div>
-    <div
-              onClick={handleClose}
-              style={{
-                width: "10%",
-                border: "none",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <RxCross1 fontSize={30}/>
-            </div>
-        </Box>
-      </Modal>
+          </Link>
+        </div>
+        <div
+          onClick={handleClose}
+          style={{
+            width: "10%",
+            border: "none",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <RxCross1 fontSize={30} />
+        </div>
+      </Box>
+    </Modal>
   );
 };
 

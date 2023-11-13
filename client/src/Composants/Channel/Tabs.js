@@ -1,7 +1,7 @@
 import * as React from "react";
 import "../../App.css";
 import { IoIosArrowDown } from "react-icons/io";
-import {SectionChannel} from './SectionData';
+import { SectionChannel } from "./SectionData";
 
 export function ButtonAndContainer() {
   const [select, setSelect] = React.useState("Accueil");

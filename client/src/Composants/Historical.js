@@ -85,45 +85,54 @@ function History() {
 
   const Content =
     History?.data?.data?.length !== 0 ? (
-      <div style={{
-          width: `${responsive <= 1024 ? '100%' : '78%'}`,
-      }}>
+      <div
+        style={{
+          width: `${responsive <= 1024 ? "100%" : "78%"}`,
+        }}
+      >
         {History?.data?.data.map((element, index) => {
           return (
             <div
               key={index}
               style={{
-                display: 'flex',
+                display: "flex",
                 flexDirection: `${responsive <= 700 ? "column" : "row"}`,
                 alignItems: `${responsive <= 700 ? "center" : "flex-start"}`,
-                justifyContent: 'flex-start',
-                border: '1px solid transparent',
-                width: '100%',
+                justifyContent: "flex-start",
+                border: "1px solid transparent",
+                width: "100%",
                 height: `${responsive <= 700 ? "auto" : "175px"}`,
                 marginBottom: `${responsive <= 700 ? "5%" : "3%"}`,
-                boxSizing: 'border-box',
-            }}
+                boxSizing: "border-box",
+              }}
             >
               <Link
                 to={`/watch/${element?.idVideo}`}
-                style={{ 
-                  textDecoration: "none", 
+                style={{
+                  textDecoration: "none",
                   color: "black",
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                   width: `${responsive <= 700 ? "100%" : "auto"}`,
                   backgroundColor: `${
-                    selectVideos.includes(element?.idVideo) ? "#B9D9F5" : "white"
+                    selectVideos.includes(element?.idVideo)
+                      ? "#B9D9F5"
+                      : "white"
                   }`,
-               }}
+                }}
               >
-                <div style={{ 
-                    marginLeft: `${responsive <= 700 ? "0px" : "2%"}`, 
+                <div
+                  style={{
+                    marginLeft: `${responsive <= 700 ? "0px" : "2%"}`,
                     position: "relative",
-                    width: `${responsive <= 700 ? 
-                      `${responsive <= 550 ? "100%" : "70%"}` : "auto"}`,
-                }}>
+                    width: `${
+                      responsive <= 700
+                        ? `${responsive <= 550 ? "100%" : "70%"}`
+                        : "auto"
+                    }`,
+                  }}
+                >
                   <img
                     alt={element?.title}
                     src={element?.miniature}
@@ -144,20 +153,24 @@ function History() {
                   </div>
                 </div>
               </Link>
-              <div style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
                   marginLeft: `${responsive <= 700 ? "0px" : "2%"}`,
                   marginBottom: `${responsive <= 700 ? "15px" : "0px"}`,
-                  justifyContent: 'flex-start',
-                  flexDirection: 'column',
-                  flexWrap: 'nowrap',
-                  height: '100%',
+                  justifyContent: "flex-start",
+                  flexDirection: "column",
+                  flexWrap: "nowrap",
+                  height: "100%",
                   width: `${responsive <= 700 ? "100%" : "350px"}`,
                   backgroundColor: `${
-                    selectVideos.includes(element?.idVideo) ? "#B9D9F5" : "white"
+                    selectVideos.includes(element?.idVideo)
+                      ? "#B9D9F5"
+                      : "white"
                   }`,
-              }}>
+                }}
+              >
                 <Link
                   to={`/watch/${element?.idVideo}`}
                   style={{
@@ -248,24 +261,33 @@ function History() {
                   flexDirection: `${responsive <= 700 ? "row" : "column"}`,
                   gap: "10px",
                   alignItems: `${responsive <= 1024 ? "center" : "flex-start"}`,
-                  justifyContent: `${responsive <= 1024 ? "space-evenly" : "flex-start"}`,
+                  justifyContent: `${
+                    responsive <= 1024 ? "space-evenly" : "flex-start"
+                  }`,
                   backgroundColor: `${
-                    selectVideos.includes(element?.idVideo) ? "#B9D9F5" : "white"
+                    selectVideos.includes(element?.idVideo)
+                      ? "#B9D9F5"
+                      : "white"
                   }`,
                 }}
               >
                 <button
-                  style={{ backgroundColor: 'transparent', border: 'none'}}
+                  style={{ backgroundColor: "transparent", border: "none" }}
                   onClick={() => {
                     DeleteById(element?.idVideo)
-                      .then((response) => setHistory(response))
+                      .then((response) => {
+                        setHistory(response)
+                        setOpen((prev) => {
+                          return { ...prev, one: true };
+                        });
+                      })
                       .catch((error) => console.log(error));
                   }}
                 >
-                  <RxCross1 fontSize={35}/>
+                  <RxCross1 fontSize={35} />
                 </button>
                 <button
-                style={{ backgroundColor: 'transparent', border: 'none'}}
+                  style={{ backgroundColor: "transparent", border: "none" }}
                   onClick={() => {
                     if (selectVideos.includes(element?.idVideo)) {
                       setSelectVideos((prev) => {
@@ -278,7 +300,7 @@ function History() {
                     }
                   }}
                 >
-                  <TbSelect fontSize={35}/>
+                  <TbSelect fontSize={35} />
                 </button>
               </div>
             </div>
@@ -291,423 +313,440 @@ function History() {
 
   return (
     <>
-      {responsive <= 1024 ? 
-          <ContainerMobile styles={{
+      {responsive <= 1024 ? (
+        <ContainerMobile
+          styles={{
             position: "relative",
-            height: `${!user ?  '100vh' : 'auto'}`,
-            backgroundColor: `${!user ? "#efeff1" : 'white'}`,
+            height: `${!user ? "100vh" : "auto"}`,
+            backgroundColor: `${!user ? "#efeff1" : "white"}`,
             top: `7vh`,
             padding: "3px 0px 120px 0px",
             display: "flex",
-            alignItems: `${!user ? 'center' : 'flex-start'}`,
+            alignItems: `${!user ? "center" : "flex-start"}`,
             flexDirection: "column",
-            justifyContent: `${!user ? 'center' : 'flex-start'}`,
+            justifyContent: `${!user ? "center" : "flex-start"}`,
             flexWrap: "wrap",
             border: "none",
             color: "black",
             width: "100%",
-          }}>
-            {!user ? <ContentSectionMenu
-              Logo={<GoHistory fontSize={120} />}
-              title="Effectuez le suivi des vidéos que vous visionnez"
-              paragraphe="Impossible d'afficher l'historique des vidéos regardées lorsque vous n'êtes pas connecté."
-            /> 
-          : 
-          <section style={{
-            width: '100%',
-            display: "flex",
-            flexDirection: 'column',
-        }}>
-            <div
-            style={{
-              height: "300px",
-              paddingTop: "10px",
-              width: "100%",
-              marginBottom: "15px",
-              display: "flex",
-              gap: "6px",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <div
-              style={{
-                width: "97%",
-                height: "40px",
-                border: "none",
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "nowrap",
-                alignItems: "flex-start",
-              }}
-            >
-              <input
-                style={{ width: "85%", height: "100%"}}
-                type="text"
-                aria-label="search history"
-                placeholder="Rechercher dans l'historique..."
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setMessage({ reason: false, msg: "" });
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.code === "Enter") {
-                    navigate(`/Historique?search=${search}`);
-                  }
-                }}
-              />
-              {search !== "" ? (
-                <button
-                  onClick={() => {
-                    setSearch('');
-                    navigate("/Historique")
-                  }}
-                  style={{
-                    width: "15%",
-                    border: "none",
-                    height: "98%",
-                    backgroundColor: "white",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <RxCross1 />
-                </button>
-              ) : null}
-            </div>
-            {message.reason ? (
-              <p style={{ color: "red" }}>{message.msg}</p>
-            ) : null}
-            <button
-              style={{
-                backgroundColor: "blue", 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => {
-                setSelectVideos(() => {
-                  return History?.data?.data.map((items) => items?.idVideo);
-                });
-              }}
-            >
-              Tout Selectionner
-            </button>
-            <button 
-              style={{
-                backgroundColor: "blue", 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => setSelectVideos([])}>
-              Tout Deselectionner
-            </button>
-            <p style={{fontSize: '1em'}}>
-              Nombre de Vidéos selectionner : <span>{selectVideos?.length}</span>
-            </p>
-            <button
-              style={{
-                backgroundColor: "red", 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => {
-                DeleteAllHistory()
-                  .then((response) => {
-                    console.log("Delete All", response);
-                    setHistory(response);
-                    setOpen((prev) => {
-                      return { ...prev, two: true };
-                    });
-                  })
-                  .catch((error) => console.log(error));
-              }}
-            >
-               Suprimmer tout L'historique
-            </button>
-            <button
-              style={{
-                backgroundColor: `${selectVideos?.length === 0 ? '#F6BFB9' : 'red'}`, 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => {
-                DeleteBySelect(selectVideos)
-                  .then((response) => {
-                    console.log("response sup", response);
-                    setHistory(response);
-                    setOpen((prev) => {
-                      return { ...prev, one: true };
-                    });
-                    setSelectVideos([]);
-                  })
-                  .catch((error) => console.log(error));
-              }}
-              disabled={selectVideos?.length === 0 ? true : false}
-            >
-              suprimmer
-            </button>
-            <Snackbar
-              open={open.one}
-              anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              autoHideDuration={3000}
-              onClose={handleClose}
-            >
-              <Alert
-                onClose={handleClose}
-                severity="success"
-                sx={{ width: "100%" }}
-              >
-                Vous avez suprimmé la vidéo avec <strong>succès!</strong>
-              </Alert>
-            </Snackbar>
-            <Snackbar
-              open={open.two}
-              anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              autoHideDuration={3000}
-              onClose={handleClose}
-            >
-              <Alert
-                onClose={handleClose}
-                severity="success"
-                sx={{ width: "100%" }}
-              >
-                Vous avez suprimmé toutes les vidéos avec{" "}
-                <strong>succès!</strong>
-              </Alert>
-            </Snackbar>
-          </div>
-            {!History ? <p>chargement...</p> : Content}
-          </section>
-            }
-          </ContainerMobile>
-      : 
-      <ContainerDesktop Styles={{
-          position: "relative",
-          width: "90%",
-          height: `${!user ? '80vh' : 'auto'}`,
-          display: "flex",
-          top: "11vh",
-          left: "9.8vw",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          border: "2px solid Transparent",
-        }}>
-            {!user ? 
+          }}
+        >
+          {!user ? (
             <ContentSectionMenu
               Logo={<GoHistory fontSize={120} />}
               title="Effectuez le suivi des vidéos que vous visionnez"
               paragraphe="Impossible d'afficher l'historique des vidéos regardées lorsque vous n'êtes pas connecté."
             />
-       : (
-        <section style={{
-            width: '100%',
-            display: "flex",
-            flexDirection: 'row',
-            flexWrap: 'nowrap',
-        }}>
-          
-          {!History ? <p>chargement...</p> : Content}
-          <div
-            style={{
-              position: "fixed",
-              top: "11vh",
-              paddingTop: "20px",
-              zIndex: "0",
-              height: "400px",
-              right: "0px",
-              width: "20%",
-              display: "flex",
-              gap: "6px",
-              alignItems: "flex-start",
-              flexDirection: "column",
-            }}
-          >
-            <div
+          ) : (
+            <section
               style={{
-                width: "97%",
-                height: "40px",
-                border: "none",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  height: "300px",
+                  paddingTop: "10px",
+                  width: "100%",
+                  marginBottom: "15px",
+                  display: "flex",
+                  gap: "6px",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <div
+                  style={{
+                    width: "97%",
+                    height: "40px",
+                    border: "none",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "nowrap",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <input
+                    style={{ width: "85%", height: "100%" }}
+                    type="text"
+                    aria-label="search history"
+                    placeholder="Rechercher dans l'historique..."
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setMessage({ reason: false, msg: "" });
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.code === "Enter") {
+                        navigate(`/Historique?search=${search}`);
+                      }
+                    }}
+                  />
+                  {search !== "" ? (
+                    <button
+                      onClick={() => {
+                        setSearch("");
+                        navigate("/Historique");
+                      }}
+                      style={{
+                        width: "15%",
+                        border: "none",
+                        height: "98%",
+                        backgroundColor: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <RxCross1 />
+                    </button>
+                  ) : null}
+                </div>
+                {message.reason ? (
+                  <p style={{ color: "red" }}>{message.msg}</p>
+                ) : null}
+                <button
+                  style={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => {
+                    setSelectVideos(() => {
+                      return History?.data?.data.map((items) => items?.idVideo);
+                    });
+                  }}
+                >
+                  Tout Selectionner
+                </button>
+                <button
+                  style={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => setSelectVideos([])}
+                >
+                  Tout Deselectionner
+                </button>
+                <p style={{ fontSize: "1em" }}>
+                  Nombre de Vidéos selectionner :{" "}
+                  <span>{selectVideos?.length}</span>
+                </p>
+                <button
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => {
+                    DeleteAllHistory()
+                      .then((response) => {
+                        console.log("Delete All", response);
+                        setHistory(response);
+                        setOpen((prev) => {
+                          return { ...prev, two: true };
+                        });
+                      })
+                      .catch((error) => console.log(error));
+                  }}
+                >
+                  Suprimmer tout L'historique
+                </button>
+                <button
+                  style={{
+                    backgroundColor: `${
+                      selectVideos?.length === 0 ? "#F6BFB9" : "red"
+                    }`,
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => {
+                    DeleteBySelect(selectVideos)
+                      .then((response) => {
+                        console.log("response sup", response);
+                        setHistory(response);
+                        setOpen((prev) => {
+                          return { ...prev, one: true };
+                        });
+                        setSelectVideos([]);
+                      })
+                      .catch((error) => console.log(error));
+                  }}
+                  disabled={selectVideos?.length === 0 ? true : false}
+                >
+                  suprimmer
+                </button>
+                <Snackbar
+                  open={open.one}
+                  anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                  autoHideDuration={3000}
+                  onClose={handleClose}
+                >
+                  <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                  >
+                    Vous avez suprimmé la vidéo avec <strong>succès!</strong>
+                  </Alert>
+                </Snackbar>
+                <Snackbar
+                  open={open.two}
+                  anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                  autoHideDuration={3000}
+                  onClose={handleClose}
+                >
+                  <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                  >
+                    Vous avez suprimmé toutes les vidéos avec{" "}
+                    <strong>succès!</strong>
+                  </Alert>
+                </Snackbar>
+              </div>
+              {!History ? <p>chargement...</p> : Content}
+            </section>
+          )}
+        </ContainerMobile>
+      ) : (
+        <ContainerDesktop
+          Styles={{
+            position: "relative",
+            width: "90%",
+            height: `${!user ? "80vh" : "auto"}`,
+            display: "flex",
+            top: "11vh",
+            left: "9.8vw",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            border: "2px solid Transparent",
+          }}
+        >
+          {!user ? (
+            <ContentSectionMenu
+              Logo={<GoHistory fontSize={120} />}
+              title="Effectuez le suivi des vidéos que vous visionnez"
+              paragraphe="Impossible d'afficher l'historique des vidéos regardées lorsque vous n'êtes pas connecté."
+            />
+          ) : (
+            <section
+              style={{
+                width: "100%",
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "nowrap",
-                alignItems: "flex-start",
               }}
             >
-              <input
-                style={{ width: "85%", height: "100%"}}
-                type="text"
-                aria-label="search history"
-                placeholder="Rechercher dans l'historique..."
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setMessage({ reason: false, msg: "" });
+              {!History ? <p>chargement...</p> : Content}
+              <div
+                style={{
+                  position: "fixed",
+                  top: "11vh",
+                  paddingTop: "20px",
+                  zIndex: "0",
+                  height: "400px",
+                  right: "0px",
+                  width: "20%",
+                  display: "flex",
+                  gap: "6px",
+                  alignItems: "flex-start",
+                  flexDirection: "column",
                 }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.code === "Enter") {
-                    navigate(`/Historique?search=${search}`);
-                  }
-                }}
-              />
-              {search !== "" ? (
-                <button
-                  onClick={() => {
-                    setSearch('');
-                    navigate("/Historique")
-                  }}
+              >
+                <div
                   style={{
-                    width: "15%",
+                    width: "97%",
+                    height: "40px",
                     border: "none",
-                    height: "98%",
-                    backgroundColor: "white",
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    flexDirection: "row",
+                    flexWrap: "nowrap",
+                    alignItems: "flex-start",
                   }}
                 >
-                  <RxCross1 />
+                  <input
+                    style={{ width: "85%", height: "100%" }}
+                    type="text"
+                    aria-label="search history"
+                    placeholder="Rechercher dans l'historique..."
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setMessage({ reason: false, msg: "" });
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.code === "Enter") {
+                        navigate(`/Historique?search=${search}`);
+                      }
+                    }}
+                  />
+                  {search !== "" ? (
+                    <button
+                      onClick={() => {
+                        setSearch("");
+                        navigate("/Historique");
+                      }}
+                      style={{
+                        width: "15%",
+                        border: "none",
+                        height: "98%",
+                        backgroundColor: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <RxCross1 />
+                    </button>
+                  ) : null}
+                </div>
+                {message.reason ? (
+                  <p style={{ color: "red" }}>{message.msg}</p>
+                ) : null}
+                <button
+                  style={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => {
+                    setSelectVideos(() => {
+                      return History?.data?.data.map((items) => items?.idVideo);
+                    });
+                  }}
+                >
+                  Tout Selectionner
                 </button>
-              ) : null}
-            </div>
-            {message.reason ? (
-              <p style={{ color: "red" }}>{message.msg}</p>
-            ) : null}
-            <button
-              style={{
-                backgroundColor: "blue", 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => {
-                setSelectVideos(() => {
-                  return History?.data?.data.map((items) => items?.idVideo);
-                });
-              }}
-            >
-              Tout Selectionner
-            </button>
-            <button 
-              style={{
-                backgroundColor: "blue", 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => setSelectVideos([])}>
-              Tout Deselectionner
-            </button>
-            <p style={{fontSize: '1em'}}>
-              Nombre de Vidéos selectionner : <span>{selectVideos?.length}</span>
-            </p>
-            <button
-              style={{
-                backgroundColor: "red", 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => {
-                DeleteAllHistory()
-                  .then((response) => {
-                    console.log("Delete All", response);
-                    setHistory(response);
-                    setOpen((prev) => {
-                      return { ...prev, two: true };
-                    });
-                  })
-                  .catch((error) => console.log(error));
-              }}
-            >
-               Suprimmer tout L'historique
-            </button>
-            <button
-              style={{
-                backgroundColor: `${selectVideos?.length === 0 ? '#F6BFB9' : 'red'}`, 
-                color: 'white', 
-                border: 'none',
-                fontSize: "18px",
-                fontWeight: '500',
-                padding: '5px',
-                borderRadius: '8px'
-              }}
-              onClick={() => {
-                DeleteBySelect(selectVideos)
-                  .then((response) => {
-                    console.log("response sup", response);
-                    setHistory(response);
-                    setOpen((prev) => {
-                      return { ...prev, one: true };
-                    });
-                    setSelectVideos([]);
-                  })
-                  .catch((error) => console.log(error));
-              }}
-              disabled={selectVideos?.length === 0 ? true : false}
-            >
-              suprimmer
-            </button>
-            <Snackbar
-              open={open.one}
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              autoHideDuration={3000}
-              onClose={handleClose}
-            >
-              <Alert
-                onClose={handleClose}
-                severity="success"
-                sx={{ width: "100%" }}
-              >
-                Vous avez suprimmé la vidéo avec <strong>succès!</strong>
-              </Alert>
-            </Snackbar>
-            <Snackbar
-              open={open.two}
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              autoHideDuration={3000}
-              onClose={handleClose}
-            >
-              <Alert
-                onClose={handleClose}
-                severity="success"
-                sx={{ width: "100%" }}
-              >
-                Vous avez suprimmé toutes les vidéos avec{" "}
-                <strong>succès!</strong>
-              </Alert>
-            </Snackbar>
-          </div>
-        </section>
+                <button
+                  style={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => setSelectVideos([])}
+                >
+                  Tout Deselectionner
+                </button>
+                <p style={{ fontSize: "1em" }}>
+                  Nombre de Vidéos selectionner :{" "}
+                  <span>{selectVideos?.length}</span>
+                </p>
+                <button
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => {
+                    DeleteAllHistory()
+                      .then((response) => {
+                        console.log("Delete All", response);
+                        setHistory(response);
+                        setOpen((prev) => {
+                          return { ...prev, two: true };
+                        });
+                      })
+                      .catch((error) => console.log(error));
+                  }}
+                >
+                  Suprimmer tout L'historique
+                </button>
+                <button
+                  style={{
+                    backgroundColor: `${
+                      selectVideos?.length === 0 ? "#F6BFB9" : "red"
+                    }`,
+                    color: "white",
+                    border: "none",
+                    fontSize: "18px",
+                    fontWeight: "500",
+                    padding: "5px",
+                    borderRadius: "8px",
+                  }}
+                  onClick={() => {
+                    DeleteBySelect(selectVideos)
+                      .then((response) => {
+                        console.log("response sup", response);
+                        setHistory(response);
+                        setOpen((prev) => {
+                          return { ...prev, one: true };
+                        });
+                        setSelectVideos([]);
+                      })
+                      .catch((error) => console.log(error));
+                  }}
+                  disabled={selectVideos?.length === 0 ? true : false}
+                >
+                  suprimmer
+                </button>
+                <Snackbar
+                  open={open.one}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  autoHideDuration={3000}
+                  onClose={handleClose}
+                >
+                  <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                  >
+                    Vous avez suprimmé la vidéo avec <strong>succès!</strong>
+                  </Alert>
+                </Snackbar>
+                <Snackbar
+                  open={open.two}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  autoHideDuration={3000}
+                  onClose={handleClose}
+                >
+                  <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                  >
+                    Vous avez suprimmé toutes les vidéos avec{" "}
+                    <strong>succès!</strong>
+                  </Alert>
+                </Snackbar>
+              </div>
+            </section>
+          )}
+        </ContainerDesktop>
       )}
-    </ContainerDesktop>}
     </>
   );
 }
