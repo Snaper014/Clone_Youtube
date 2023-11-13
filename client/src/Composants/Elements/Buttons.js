@@ -40,41 +40,46 @@ export const ButtonNaviguation = ({
     </Link>
   );
 };
-export const ButtonNavPrimaryOne = ({
-  route,
-  logo,
-  texte,
-  width = "100%",
-  height = "auto",
-}) => {
+export const ButtonNavPrimaryOne = ({ route, logo, texte }) => {
   return (
     <Link
       to={`${route}`}
+      className="HoverColorGray"
       style={{
         textDecoration: "none",
         color: "black",
-        width: "75%",
-        cursor: "pointer",
-        margin: `${
-          texte === "Historique" ? "0vh 2vw 3vh 2vw" : "0vh 2vw 0vh 2vw"
-        }`,
+        borderRadius: "10px",
+        display: "flex",
+        alignItems: "flex-start",
+        flexWrap: "nowrap",
+        border: "none",
+        flexDirection: "row",
+        fontSize: "18px",
+        width: "90%",
+        height: "50px",
+        margin: `${texte === "Historique" ? "10px 0px" : "5px 0px"}`,
       }}
     >
       <div
-        className="HoverColorGray"
         style={{
+          width: "30%",
+          height: "100%",
           display: "flex",
-          flexDirection: "row",
-          borderRadius: "10px",
-          justifyContent: "space-evenly",
           alignItems: "center",
-          width: `${width}`,
-          fontSize: "18px",
-          height: `${height}`,
-          border: "none",
+          justifyContent: "center",
         }}
       >
         {logo}
+      </div>
+      <div
+        style={{
+          width: "70%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
         <button
           data-testid={`BTN-${texte}`}
           style={{

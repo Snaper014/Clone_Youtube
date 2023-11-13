@@ -2,48 +2,61 @@ import * as React from "react";
 import { ContentSectionMenu } from "./Elements/MenuContent";
 import { MdOutlineVideoLibrary } from "react-icons/md";
 import { BiUserCircle } from "react-icons/bi";
-import { MobileBarSearch } from "./AppBarPrimary";
-import { MobileSecondaryBar } from "./AppBarSecondary";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "../Context/ContextProvider";
+import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { GetLikes, GetLibrary } from "../actions/Actions";
+import { CreatePlaylist } from "./Elements/modals/CreatePlaylist";
+import { CardBiblio } from "./Elements/CardBiblio";
+import { ContainerMobile } from "./Container/ContainerMobile";
+import { ContainerDesktop } from "./Container/ContainerDesktop";
 
 function Biblio() {
-  const [responsive, setResponsive] = React.useState(
-    window.innerWidth <= 1024 ? true : false,
-  );
+  // responsive
+  // creation playlist
+  // page intermediaire
+  const [responsive, setResponsive] = React.useState(window.innerWidth);
+  const [Likes, setLikes] = React.useState([]);
+  const [playlist, setPlaylist] = React.useState([]);
+  const navigate = useNavigate();
+  const { user } = useContext();
   React.useEffect(() => {
-    const CheckResponsive = () => {
-      if (window.innerWidth <= 1024) {
-        setResponsive(true);
-      } else {
-        setResponsive(false);
-      }
-    };
+    const CheckResponsive = () => setResponsive(window.innerWidth);
+    if (user) {
+      GetLikes()
+        .then((response) => setLikes(response?.data?.data))
+        .catch((error) => console.log(error));
+      GetLibrary()
+        .then((response) => setPlaylist(response?.data?.data))
+        .catch((error) => console.log(error));
+    }
     window.addEventListener("resize", CheckResponsive);
     return () => window.removeEventListener("resize", CheckResponsive);
-  }, []);
+  }, [user]);
+
+  console.log("playlist", playlist);
+
   return (
     <>
-      {responsive ? (
-        <>
-          <MobileBarSearch />
-          <MobileSecondaryBar />
-          <div
-            style={{
+      {responsive <= 1024 ? (
+        <ContainerMobile styles={{
               position: "relative",
-              height: "100vh",
-              backgroundColor: "#efeff1",
-              top: `${responsive ? "7vh" : "11vh"}`,
-              left: `${responsive ? "0px" : "9.8vw"}`,
-              padding: "3px 0px 0px 0px",
+              height: `${!user ?  '100vh' : 'auto'}`,
+              backgroundColor: `${!user ? "#efeff1" : 'white'}`,
+              top: `7vh`,
+              left: `0px`,
+              padding: "3px 0px 120px 0px",
               display: "flex",
               alignItems: "flex-start",
               flexDirection: "column",
               justifyContent: "flex-start",
               flexWrap: "wrap",
-              border: "2px solid rgb(0, 255, 149)",
+              border: "none",
               color: "black",
               width: "100%",
-            }}
-          >
+            }}>
+            {!user ?
+            <>
             <div
               style={{
                 width: "100%",
@@ -76,6 +89,7 @@ function Biblio() {
                 des vidéos, et publier des commentaires
               </p>
               <button
+                onClick={() => navigate("/login")}
                 style={{
                   width: "25%",
                   color: "white",
@@ -91,14 +105,144 @@ function Biblio() {
                 <p>Connexion</p>
               </button>
             </div>
-          </div>
-        </>
+            </>  
+            :
+            <section
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: `${responsive <= 700 ? 'column' : 'row'}`,
+                  justifyContent: `${responsive <= 700 ? 'flex-start' : 'space-evenly'}`,
+                  alignItems: `${responsive <= 700 ? 'center' : "flex-start"}`,
+                  flexWrap: `${responsive <= 700 ? 'nowrap' : 'wrap'}`,
+                  gap: "15px"
+                }}
+              >
+                <CardBiblio
+                  index={"blue"}
+                  logo={<AiFillLike color="blue" />}
+                  data={Likes}
+                  type="like"
+                  responsive={responsive}
+                />
+                <CardBiblio
+                  index={"red"}
+                  logo={<AiFillDislike color="red" />}
+                  data={Likes}
+                  type="dislike"
+                  responsive={responsive}
+                />
+
+                {!playlist.length ? (
+                  <div style={{ width: "100%", height: "25px" }}>
+                    <CreatePlaylist responsive={responsive}/>
+                  </div>
+                ) : (
+                  <>
+                    {playlist.map((data, index) => (
+                      <CardBiblio
+                        key={index}
+                        index={index}
+                        data={data}
+                        setPlaylist={setPlaylist}
+                        type="playlist"
+                        responsive={responsive}
+                      />
+                    ))}
+                    <div style={{ 
+                        width: "100%", 
+                        height: "25px", 
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "10px", 
+                        flexDirection: 'row' 
+                        }}>
+                      <CreatePlaylist responsive={responsive}/>
+                    </div>
+                  </>
+                )}
+              </section>
+          }
+        </ContainerMobile>
+
       ) : (
-        <ContentSectionMenu
-          Logo={<MdOutlineVideoLibrary fontSize={120} />}
-          title="Regardez vos vidéos préférées"
-          paragraphe={`Connectez-vous pour accéder aux vidéos pour lesquelles vous avez cliqué sur "J'aime" ou que vous avez enregistrées.`}
-        />
+          <ContainerDesktop Styles={{
+              position: "relative",
+              width: "90%",
+              display: "flex",
+              top: "11vh",
+              left: "9.8vw",
+              padding: `${user ? "20px 0px" : "0px"}`,
+              flexDirection: `${user ? "row" : "column"}`,
+              flexWrap: `${user ? "wrap" : "auto"}`,
+              justifyContent: `${user ? "flex-start" : "center"}`,
+              alignItems: `${user ? "flex-start" : "center"}`,
+              height: `${user ? "auto" : "80vh"}`,
+              border: "2px solid Transparent",
+            }}>
+          {!user ? 
+            <ContentSectionMenu
+              Logo={<MdOutlineVideoLibrary fontSize={120} />}
+              title="Regardez vos vidéos préférées"
+              paragraphe={`Connectez-vous pour accéder aux vidéos pour lesquelles vous avez cliqué sur "J'aime" ou que vous avez enregistrées.`}
+            />
+           : 
+              <section
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "space-evenly",
+                  flexWrap: "wrap",
+                  gap: "15px"
+                }}
+              >
+                <CardBiblio
+                  index={"blue"}
+                  logo={<AiFillLike color="blue" />}
+                  data={Likes}
+                  type="like"
+                  responsive={responsive}
+                />
+                <CardBiblio
+                  index={"red"}
+                  logo={<AiFillDislike color="red" />}
+                  data={Likes}
+                  type="dislike"
+                  responsive={responsive}
+                />
+
+                {!playlist.length ? (
+                  <div style={{ width: "100%", height: "25px" }}>
+                    <CreatePlaylist responsive={responsive}/>
+                  </div>
+                ) : (
+                  <>
+                    {playlist.map((data, index) => (
+                      <CardBiblio
+                        key={index}
+                        index={index}
+                        data={data}
+                        setPlaylist={setPlaylist}
+                        type="playlist"
+                        responsive={responsive}
+                      />
+                    ))}
+                    <div style={{ 
+                        width: "100%", 
+                        height: "25px", 
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "10px", 
+                        flexDirection: 'row' 
+                        }}>
+                      <CreatePlaylist responsive={responsive}/>
+                    </div>
+                  </>
+                )}
+              </section>
+          }
+        </ContainerDesktop>
       )}
     </>
   );

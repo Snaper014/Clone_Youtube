@@ -1,37 +1,25 @@
 import * as React from "react";
 import "../../App.css";
 import { BiUserCircle } from "react-icons/bi";
-import { AppBarSecondary } from "../AppBarSecondary";
-import { BarSearch } from "../AppBarPrimary";
+import { useNavigate } from "react-router-dom";
 
 export const ContentSectionMenu = ({ Logo, title, paragraphe }) => {
+  const navigate = useNavigate();
   return (
     <>
-      <BarSearch />
-      <AppBarSecondary />
-      <div
-        style={{
-          position: "relative",
-          width: "90%",
-          display: "flex",
-          top: "11vh",
-          left: "9.8vw",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "80vh",
-          border: "2px solid Transparent",
-        }}
-      >
         {Logo}
-        <h2 style={{ margin: "1%" }}>{title}</h2>
-        <p style={{ margin: "1%" }}>{paragraphe}</p>
-        <div className="StyleMenuBtnConnecter">
+        <h2 style={{ margin: "1%", textAlign: "center"}}>{title}</h2>
+        <p style={{ marginBottom: "3%", textAlign: "center" }}>{paragraphe}</p>
+        <div
+          onClick={() => navigate("/login")}
+          className="StyleMenuBtnConnecter"
+        >
           <div
             style={{
               width: "20%",
               height: "100%",
               display: "flex",
+              cursor: "pointer",
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -56,7 +44,6 @@ export const ContentSectionMenu = ({ Logo, title, paragraphe }) => {
             Se connecter
           </button>
         </div>
-      </div>
-    </>
+      </>
   );
 };

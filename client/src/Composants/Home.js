@@ -5,7 +5,6 @@ import { BarSearch, MobileBarSearch } from "./AppBarPrimary";
 import { CircularProgress } from "@mui/material";
 import { DisplayContent } from "./Elements/Content";
 import { MobileSecondaryBar } from "./AppBarSecondary";
-import { useContext } from "../Context/ContextProvider";
 import { useQuery } from "@tanstack/react-query";
 import { FetchHomeFeed } from "../utils/Appel";
 
@@ -31,7 +30,6 @@ function Home() {
 
   //console.log("data Home", DataYTB);
   const refWidth = React.useRef(null);
-  const { setDataContext } = useContext();
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
@@ -102,7 +100,6 @@ function Home() {
           <DisplayContent
             Data={DataYTB}
             refWidth={refWidth}
-            setDataContext={setDataContext}
             LogochannelThumbnail={true}
             setResponsive={setResponsive}
             responsive={responsive}

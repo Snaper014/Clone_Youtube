@@ -13,7 +13,6 @@ export const ListingShorts = ({
   responsive,
   MarginRight,
   marginLeft,
-  setDataContext,
   HasCaroussel,
 }) => {
   if (responsive) {
@@ -69,7 +68,7 @@ export const ListingShorts = ({
                   const filteredData = element?.data.map(
                     (item) => item?.videoId,
                   );
-                  setDataContext(filteredData);
+                  localStorage.setItem("shorts", JSON.stringify(filteredData));
                 }}
               >
                 <div
@@ -157,7 +156,7 @@ export const ListingShorts = ({
                   const filteredData = element?.data.map(
                     (item) => item?.videoId,
                   );
-                  setDataContext(filteredData);
+                  localStorage.setItem("shorts", JSON.stringify(filteredData));
                 }}
               >
                 <div
@@ -258,10 +257,8 @@ export const ListingShorts = ({
             }}
             key={i}
             onClick={() => {
-              const filteredData = element?.data.map(
-                (item) => item?.videoId,
-              );
-              setDataContext(filteredData);
+              const filteredData = element?.data.map((item) => item?.videoId);
+              localStorage.setItem("shorts", JSON.stringify(filteredData));
             }}
           >
             <div

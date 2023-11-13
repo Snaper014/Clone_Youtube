@@ -26,13 +26,8 @@ function Search() {
     enabled: !!search,
     staleTime: 1000,
   });
-  const {
-    setDataContext,
-    token,
-    setToken,
-    setLoadNextContentSearch,
-    LoadNextContentSearch,
-  } = useContext();
+  const { token, setToken, setLoadNextContentSearch, LoadNextContentSearch } =
+    useContext();
 
   const [WidthShorts, setWidthShorts] = React.useState();
   const [MarginRight, setMarginRight] = React.useState();
@@ -105,7 +100,6 @@ function Search() {
                     ...prevValues,
                     <NewSearchs
                       data={response}
-                      setDataContext={setDataContext}
                       value={value}
                       WidthShorts={WidthShorts}
                       marginLeft={marginLeft}
@@ -146,7 +140,6 @@ function Search() {
     value,
     LoadNextContentSearch,
     setLoadNextContentSearch,
-    setDataContext,
     token,
     setToken,
     WidthScreen,
@@ -208,7 +201,6 @@ function Search() {
       >
         <NewSearchs
           data={dataYTB}
-          setDataContext={setDataContext}
           value={value}
           WidthShorts={WidthShorts}
           marginLeft={marginLeft}

@@ -7,14 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FetchHomeShorts } from "../utils/Appel";
 import { Carsoussel } from "./Carsoussel";
-import { useContext } from "../Context/ContextProvider";
 import { useParams, useNavigate } from "react-router-dom";
 import { RiArrowUpSLine, RiArrowDownSLine } from "react-icons/ri";
 
 import { BiArrowBack } from "react-icons/bi";
 
 function ShortsHome() {
-
   const {
     data: dataShorts,
     isLoading,
@@ -199,15 +197,15 @@ function ShortsHome() {
 }
 
 function ShortsElements() {
-
   const startXRef = React.useRef(null);
   const [playing, setPlaying] = React.useState(true);
-  const { DataContext } = useContext();
+  const DataContext = JSON.parse(localStorage.getItem("shorts"));
+  console.log("log", typeof DataContext);
   let { IndexShorts } = useParams();
   const navigate = useNavigate();
   const firstShort = DataContext.indexOf(IndexShorts) === 0 ? true : false;
-  const LastShort = DataContext.indexOf(IndexShorts) === DataContext.length - 1 
-    ? true : false;
+  const LastShort =
+    DataContext.indexOf(IndexShorts) === DataContext.length - 1 ? true : false;
 
   console.log("shorts elements", DataContext);
   const [WidthScreen, setWidthScreen] = React.useState(window.innerWidth);
@@ -216,33 +214,33 @@ function ShortsElements() {
     window.innerWidth <= 1024 ? true : false,
   );
   const Back = () => {
-    navigate('/');
+    navigate("/");
   };
   const NextShorts = () => {
-    if(responsive){
+    if (responsive) {
       const value = DataContext.indexOf(IndexShorts) - 1;
       const idx = value === -1 ? DataContext.length - 1 : value;
       console.log("idx", idx);
       console.log("value", value);
       navigate(`/List/Shorts/${DataContext[idx]}`);
-    }else{
+    } else {
       const value = DataContext.indexOf(IndexShorts) - 1;
       navigate(`/List/Shorts/${DataContext[value]}`);
     }
-}
-const PrevShorts = () => {
-    if(responsive){
+  };
+  const PrevShorts = () => {
+    if (responsive) {
       const value = DataContext.indexOf(IndexShorts) + 1;
-      const idx = value === (DataContext.length + 1) - 1 ? 0 : value;
+      const idx = value === DataContext.length + 1 - 1 ? 0 : value;
       console.log("idx", idx);
       console.log("value", value);
       navigate(`/List/Shorts/${DataContext[idx]}`);
-    }else{
+    } else {
       const value = DataContext.indexOf(IndexShorts) + 1;
       console.log("Prevhshot Value", value);
       navigate(`/List/Shorts/${DataContext[value]}`);
     }
-}
+  };
 
   /*mobile*/
   const handleTouchStart = (e) => {
@@ -293,35 +291,36 @@ const PrevShorts = () => {
             backgroundColor: "black",
           }}
         >
-          <div 
+          <div
             ref={startXRef}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            onClick={() => setPlaying(prev => !prev)}
+            onClick={() => setPlaying((prev) => !prev)}
             style={{
               height: "92vh",
               width: "100%",
               position: "fixed",
-              top: "8vh"
-            }}>
-          <ReactPlayer
-            config={{
-              youtube: {
-                playerVars: {
-                  showinfo: 1,
-                  origin: "http://localhost:3000",
-                  enablejsapi: 1,
-                },
-              },
+              top: "8vh",
             }}
-            url={`https://www.youtube.com/embed/${IndexShorts}`}
-            className="react-player ShortPlayer"
-            playing={playing}
-            loop
-            width={"100%"}
-            height={"100%"}
-            style={{ margin: "0 auto", pointerEvents: "none" }}
-          />
+          >
+            <ReactPlayer
+              config={{
+                youtube: {
+                  playerVars: {
+                    showinfo: 1,
+                    origin: "http://localhost:3000",
+                    enablejsapi: 1,
+                  },
+                },
+              }}
+              url={`https://www.youtube.com/embed/${IndexShorts}`}
+              className="react-player ShortPlayer"
+              playing={playing}
+              loop
+              width={"100%"}
+              height={"100%"}
+              style={{ margin: "0 auto", pointerEvents: "none" }}
+            />
           </div>
           <button
             onClick={() => Back()}
@@ -385,60 +384,67 @@ const PrevShorts = () => {
                 className="react-player ShortPlayer"
                 loop
                 playing
-                width={"25vw"}
+                width={"30vw"}
                 height={"100%"}
-                style={{ margin: "0 auto", pointerEvents: "auto"}}
+                style={{ margin: "0 auto", pointerEvents: "auto" }}
               />
-              <div style={{
-                    width: "5%",
-                    height: "100%",
-                    display: "flex",
-                    alignSelf: "flex-end",
-              }}>
               <div
                 style={{
-                  width: "100%",
+                  width: "5%",
                   height: "100%",
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-around",
-                  flexDirection: "column",
+                  alignSelf: "flex-end",
                 }}
               >
-               { firstShort ? <div></div> :
-                 <button
+                <div
                   style={{
-                    backgroundColor: "#efeff1",
-                    height: "60px",
-                    border: "none",
-                    width: "60px",
-                    borderRadius: "50%",
+                    width: "100%",
+                    height: "100%",
                     display: "flex",
-                    justifyContent: "center",
                     alignItems: "center",
+                    justifyContent: "space-around",
+                    flexDirection: "column",
                   }}
-                  onClick={NextShorts}
                 >
-                  <RiArrowUpSLine fontSize={28} />
-                </button>}
-               { LastShort ? <div></div> : 
-                <button
-                  style={{
-                    backgroundColor: "#efeff1",
-                    height: "60px",
-                    border: "none",
-                    width: "60px",
-                    borderRadius: "50%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onClick={PrevShorts}
-                >
-                  <RiArrowDownSLine fontSize={28} />
-                </button>
-                }
-              </div>
+                  {firstShort ? (
+                    <div></div>
+                  ) : (
+                    <button
+                      style={{
+                        backgroundColor: "#efeff1",
+                        height: "60px",
+                        border: "none",
+                        width: "60px",
+                        borderRadius: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onClick={NextShorts}
+                    >
+                      <RiArrowUpSLine fontSize={28} />
+                    </button>
+                  )}
+                  {LastShort ? (
+                    <div></div>
+                  ) : (
+                    <button
+                      style={{
+                        backgroundColor: "#efeff1",
+                        height: "60px",
+                        border: "none",
+                        width: "60px",
+                        borderRadius: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      onClick={PrevShorts}
+                    >
+                      <RiArrowDownSLine fontSize={28} />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

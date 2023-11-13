@@ -4,55 +4,44 @@ const cors = require('cors');
 const morgan = require("morgan");
 const BodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const connectDB = require('./db/connectDb');
+const connectDB = require('./src/db/connectDb');
 
-// Authentification
-// jwt token
-// mongoDB
-// modal schema
+//refresh token
 // routes
-
-// requetes de connexion et d'inscription
-// middelware à chaque requete d'api avec jwt et token.
 
 const app = express();
 const port = 5000;
 
 app
 .use(morgan('dev'))
+.use(cors())
 .use(BodyParser.json());
-app.use(cors());
-//middleware 
-
 connectDB();
+
+require('./src/routes/signIn')(app);
+require('./src/routes/signUp')(app);
+require('./src/routes/History/AddVideosHistory')(app);
+require('./src/routes/History/GetVideosHistory')(app);
+require('./src/routes/History/DeleteById')(app);
+require('./src/routes/History/DeleteBySelect')(app);
+require('./src/routes/History/DeleteAllHistory')(app);
+require('./src/routes/Subscriptions/AddSubs')(app);
+require('./src/routes/Subscriptions/CheckSubs')(app);
+require('./src/routes/Subscriptions/DeleteSubs')(app);
+require('./src/routes/Subscriptions/GetSubs')(app);
+require('./src/routes/Likes/LikeAndDislike')(app);
+require('./src/routes/Likes/GetLikes')(app);
+require('./src/routes/Likes/CheckLikes')(app);
+require('./src/routes/Library/GetLibrary')(app);
+require('./src/routes/Library/CreateLibrary')(app);
+require('./src/routes/Library/AddVideoInLibrary')(app);
+require('./src/routes/Library/DeleteVideoInLibrary')(app);
+require('./src/routes/Library/RemoveLibrary')(app);
+
 
 app.get("/", (req, res) => {
     const message = "Server Youtube";
     res.json({message, status: "My Man"})
-})
-app.get("/test", (req, res) => {
-    const message = "Hello world";
-    res.json({message, status: "test"})
-})
-
-let tab = [];
-app.post("/history", (req, res) => {
-    const body = req.body;
-    const headers = req.headers.authorization;
-    console.log("body", body);
-    console.log("headers", headers);
-    tab.push(body);
-    res.json({auth: headers, response: body});  
-})
-app.get("/history", (req, res) => {
-    res.json({tableau: tab})
-})
-
-
-app.delete("/history", (req, res) => {
-    const TabSUp = tab[tab.length - 1];
-    tab.pop();
-    res.json({elementSup: TabSUp});
 })
 
 mongoose.connection.once('open', () => {

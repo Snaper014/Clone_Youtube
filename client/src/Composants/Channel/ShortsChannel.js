@@ -5,12 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { GetChannelShorts } from "../../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "../../Context/ContextProvider";
 
 export function AllShortsChannel() {
   let { chaId } = useParams();
   const navigate = useNavigate();
-  const { setDataContext } = useContext();
   const {
     data: DataShorts,
     isLoading,
@@ -116,7 +114,7 @@ export function AllShortsChannel() {
               const filteredData = DataShorts.data?.data.map(
                 (item) => item?.videoId,
               );
-              setDataContext(filteredData);
+              localStorage.setItem("shorts", JSON.stringify(filteredData));
               navigate(`/List/Shorts/${items?.videoId}`);
             }}
           >

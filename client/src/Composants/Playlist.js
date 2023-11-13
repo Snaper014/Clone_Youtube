@@ -1,34 +1,63 @@
 import * as React from "react";
 import "../App.css";
 import { CircularProgress } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, Link, useLocation} from "react-router-dom";
 import { GetPlaylist, GetVideos } from "../utils/Appel";
 import ReactPlayer from "react-player";
 import { BarSearch, MobileBarSearch } from "./AppBarPrimary";
-import { useFetchData } from "../utils/Fetch";
-import { CheckRelatedVideos } from "../utils/utils";
 import { BsFillPlayFill } from "react-icons/bs";
 import { VscVerifiedFilled } from "react-icons/vsc";
-import { Link } from "react-router-dom";
 import { IoPlaySkipBackSharp, IoPlaySkipForwardSharp } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlinePlaylistPlay } from "react-icons/md";
+import { useFetchData } from "../utils/Fetch";
+import { AddSub, LikeOrDislike, GetLibrary} from "../actions/Actions";
+import { GetInfosSubs, AddInfosLikes , CheckRelatedVideos} from "../utils/utils";
+import { AiOutlineCheck, AiFillLike, AiFillDislike } from "react-icons/ai";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { ModalSub } from "./Elements/modals/ModalSub";
+import { ModalLike } from "./Elements/modals/ModalLike";
+import { ModalPlaylist } from "./Elements/modals/ModalPlaylist";
+import { useContext } from "../Context/ContextProvider";
+import { ConvertlengthSeconds } from "../utils/utils";
+import { CheckLikeOrDislike, CheckSubs } from "../actions/Actions";
+
 
 export function Playlist() {
   let { index, videoPL, Identifiant } = useParams();
   const navigate = useNavigate();
-  const [DetailVideo, setDetailVideo] = React.useState();
-  const [ViedosPlaylist, setViedosPlaylist] = React.useState(videoPL);
+  const { user } = useContext();
+  const location = useLocation();
+
+  //console.log("location", location?.search);
+  const [DetailVideo, setDetailVideo] = React.useState(null);
+  const [VideosPlaylist, setVideosPlaylist] = React.useState(videoPL);
   const [DisplayDescription, setDisplayDescription] = React.useState(false);
+  const {execute, data: Playlist, status, error} = useFetchData();
   const [DisplayPlaylist, setDisplayPlaylist] = React.useState(true);
-  const { execute, data: Playlist, error, status } = useFetchData();
   const [WidthVideos, setWidthVideos] = React.useState();
   const [HeightVideos, setHeightVideos] = React.useState();
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
   const ref = React.useRef(null);
+  const [open, setOpen] = React.useState({
+    subscriber: false,
+    like: false,
+    dislike: false
+});
+const handleOpen = (open) => {
+   setOpen(prev => {return {...prev, [open]: true}})
+};
+const handleClose = () => setOpen(false);
+const [check, setCheck] = React.useState({
+  isSubs: false,
+  isLike: false,
+  isDislike: false,
+});
+
+const DataMap = location?.search ? Playlist?.data?.data.at(0)?.data : Playlist?.data?.data;
+const isLibrary = location?.search ? true : false; 
 
   React.useLayoutEffect(() => {
     const hight = window.innerHeight;
@@ -40,14 +69,65 @@ export function Playlist() {
   }, []);
 
   React.useEffect(() => {
-    if (Identifiant) {
-      execute(GetPlaylist(Identifiant));
-    }
-    setViedosPlaylist(videoPL);
-    GetVideos(ViedosPlaylist)
-      .then((response) => setDetailVideo(response))
+   async function fetchSubs(){
+    // console.log("Test", DetailVideo);
+    const param = location?.search ? DetailVideo?.channelId : DetailVideo?.data?.channelId;
+      return CheckSubs(param)
+      .then((response) =>
+        setCheck((prev) => {
+          return { ...prev, isSubs: response?.data?.data };
+        }),
+      )
       .catch((error) => console.log(error));
+   }
+    if (Identifiant) {
+      if(location?.search){
+        //playlist de l'utilisateur
+        execute(GetLibrary(`?limit=${Identifiant}`));
+      }else{
+        execute(GetPlaylist(Identifiant));
+      }
+    }
+    if(location?.search){
+      setVideosPlaylist(videoPL);
+      GetLibrary(`?limit=${Identifiant}`)
+            .then(response => {
+                setDetailVideo(response?.data?.data?.at(0)?.data?.at(parseInt(index)))
+            })
+            .catch(error => console.log(error))
+        // detail de la vidéo en cours de lecture de la pl de l'user
+    }else{
+      setVideosPlaylist(videoPL);
+      GetVideos(VideosPlaylist)
+        .then((response) => setDetailVideo(response))
+        .catch((error) => console.log(error));
+    }
 
+      if (user) {
+
+        CheckLikeOrDislike(videoPL)
+          .then((response) => {
+            const type = response?.data?.data;
+            console.log("type", type);
+            if (type === "like") {
+              setCheck((prev) => {
+                return { ...prev, isLike: true, isDislike: false };
+              });
+            }
+            if (type === "dislike") {
+              setCheck((prev) => {
+                return { ...prev, isLike: false, isDislike: true };
+              });
+            }
+            if (type === "no found") {
+              setCheck((prev) => {
+                return { ...prev, isLike: false, isDislike: false };
+              });
+            }
+          })
+          .catch((error) => console.log(error));
+          fetchSubs();
+      }
     const CheckResponsive = () => {
       if (window.innerWidth <= 1024) {
         setResponsive(true);
@@ -60,29 +140,25 @@ export function Playlist() {
     return () => {
       window.removeEventListener("resize", CheckResponsive);
     };
-  }, [ViedosPlaylist, videoPL, execute, Identifiant]);
+  }, [VideosPlaylist, 
+      videoPL, 
+      Identifiant, 
+      user,
+      index,
+      DetailVideo?.channelId,
+      DetailVideo?.data?.channelId,
+      execute,
+      location,
+  ]);
 
-  const HoverEnter = () => {
-    if (DisplayDescription === false) {
-      let element = document.getElementById("HandleHoverD");
-      element.style.backgroundColor = "#dfdfdf";
-    }
-    if (DisplayDescription === true) {
-      let element = document.getElementById("HandleHoverD");
-      element.style.backgroundColor = "#efeff1";
-    }
-  };
-  const HoverLeave = () => {
-    let element = document.getElementById("HandleHoverD");
-    element.style.backgroundColor = "#efeff1";
-  };
-
-  // console.log("playlist", Playlist);
-  // console.log("data detail video", DetailVideo);
+  console.log("playlist", DetailVideo);
+  //console.log("Identifiant", Identifiant);
+  //console.log("detail video Hors hook", DetailVideo);
   //console.log("index" , index)
   //console.log("idPl", IDPlaylist)
-  //console.log("videoPl", ViedosPlaylist)
+  //console.log("videoPl", VideosPlaylist)
   //modificer css de la vidéos
+ 
 
   if (status === "fetching") {
     return (
@@ -99,7 +175,7 @@ export function Playlist() {
       </div>
     );
   }
-  if (status === "fail") {
+  if (error) {
     return (
       <div className="Principale">
         <p>Une Erreur est survenu {error.message}</p>
@@ -112,9 +188,7 @@ export function Playlist() {
   const HandleChannel = (Channelid) => {
     navigate(`/Channel/${Channelid}`);
   };
-  const HandlePlaylist = (videoid, index = 0, playlist) => {
-    navigate(`/Playlist/${videoid}/${index}/${playlist}`);
-  };
+
 
   return (
     <>
@@ -142,7 +216,7 @@ export function Playlist() {
               }}
             >
               <ReactPlayer
-                url={`https://www.youtube.com/watch?v=${ViedosPlaylist}`}
+                url={`https://www.youtube.com/watch?v=${VideosPlaylist}`}
                 width={"100%"}
                 height={`60vh`}
                 className="react-player"
@@ -178,9 +252,13 @@ export function Playlist() {
                     }}
                   >
                     <h3 style={{ marginBottom: "2%" }}>
-                      {Playlist?.data?.meta?.title?.length >= 45
-                        ? Playlist?.data?.meta?.title.substring(0, 45) + "..."
-                        : Playlist?.data?.meta?.title}
+                    {(location?.search ?  (Playlist?.data?.data[0]?.titlePlaylist?.length >= 45
+                      ? Playlist?.data?.data[0]?.titlePlaylist?.substring(0, 45) + "..."
+                      : Playlist?.data?.data[0]?.titlePlaylist)
+                    
+                      : Playlist?.data?.meta?.title?.length >= 45
+                      ? Playlist?.data?.meta?.title.substring(0, 45) + "..."
+                      : Playlist?.data?.meta?.title)}
                     </h3>
                     <div
                       style={{
@@ -191,25 +269,34 @@ export function Playlist() {
                       }}
                     >
                       <p style={{ marginRight: "2%" }}>
-                        {parseInt(index) + 1} / {Playlist?.data?.data?.length}
+                        {parseInt(index) + 1} / {(isLibrary ?  
+                          Playlist?.data?.data[0]?.data?.length
+                          : Playlist?.data?.data?.length)}
                       </p>
                       <Link
-                        to={`/Channel/${Playlist?.data?.meta?.channelId}`}
+                        to={`/Channel/${isLibrary ? DetailVideo?.channelId : Playlist?.data?.meta?.channelId}`}
                         style={{ textDecoration: "none", color: "white" }}
                       >
                         <p>
-                          {Playlist?.data?.meta?.channelTitle?.length >= 45
+                          {isLibrary ? (
+                            DetailVideo?.channelTitle?.length >= 45
+                            ? DetailVideo?.channelTitle?.substring(
+                                0,
+                                45,
+                              ) + "..."
+                            : DetailVideo?.channelTitle) :
+                        (Playlist?.data?.meta?.channelTitle?.length >= 45
                             ? Playlist?.data?.meta?.channelTitle.substring(
                                 0,
                                 45,
                               ) + "..."
-                            : Playlist?.data?.meta?.channelTitle}
+                            : Playlist?.data?.meta?.channelTitle)}
                         </p>
                       </Link>
                     </div>
                   </div>
                   <div
-                    onClick={() => setDisplayPlaylist(!DisplayPlaylist)}
+                    onClick={() => setDisplayPlaylist(prev => !prev)}
                     style={{
                       width: "15%",
                       height: "50px",
@@ -237,12 +324,7 @@ export function Playlist() {
                     >
                       <button
                         disabled={parseInt(index) === 0 ? true : false}
-                        onClick={() =>
-                          HandlePlaylist(
-                            Playlist?.data?.data[parseInt(index) - 1]?.videoId,
-                            parseInt(index) - 1,
-                            Identifiant,
-                          )
+                        onClick={() => navigate(`/Playlist/${isLibrary ? Playlist?.data?.data?.at(0)?.data?.at(parseInt(index) - 1)?.idVideo  : Playlist?.data?.data[parseInt(index) - 1]?.videoId}/${parseInt(index) - 1}/${Identifiant}${isLibrary ? "?type=library": ""}`)
                         }
                         style={{
                           width: "10%",
@@ -260,17 +342,13 @@ export function Playlist() {
                       </button>
                       <button
                         disabled={
-                          parseInt(index) === Playlist?.data?.data.length - 1
+                          parseInt(index) === (isLibrary ? Playlist?.data?.data?.at(0)?.data?.length : Playlist?.data?.data.length) - 1
                             ? true
                             : false
                         }
-                        onClick={() =>
-                          HandlePlaylist(
-                            Playlist?.data?.data[parseInt(index) + 1]?.videoId,
-                            parseInt(index) + 1,
-                            Identifiant,
-                          )
-                        }
+                        onClick={() => navigate(`/Playlist/${isLibrary ? Playlist?.data?.data?.at(0)?.data?.at(parseInt(index) + 1)?.idVideo  : Playlist?.data?.data[parseInt(index) + 1]?.videoId}/${parseInt(index) + 1}/${Identifiant}${isLibrary ? "?type=library": ""}`)
+                      }
+                          
                         style={{
                           width: "10%",
                           backgroundColor: "transparent",
@@ -280,17 +358,16 @@ export function Playlist() {
                         <IoPlaySkipForwardSharp
                           fontSize={22}
                           color={`${
-                            parseInt(index) === Playlist?.data?.data.length - 1
+                            parseInt(index) === (isLibrary ? Playlist?.data?.data?.at(0)?.data?.length : Playlist?.data?.data.length) - 1
                               ? "#cccccc"
                               : "white"
                           }`}
                         />
                       </button>
                     </div>
-                    {Playlist?.data?.data?.map((element, i) => (
+                    {DataMap?.map((element, i) => (
                       <div
-                        onClick={() =>
-                          HandlePlaylist(element?.videoId, i, Identifiant)
+                        onClick={() => navigate(`/Playlist/${isLibrary ? element?.idVideo : element?.videoId}/${i}/${Identifiant}${isLibrary ? "?type=library": ""}`)
                         }
                         key={i}
                         style={{
@@ -336,13 +413,12 @@ export function Playlist() {
                                   window.innerWidth <= 686 ? "100%" : "323px"
                                 }`,
                               }}
-                              src={element?.thumbnail[0]?.url}
+                              src={isLibrary ? element?.thumbnail : element?.thumbnail?.at(0)?.url}
                               alt={index}
                             ></img>
                             <div
                               style={{
                                 position: "absolute",
-                                width: "35px",
                                 height: "30px",
                                 bottom: "0px",
                                 right: "0px",
@@ -365,7 +441,7 @@ export function Playlist() {
                                   fontSize: "1em",
                                 }}
                               >
-                                {element?.lengthText}
+                                {isLibrary ? ConvertlengthSeconds(element?.lengthSeconds) : element?.lengthText}
                               </p>
                             </div>
                           </div>
@@ -387,7 +463,7 @@ export function Playlist() {
                               }`,
                             }}
                           >
-                            {element?.title.length > 60
+                            {element?.title?.length > 60
                               ? element?.title.substring(0, 45) + "..."
                               : element?.title}
                           </p>
@@ -418,52 +494,73 @@ export function Playlist() {
                   marginBottom: "1%",
                 }}
               >
-                {DetailVideo?.data?.title}
+                {(isLibrary ? DetailVideo?.title : DetailVideo?.data?.title)}
               </h1>
               <p style={{ width: "100%", marginBottom: "3%" }}>
-                {DetailVideo?.data?.viewCount} vues -{" "}
-                {DetailVideo?.data?.publishDate}
+                {isLibrary ? DetailVideo?.viewCount : DetailVideo?.data?.viewCount} vues - {
+                  new Date(isLibrary ? DetailVideo?.publishDate : DetailVideo?.data?.publishDate)
+                  .toLocaleString("fr-FR", { timeZone: "UTC" })
+                  .substring(0, 11)
+                  }
               </p>
               <div
-                onClick={() => HandleChannel(DetailVideo?.data?.channelId)}
                 style={{
                   width: "100%",
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
                   flexWrap: "wrap",
+                  margin: '15px 0px',
                   alignItems: "flex-start",
                   cursor: "pointer",
                 }}
               >
                 <div
+                  onClick={() => HandleChannel(isLibrary ? DetailVideo?.Channelid : DetailVideo?.data?.channelId)}
                   style={{
                     display: "flex",
                     flexDirection: "row",
                     flexWrap: "nowrap",
                     alignItems: "flex-start",
-                    marginBottom: "3%",
                   }}
                 >
-                  <img
-                    alt="ChannelImage"
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      marginRight: "1%",
-                      marginBottom: "2%",
-                    }}
-                    src={DetailVideo?.data?.channelThumbnail[0]?.url}
-                  ></img>
-
-                  <div style={{ marginLeft: "10%" }}>
-                    <h5 style={{ fontSize: "18px" }}>
-                      {DetailVideo?.data?.channelBadges === null ? (
-                        <>{DetailVideo?.data?.channelTitle}</>
+                  {(isLibrary ? DetailVideo?.channelThumbnail : DetailVideo?.data?.channelThumbnail) === null ? (
+                    <div
+                      alt="ChannelImage"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                        marginBottom: "2%",
+                        backgroundColor: "gray",
+                      }}
+                    ></div>
+                  ) : (
+                    <img
+                      alt="ChannelImage"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        marginRight: "1%",
+                        marginBottom: "2%",
+                      }}
+                      src={isLibrary ? DetailVideo?.channelThumbnail : DetailVideo?.data?.channelThumbnail?.at(0)?.url}
+                    ></img>
+                  )}
+                    <h5 style={{ 
+                        fontSize: "18px", 
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: "3px",
+                        marginRight: "5px"
+                      }}>
+                      {(isLibrary ? DetailVideo?.verified : DetailVideo?.data?.channelBadges) === null ? (
+                        <p>{isLibrary ? DetailVideo?.channelTitle : DetailVideo?.data?.channelTitle}</p>
                       ) : (
                         <>
-                          {DetailVideo?.data?.channelTitle}{" "}
+                          {isLibrary ? DetailVideo?.channelTitle : DetailVideo?.data?.channelTitle}{" "}
                           <span>
                             <VscVerifiedFilled />
                           </span>
@@ -471,18 +568,34 @@ export function Playlist() {
                       )}
                     </h5>
                     <p style={{ fontSize: "14px" }}>
-                      {DetailVideo?.data?.subscriberCountText}
+                      {DetailVideo ? DetailVideo?.subscriberCountText : DetailVideo?.data?.subscriberCountText}
                     </p>
-                  </div>
                 </div>
                 <button
+                   onClick={() => {
+                    if (user) {
+                      AddSub(GetInfosSubs(DetailVideo, isLibrary))
+                        .then((response) => {
+                          //setIsSubs(response?.data?.data)
+                          setCheck((prev) => {
+                            return { ...prev, isSubs: response?.data?.data };
+                          });
+                        })
+                        .catch((error) => console.log(error));
+                    }else{
+                        handleOpen("subscriber");
+                    }
+                  }}
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "black",
-                    marginRight: "5%",
-                    color: "white",
+                    cursor: "pointer",
+                    border: `${!user ? "1px solid black" : (check.isSubs ? "none" : "1px solid black")}`,
+                    justifyContent: `${!user ? "center" :(
+                      check.isSubs ? "space-evenly" : "center")
+                    }`,
+                    backgroundColor: `${!user ? "black" : (check.isSubs ? "#efeff1" : "black")}`,
+                    color: `${!user ? "white" : (check.isSubs ? "black" : "white")}`,
                     fontSize: "18px",
                     height: "50px",
                     width: "128px",
@@ -491,11 +604,103 @@ export function Playlist() {
                     borderRadius: "30px",
                   }}
                 >
-                  S'abonner
+                  {!user ? "S'abonner" : (check.isSubs ? (
+                    <>
+                      abonné <AiOutlineCheck color="black" />
+                    </>
+                  ) : (
+                    "S'abonner"
+                  ))}
                 </button>
               </div>
+              <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "nowrap",
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <AiFillLike
+                    onClick={() => {
+                      if(user){
+                        LikeOrDislike("like", AddInfosLikes(DetailVideo, videoPL, "like", isLibrary))
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isLike: response?.data?.data,
+                                isDislike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("like");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isLike ? "blue" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <AiFillDislike
+                    onClick={() => {
+                      if(user){
+                        LikeOrDislike(
+                          "dislike",
+                          AddInfosLikes(DetailVideo, videoPL, "dislike", isLibrary),
+                        )
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isDislike: response?.data?.data,
+                                isLike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("dislike");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isDislike ? "red" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <ModalPlaylist
+                      isLibrary={isLibrary} 
+                      user={user}
+                      id={videoPL} 
+                      DetailVideo={DetailVideo}
+                      responsive={window.innerWidth}
+                  />
+                  <ModalSub 
+                    open={open.subscriber} 
+                    handleClose={handleClose}
+                    responsive={window.innerWidth} 
+                  />
+                  <ModalLike 
+                    open={open.like} 
+                    handleClose={handleClose}
+                    responsive={window.innerWidth} 
+                    type="like"
+                  />
+                  <ModalLike 
+                    open={open.dislike} 
+                    handleClose={handleClose}
+                    responsive={window.innerWidth}
+                    type="dislike"
+                  />
+                </div>
             </div>
 
+            {isLibrary ? null :
+            
             <div
               style={{
                 width: "100%",
@@ -765,7 +970,7 @@ export function Playlist() {
                 }
                 return null;
               })}
-            </div>
+            </div>}
           </div>
         </>
       ) : (
@@ -797,7 +1002,7 @@ export function Playlist() {
               }}
             >
               <ReactPlayer
-                url={`https://www.youtube.com/watch?v=${ViedosPlaylist}`}
+                url={`https://www.youtube.com/watch?v=${VideosPlaylist}`}
                 width={"100%"}
                 height={"450px"}
                 className="react-player"
@@ -812,98 +1017,249 @@ export function Playlist() {
                   marginBottom: "2%",
                 }}
               >
-                {DetailVideo?.data?.title}
+                {(location?.search ? DetailVideo?.title : DetailVideo?.data?.title)}
               </h2>
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                  justifyContent: "space-between",
                   flexWrap: "nowrap",
                 }}
               >
                 <div
-                  onClick={() => HandleChannel(DetailVideo?.data?.channelId)}
                   style={{
-                    width: "50%",
+                    width: "33%",
                     display: "flex",
                     flexDirection: "row",
-                    flexWrap: "nowrap",
+                    flexWrap: "wrap",
                     alignItems: "flex-start",
-                    cursor: "pointer",
                   }}
                 >
-                  <img
-                    alt="kiche"
+                  <div
+                    onClick={() => HandleChannel(location?.search ? DetailVideo?.channelId : DetailVideo?.data?.channelId)}
                     style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      marginRight: "1%",
+                      display: "flex",
+                      width: "100%",
+                      flexDirection: "row",
+                      flexWrap: "nowrap",
+                      alignItems: "flex-start",
+                      cursor: "pointer",
+                      gap: "3px",
                     }}
-                    src={DetailVideo?.data?.channelThumbnail[0]?.url}
-                  ></img>
+                  >
+                    {(location?.search ? DetailVideo?.channelThumbnail 
+                        : DetailVideo?.data?.channelThumbnail) === null ? (
+                      <div
+                        alt="ChannelImage"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          marginRight: "1%",
+                          backgroundColor: "gray",
+                        }}
+                      ></div>
+                    ) : (
+                      <img
+                        alt="ChannelImage"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          marginRight: "1%",
+                        }}
+                        src={location?.search ? DetailVideo?.channelThumbnail
+                          : DetailVideo?.data?.channelThumbnail[0]?.url}
+                      ></img>
+                    )}
 
-                  <div style={{ marginLeft: "2%", marginRight: "5%" }}>
-                    <h5 style={{ fontSize: "18px" }}>
-                      {DetailVideo?.data?.channelBadges === null ? (
-                        <>{DetailVideo?.data?.channelTitle}</>
-                      ) : (
-                        <>
-                          {DetailVideo?.data?.channelTitle}{" "}
-                          <span>
-                            <VscVerifiedFilled />
-                          </span>
-                        </>
-                      )}
-                    </h5>
-                    <p style={{ fontSize: "14px" }}>
-                      {DetailVideo?.data?.subscriberCountText}
-                    </p>
+                    <div style={{ marginLeft: "2%", marginRight: "5%" }}>
+                      <h5 style={{ fontSize: "18px" }}>
+                        {(location?.search ? DetailVideo?.verified  
+                            : DetailVideo?.data?.channelBadges) === null ? (
+                          <>{(location?.search ? DetailVideo?.channelTitle 
+                            : DetailVideo?.data?.channelTitle)}</>
+                        ) : (
+                          <>
+                            {(location?.search ? DetailVideo?.channelTitle 
+                              : DetailVideo?.data?.channelTitle)}{" "}
+                            <span>
+                              <VscVerifiedFilled />
+                            </span>
+                          </>
+                        )}
+                      </h5>
+                      <p style={{ fontSize: "14px" }}>
+                        {(location?.search ? DetailVideo?.subscriberCountText 
+                          : DetailVideo?.data?.subscriberCountText)}
+                      </p>
+                    </div>
                   </div>
+                </div>
+
+                <div
+                  style={{
+                    width: "33%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <button
+                    onClick={() => {
+                      if (user) {
+                        const isLibrary = location?.search ? true : false; 
+                        AddSub(GetInfosSubs(DetailVideo, isLibrary))
+                          .then((response) => {
+                            //setIsSubs(response?.data?.data)
+                            setCheck((prev) => {
+                              return { ...prev, isSubs: response?.data?.data };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                          handleOpen("subscriber");
+                      }
+                    }}
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "black",
-                      color: "white",
+                      cursor: "pointer",
+                      border: `${!user ? "1px solid black" : (check.isSubs ? "none" : "1px solid black")}`,
+                      justifyContent: `${!user ? "center" :(
+                        check.isSubs ? "space-evenly" : "center")
+                      }`,
+                      backgroundColor: `${!user ? "black" : (check.isSubs ? "#efeff1" : "black")}`,
+                      color: `${!user ? "white" : (check.isSubs ? "black" : "white")}`,
                       fontSize: "18px",
-                      height: "100%",
-                      width: "30%",
+                      height: "50px",
+                      width: "128px",
                       fontWeight: "550",
                       textAlign: "center",
                       borderRadius: "30px",
                     }}
                   >
-                    S'abonner
+                    {!user ? "S'abonner" : (check.isSubs ? (
+                      <>
+                        abonné <AiOutlineCheck color="black" />
+                      </>
+                    ) : (
+                      "S'abonner"
+                    ))}
                   </button>
+                </div>
+
+                <div
+                  style={{
+                    width: "33%",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "nowrap",
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <AiFillLike
+                    onClick={() => {
+                      if(user){
+                        const isLibrary = location?.search ? true : false; 
+                        LikeOrDislike("like", AddInfosLikes(DetailVideo, videoPL, "like", isLibrary))
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isLike: response?.data?.data,
+                                isDislike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("like");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isLike ? "blue" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <AiFillDislike
+                    onClick={() => {
+                      if(user){
+                        const isLibrary = location?.search ? true : false; 
+                        LikeOrDislike(
+                          "dislike",
+                          AddInfosLikes(DetailVideo, videoPL, "dislike"),
+                          isLibrary
+                        )
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isDislike: response?.data?.data,
+                                isLike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("dislike");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isDislike ? "red" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <ModalPlaylist
+                      isLibrary={isLibrary}  
+                      user={user}
+                      id={videoPL} 
+                      dataYTB={DetailVideo}
+                  />
+                  <ModalSub open={open.subscriber} handleClose={handleClose}/>
+                  <ModalLike 
+                    open={open.like} 
+                    handleClose={handleClose} 
+                    type="like"
+                  />
+                  <ModalLike 
+                    open={open.dislike} 
+                    handleClose={handleClose}
+                    type="dislike"
+                  />
                 </div>
               </div>
               <div
-                id="HandleHoverD"
                 onClick={() => setDisplayDescription(!DisplayDescription)}
-                onMouseEnter={() => HoverEnter()}
-                onMouseLeave={() => HoverLeave()}
                 style={{
                   backgroundColor: "#efeff1",
                   width: "95%",
                   margin: "2vh 1vw 2vh 1vw",
                   padding: "1%",
                   borderRadius: "7px",
-                  height: `${DisplayDescription ? "auto" : "20vh"}`,
-                  overflow: "hidden",
+                  height: `${DisplayDescription ? "auto" : "220px"}`,
                   cursor: `${DisplayDescription ? "auto" : "pointer"}`,
                 }}
               >
-                <h3 style={{ width: "100%" }}>
-                  {DetailVideo?.data?.viewCount} vues -{" "}
-                  {DetailVideo?.data?.publishDate}
+                <h3 style={{ width: "100%", marginBottom: "7px" }}>
+                  {(location?.search ? DetailVideo?.viewCount 
+                  : DetailVideo?.data?.viewCount)} vues - {
+                  new Date(location?.search ? DetailVideo?.publishDate 
+                    : DetailVideo?.data?.publishDate)
+                  .toLocaleString("fr-FR", { timeZone: "UTC" })
+                  .substring(0, 11)
+                  }
                 </h3>
                 <div style={{ fontSize: "20px" }}>
                   {DisplayDescription ? (
                     <>
-                      <p>{DetailVideo?.data?.description}</p>
+                      <p>{(location?.search ? DetailVideo?.description 
+                        : DetailVideo?.data?.description)}</p>
                       <button
                         style={{
                           marginTop: "2%",
@@ -922,18 +1278,20 @@ export function Playlist() {
                       </button>
                     </>
                   ) : (
-                    <p>
-                      {DetailVideo?.data?.description.substring(0, 312)}{" "}
-                      <span
-                        style={{
-                          marginLeft: "2%",
-                          fontWeight: "550",
-                          fontSize: "18px",
-                        }}
-                      >
-                        Plus
-                      </span>
-                    </p>
+                    <>
+                      <p style={{width: "100%", height: "140px", overflow: "hidden"}}>
+                      {(location?.search ? DetailVideo?.description?.substring(0, 312) + "..." 
+                        : DetailVideo?.data?.description?.substring(0, 312) + "...")}
+                      </p>
+                      <div style={{
+                        width: "100%", 
+                        display: "flex", 
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}>
+                        <MdKeyboardArrowDown fontSize={30}/>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
@@ -971,24 +1329,29 @@ export function Playlist() {
                   }}
                 >
                   <h3>
-                    {Playlist?.data?.meta?.title?.length >= 45
+                    {(location?.search ?  (Playlist?.data?.data[0]?.titlePlaylist?.length >= 45
+                      ? Playlist?.data?.data[0]?.titlePlaylist?.substring(0, 45) + "..."
+                      : Playlist?.data?.data[0]?.titlePlaylist)
+                    
+                      : Playlist?.data?.meta?.title?.length >= 45
                       ? Playlist?.data?.meta?.title.substring(0, 45) + "..."
-                      : Playlist?.data?.meta?.title}
+                      : Playlist?.data?.meta?.title)}
                   </h3>
                   <p>
-                    {DetailVideo?.data?.channelTitle} - {parseInt(index) + 1} /{" "}
-                    {Playlist?.data?.data?.length}
+                    {(location?.search ? DetailVideo?.channelTitle 
+                      : DetailVideo?.data?.channelTitle)} - {parseInt(index) + 1} /{" "}
+                    {(location?.search ? Playlist?.data?.data[0]?.data?.length : Playlist?.data?.data?.length)}
                   </p>
                 </div>
-                {Playlist?.data?.data?.map((element, i) => (
-                  <div
-                    onClick={() =>
-                      HandlePlaylist(element?.videoId, i, Identifiant)
-                    }
+                {DataMap?.map((element, i) => (
+                  <Link
+                    to={`/Playlist/${(location?.search ? element?.idVideo: element?.videoId)}/${i}/${Identifiant}${location?.search ? "?type=library": ""}`}
                     key={i}
                     style={{
                       width: "100%",
                       display: "flex",
+                      textDecoration: "none",
+                      color: "black",
                       flexDirection: "row",
                       flexWrap: "nowrap",
                       margin: "2vh 0vh 2vh 0vh",
@@ -1033,7 +1396,8 @@ export function Playlist() {
                           height: "15vh",
                           width: "100%",
                         }}
-                        src={element?.thumbnail[0]?.url}
+                        src={location?.search ? element?.thumbnail
+                          : element?.thumbnail[0]?.url}
                         alt={index}
                       ></img>
                       <div
@@ -1062,7 +1426,8 @@ export function Playlist() {
                             fontSize: "1em",
                           }}
                         >
-                          {element?.lengthText}
+                          {location?.search ? ConvertlengthSeconds(element?.lengthSeconds) 
+                            : element?.lengthText}
                         </p>
                       </div>
                     </div>
@@ -1095,10 +1460,11 @@ export function Playlist() {
                         {element?.channelTitle}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
-              {DetailVideo?.data?.relatedVideos?.data === null ? (
+              {location?.search ? null : 
+              (DetailVideo?.data?.relatedVideos?.data === null ? (
                 <div></div>
               ) : (
                 DetailVideo?.data?.relatedVideos?.data?.map(
@@ -1183,7 +1549,7 @@ export function Playlist() {
                     </div>
                   ),
                 )
-              )}
+              ))}
             </div>
           </div>
         </>

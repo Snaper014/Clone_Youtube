@@ -25,10 +25,9 @@ svg{
     width: 236px;
     flex-direction: row;
 }
-
 .Naviguer{
     background-color: white;
-    width: 19%;
+    width: 280px;
     position: fixed;
     top: 0;
     left: 0;
@@ -370,6 +369,7 @@ main{
 
 .HoverColorGray:hover{
     background-color: #efeff1;
+    cursor: pointer;
 }
 .HoverV2ColorGray:hover{
     background-color: #D0D3D4;
@@ -388,26 +388,60 @@ main{
       -ms-overflow-style: none;  /* IE and Edge */
       scrollbar-width: none;  /* Firefox */
     }
+
+   .BackGround{
+        background: linear-gradient(to bottom, rgba(55,79,89,0.800) 0%, rgba(55,79,89,0.298) 33%, rgba(55,79,89,0.800) 100%);
+   } 
     
-  /* Custom Clerk composants*/
- .cl-signIn-root{
-    margin: 10px;
- }
- .cl-signUp-root{
-    margin-top: 10px;
- }
-  .cl-userButton-root {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  .btn-submit-form{
+    margin: 0px;
+    padding: 0.625rem 1.25rem;
+    outline: 0px;
+    user-select: none;
+    cursor: pointer;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-duration: 100ms;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.6875rem;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    text-transform: uppercase;
+    min-height: 2.25rem;
+    width: 100%;
+    --accentLightest: hsla(0, 78%, 58.6%, 0.3);
+    --accentLighter: hsla(0, 78%, 49%, 0.3);
+    --accent: hsla(0, 78%, 49%, 1);
+    --accentDark: hsla(0, 78%, 39.75%, 1);
+    --accentDarker: hsla(0, 78%, 30.5%, 1);
+    box-shadow: rgb(0, 0, 0) 3px 3px 0px;
+    border: 2px solid rgb(0, 0, 0);
+    -webkit-font-smoothing: auto !important;
+}
+
+#password:focus{
+    outline: 1px solid transparent;
+}
+#confirmpassword:focus{
+    outline: 1px solid transparent;
+}
+.zoom {
+    transition: transform 0.6ms;
   }
-  .cl-avatarBox{
-    height: 45px;
-    width: 45px;
+  .zoom:hover {
+    transform: scale(1.02); 
+  }
+  .zoom:focus{
+      outline: 1px solid transparent;  
+  }
 
-  } 
-  /*cl-userButtonAvatarBox 🔒️ cl-internal-11ewti4*/
-
-
-
+ 
 

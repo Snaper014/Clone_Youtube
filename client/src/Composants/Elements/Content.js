@@ -13,7 +13,6 @@ import { ElementPlaylist } from "./Type_elements/ElementPlaylist";
 export const DisplayContent = ({
   Data,
   refWidth,
-  setDataContext = "",
   LogochannelThumbnail = false,
   HasCaroussel = false,
   ChannelHome = false,
@@ -150,7 +149,6 @@ export const DisplayContent = ({
                 WidthShorts={WidthShorts}
                 MarginRight={MarginRight}
                 marginLeft={marginLeft}
-                setDataContext={setDataContext}
                 HasCaroussel={HasCaroussel}
               />
             );

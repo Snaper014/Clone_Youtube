@@ -22,15 +22,35 @@ import { GoTrophy } from "react-icons/go";
 import { GiClothesline } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
-import { useUser, UserButton } from "@clerk/clerk-react";
+import { Avatar, Alert } from "@mui/material";
+import { GetSubs } from "../actions/Actions";
+import Snackbar from "@mui/material/Snackbar";
 
 export function BarSearch() {
   const [valeur, setValeur] = React.useState(false);
   const [champs, setChamps] = React.useState("");
-  const navigate = useNavigate();
-  const { setLoadNextContentSearch, setToken } = useContext();
-  const { isSignedIn } = useUser();
+  const [display, setDisplay] = React.useState({
+    ParamLogin: false,
+    subs: false,
+  });
 
+  const navigate = useNavigate();
+  //const href = useHref();
+  const { setLoadNextContentSearch, setToken, user, setUser } = useContext();
+  const [open, setOpen] = React.useState(false);
+  const [subscriber, setSubscriber] = React.useState([]);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const Logout = () => {
+    setUser(null);
+    localStorage.removeItem("jwt-auth");
+  };
   const IsTranslate = () => {
     setValeur(!valeur);
   };
@@ -52,6 +72,20 @@ export function BarSearch() {
       Envoyer();
     }
   };
+
+  React.useEffect(() => {
+    if (user) {
+      GetSubs()
+        .then((response) => {
+          setSubscriber(response?.data?.data);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [user]);
+  // source du problème le useeffect de l'appBar
+  // user est udefined avant le localstorage se créer.
+  //console.log("userTARZ", user);
+
   return (
     <>
       <AppBar
@@ -71,6 +105,16 @@ export function BarSearch() {
           zIndex: "1",
         }}
       >
+        <Snackbar
+          open={open}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          autoHideDuration={3000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+            Vous êtes <strong>Déconnectez</strong>
+          </Alert>
+        </Snackbar>
         <div className="DivLogoYoutube">
           <div className="mouseOver" role="menu" onClick={() => IsTranslate()}>
             <AiOutlineMenu fontSize={24} />
@@ -162,60 +206,115 @@ export function BarSearch() {
           </div>
         </div>
 
-      {isSignedIn ? 
-        <UserButton 
-            afterSignOutUrl="/" 
-          /> 
-        : 
-        <div
-          style={{
-            width: "170px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-           <Link
+        {user ? (
+          <div
+            onClick={() =>
+              setDisplay((prev) => {
+                return { ...prev, ParamLogin: !prev.ParamLogin };
+              })
+            }
             style={{
-              textDecoration: "none",
-              color: "black",
+              width: "170px",
               display: "flex",
-              justifyContent: "center",
               alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
             }}
-            to={"/login"}
           >
-            <div className="StyleMenuBtnConnecter">
+            <Avatar
+              alt={user?.username}
+              src={user?.image}
+              sx={{ width: 45, height: 45, bgcolor: user?.color }}
+            >
+              {user?.username.charAt(0)}
+            </Avatar>
+            {display.ParamLogin ? (
               <div
                 style={{
-                  width: "20%",
-                  height: "100%",
+                  position: "absolute",
+                  backgroundColor: "white",
+                  zIndex: "5",
+                  top: "65px",
+                  right: "45px",
+                  width: "250px",
+                  height: "150px",
+                  border: "2px solid black",
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  flexDirection: "column",
                 }}
               >
-                <BiUserCircle fontSize={35} color="#065fd4" />
+                <p>
+                  <span>logo</span>
+                  Paramètres
+                </p>
+                <div>
+                  <p></p>
+                  <span>logo</span>
+                  <p>nom d'utilisateur: {user?.username}</p>
+                  <p>email: {user?.email}</p>
+                  <p
+                    onClick={() => {
+                      Logout();
+                      setOpen(true);
+                    }}
+                  >
+                    Se deconnecter
+                  </p>
+                </div>
               </div>
+            ) : null}
+          </div>
+        ) : (
+          <div
+            style={{
+              width: "170px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "black",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              to={"/login"}
+            >
+              <div className="StyleMenuBtnConnecter">
+                <div
+                  style={{
+                    width: "20%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <BiUserCircle fontSize={35} color="#065fd4" />
+                </div>
 
-              <p
-                style={{
-                  color: "#065fd4",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  display: "flex",
-                  justifyContent: "space-around",
-                  whiteSpace: "nowrap",
-                  alignItems: "center",
-                  width: "60%",
-                  height: "100%",
-                }}
-              >
-                Se connecter
-              </p>
-            </div>
-          </Link>
-        </div>}
+                <p
+                  style={{
+                    color: "#065fd4",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    display: "flex",
+                    justifyContent: "space-around",
+                    whiteSpace: "nowrap",
+                    alignItems: "center",
+                    width: "60%",
+                    height: "100%",
+                  }}
+                >
+                  Se connecter
+                </p>
+              </div>
+            </Link>
+          </div>
+        )}
       </AppBar>
 
       <div
@@ -290,129 +389,224 @@ export function BarSearch() {
         </div>
         <ButtonNavPrimaryOne
           route="/"
-          logo={<GoHome fontSize={28} />}
+          logo={<GoHome fontSize={35} />}
           texte="Acceuil"
-          width={"100%"}
-          height="6vh"
         />
         <ButtonNavPrimaryOne
           route="/abonnements"
-          logo={<BsCollectionPlay fontSize={28} />}
+          logo={<BsCollectionPlay fontSize={35} />}
           texte="Abonnements"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/Bibliothéque"
-          logo={<MdOutlineVideoLibrary fontSize={28} />}
+          logo={<MdOutlineVideoLibrary fontSize={35} />}
           texte="Bibliothèque"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/Historique"
-          logo={<GoHistory fontSize={28} />}
+          logo={<GoHistory fontSize={35} />}
           texte="Historique"
-          height="6vh"
-          width={"100%"}
         />
-        <hr style={{ height: "3px", color: "black" }} />
 
-        <div className="StyleMenuBtn">
-          <p style={{ marginBottom: "15px" }}>
-            Connectez-vous à YouTube pour cliquer sur "J'aime", ajouter un
-            commentaire et vous abonner.
-          </p>
-          <div className="StyleMenuBtnConnecter">
+        {user ? (
+          <div
+            style={{
+              width: "85%",
+              display: "flex",
+              flexDirection: "column",
+              borderStyle: "solid none solid none",
+              borderWidth: "1px 0px 1px 0px",
+              padding: "10px 0px",
+              alignItems: "center",
+              gap: "3px",
+              margin: "5px 0px",
+              fontSize: "1em",
+            }}
+          >
+            <p>Bienvenue</p>
+            <h4 style={{ marginBottom: "7px" }}>{user?.username}</h4>
+
+            <span
+              style={{
+                fontWeight: "500",
+                marginBottom: "8px",
+                alignSelf: "flex-start",
+              }}
+            >
+              Abonnements
+            </span>
             <div
               style={{
-                width: "20%",
-                height: "100%",
+                width: "100%",
+                gap: "3px",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "flex-start",
               }}
             >
-              <BiUserCircle fontSize={35} color="#065fd4" />
+              {!subscriber.length
+                ? "Aucun Abonnements"
+                : subscriber.map((element, index) => {
+                    const show = display.subs ? subscriber.length : 15;
+                    if (index < show) {
+                      return (
+                        <Link
+                          to={`/Channel/${element?.channelId}`}
+                          className="HoverColorGray"
+                          key={index}
+                          style={{
+                            textDecoration: "none",
+                            color: "black",
+                            display: "flex",
+                            height: "50px",
+                            width: "100%",
+                            borderRadius: "10px",
+                            flexDirection: "row",
+                            flexWrap: "nowrap",
+                            alignItems: "flex-start",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: "25%",
+                              display: "flex",
+                              height: "100%",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <img
+                              alt={element?.channelTitle}
+                              width="40px"
+                              height="40px"
+                              style={{ borderRadius: "50%" }}
+                              src={element?.channelThumbnail}
+                            ></img>
+                          </div>
+                          <div
+                            style={{
+                              width: "75%",
+                              display: "flex",
+                              height: "100%",
+                              alignItems: "center",
+                              paddingLeft: "5px",
+                              justifyContent: "flex-start",
+                            }}
+                          >
+                            <p>{element?.channelTitle}</p>
+                          </div>
+                        </Link>
+                      );
+                    } else return null;
+                  })}
             </div>
-            <Link
-            style={{
-              textDecoration: "none",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            to={"/login"}
-          >    
-            <p
+            <button
+              onClick={() =>
+                setDisplay((prev) => {
+                  return { ...prev, subs: !prev.subs };
+                })
+              }
               style={{
-                color: "#065fd4",
-                fontSize: "16px",
-                fontWeight: "600",
+                width: "100%",
+                border: "none",
+                margin: "10px 0px",
+                borderRadius: "40px",
+                height: "35px",
                 display: "flex",
-                justifyContent: "space-around",
-                whiteSpace: "nowrap",
+                flexDirection: "row",
+                flexWrap: "nowrap",
                 alignItems: "center",
-                width: "60%",
-                height: "100%",
+                justifyContent: "space-evenly",
               }}
             >
-              Se connecter
-            </p>
-            </Link>
+              {display.subs ? "Voir Moins" : "Voir Plus"}
+            </button>
           </div>
-        </div>
+        ) : (
+          <div className="StyleMenuBtn">
+            <p style={{ marginBottom: "15px" }}>
+              Connectez-vous à YouTube pour cliquer sur "J'aime", ajouter un
+              commentaire et vous abonner.
+            </p>
+            <div className="StyleMenuBtnConnecter">
+              <div
+                style={{
+                  width: "20%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <BiUserCircle fontSize={35} color="#065fd4" />
+              </div>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                to={"/login"}
+              >
+                <p
+                  style={{
+                    color: "#065fd4",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    display: "flex",
+                    justifyContent: "space-around",
+                    whiteSpace: "nowrap",
+                    alignItems: "center",
+                    width: "60%",
+                    height: "100%",
+                  }}
+                >
+                  Se connecter
+                </p>
+              </Link>
+            </div>
+          </div>
+        )}
+
         <div style={{ width: "80%", marginBottom: "2vh" }}>
           <h4 style={{ fontSize: "18px" }}>Explorer</h4>
         </div>
         <ButtonNavPrimaryOne
           route="/tendances"
-          logo={<AiFillFire fontSize={28} />}
+          logo={<AiFillFire fontSize={35} />}
           texte="Tendances"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/musique"
-          logo={<PiMusicNoteBold fontSize={28} />}
+          logo={<PiMusicNoteBold fontSize={35} />}
           texte="Musique"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/Videosgames"
-          logo={<LuGamepad2 fontSize={28} />}
+          logo={<LuGamepad2 fontSize={35} />}
           texte="Jeux vidéos"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/Actus"
-          logo={<BsNewspaper fontSize={28} />}
+          logo={<BsNewspaper fontSize={35} />}
           texte="Actualités"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/Sport"
-          logo={<GoTrophy fontSize={28} />}
+          logo={<GoTrophy fontSize={35} />}
           texte="Sport"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/Culture"
-          logo={<BsLightbulb fontSize={28} />}
+          logo={<BsLightbulb fontSize={35} />}
           texte="Savoir et culture"
-          height="6vh"
-          width={"100%"}
         />
         <ButtonNavPrimaryOne
           route="/Mode"
-          logo={<GiClothesline fontSize={28} />}
+          logo={<GiClothesline fontSize={35} />}
           texte="Mode et Beauté"
-          height="6vh"
-          width={"100%"}
         />
       </div>
       {valeur ? (

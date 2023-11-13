@@ -8,7 +8,6 @@ import { BsPlayFill } from "react-icons/bs";
 
 export const NewSearchs = ({
   data,
-  setDataContext,
   value,
   WidthShorts,
   marginLeft,
@@ -660,7 +659,10 @@ export const NewSearchs = ({
                           const filteredData = element?.data.map(
                             (item) => item?.videoId,
                           );
-                          setDataContext(filteredData);
+                          localStorage.setItem(
+                            "shorts",
+                            JSON.stringify(filteredData),
+                          );
                         }}
                       >
                         <div

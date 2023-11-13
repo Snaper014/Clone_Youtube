@@ -2,19 +2,30 @@ import * as React from "react";
 import ReactPlayer from "react-player/lazy";
 import { CircularProgress } from "@mui/material";
 import "../App.css";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { AiOutlineCheck, AiFillLike, AiFillDislike } from "react-icons/ai";
+import { ModalPlaylist } from "./Elements/modals/ModalPlaylist";
+import { MdKeyboardArrowDown} from "react-icons/md";
 import { GetVideos } from "../utils/Appel";
 import { useQuery } from "@tanstack/react-query";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import { BarSearch, MobileBarSearch } from "./AppBarPrimary";
 import { CheckRelatedVideos } from "../utils/utils";
-import {  useAuth, useUser } from "@clerk/clerk-react";
-import { GetHistory } from "../redux/History";
+import {
+  AddVideosHistory,
+  AddSub,
+  CheckSubs,
+  LikeOrDislike,
+  CheckLikeOrDislike,
+} from "../actions/Actions";
 import { useContext } from "../Context/ContextProvider";
+import { ModalSub } from "./Elements/modals/ModalSub";
+import { GetInfos, GetInfosSubs, AddInfosLikes } from "../utils/utils";
+import { ModalLike } from "./Elements/modals/ModalLike";
 
 function Videos() {
   const navigate = useNavigate();
+  const location = useLocation();
   let { id } = useParams();
   const {
     data: dataYTB,
@@ -24,30 +35,41 @@ function Videos() {
   } = useQuery({
     queryKey: [`Fetch Videos`, id],
     queryFn: () => GetVideos(id),
+    enabled: !!id,
     staleTime: 1000,
   });
   const [DisplayDescription, setDisplayDescription] = React.useState(false);
+  const [open, setOpen] = React.useState({
+      subscriber: false,
+      like: false,
+      dislike: false
+  });
+  const handleOpen = (open) => {
+     setOpen(prev => {return {...prev, [open]: true}})
+  };
+  const handleClose = () => setOpen(false);
+  const [check, setCheck] = React.useState({
+    isSubs: false,
+    isLike: false,
+    isDislike: false,
+  });
   const [WidthVideos, setWidthVideos] = React.useState();
   const [HeightVideos, setHeightVideos] = React.useState();
   const ref = React.useRef(null);
-  const { isSignedIn, user } = useUser();
-  const {getToken} = useAuth();
-  const {fetchToken} = useContext();
   const [responsive, setResponsive] = React.useState(
     window.innerWidth <= 1024 ? true : false,
   );
- 
+  const { user } = useContext();
+
   React.useLayoutEffect(() => {
     const hight = window.innerHeight;
     setHeightVideos(hight * 0.5);
     let chargement = setTimeout(() => {
       CheckRelatedVideos(setWidthVideos, ref, setHeightVideos);
-      console.log("ref UseLayouteffect", ref);
     }, 1200);
     return () => clearTimeout(chargement);
   }, []);
 
- 
   React.useEffect(() => {
     const CheckResponsive = () => {
       if (window.innerWidth <= 1024) {
@@ -57,17 +79,42 @@ function Videos() {
         setResponsive(false);
       }
     };
-    fetchToken(getToken);
-    //console.log("BigToken", localStorage.getItem("jwt-auth"));
-    if(isSignedIn){
-      console.log('fetch getHistory')
-      GetHistory();
+    if (user) {
+      AddVideosHistory(user?.id, GetInfos(dataYTB, id));
+      CheckLikeOrDislike(id)
+        .then((response) => {
+          const type = response?.data?.data;
+          console.log("type", type);
+          if (type === "like") {
+            setCheck((prev) => {
+              return { ...prev, isLike: true, isDislike: false };
+            });
+          }
+          if (type === "dislike") {
+            setCheck((prev) => {
+              return { ...prev, isLike: false, isDislike: true };
+            });
+          }
+          if (type === "no found") {
+            setCheck((prev) => {
+              return { ...prev, isLike: false, isDislike: false };
+            });
+          }
+        })
+        .catch((error) => console.log(error));
+      CheckSubs(dataYTB?.data?.channelId)
+        .then((response) =>
+          setCheck((prev) => {
+            return { ...prev, isSubs: response?.data?.data };
+          }),
+        )
+        .catch((error) => console.log(error));
     }
     window.addEventListener("resize", CheckResponsive);
     return () => {
       window.removeEventListener("resize", CheckResponsive);
     };
-  }, [fetchToken, getToken, isSignedIn]);
+  }, [user, location, dataYTB, id]);
 
   if (isLoading) {
     return (
@@ -91,25 +138,16 @@ function Videos() {
       </div>
     );
   }
+
+  console.log("DATAYTB", dataYTB)
+
   const HandleVideos = (id) => {
     navigate(`/watch/${id}`);
   };
   const HandleChannel = (Channelid) => {
     navigate(`/Channel/${Channelid}`);
   };
-  const HoverEnter = () => {
-    if (DisplayDescription === false) {
-      let element = document.getElementById("HandleHoverD");
-      element.style.backgroundColor = "#dfdfdf";
-    } else {
-      let element = document.getElementById("HandleHoverD");
-      element.style.backgroundColor = "#efeff1";
-    }
-  };
-  const HoverLeave = () => {
-    let element = document.getElementById("HandleHoverD");
-    element.style.backgroundColor = "#efeff1";
-  };
+
   return (
     <>
       {responsive ? (
@@ -133,6 +171,7 @@ function Videos() {
                 display: "flex",
                 marginBottom: "3%",
                 flexDirection: "column",
+                gap: '5px'
               }}
             >
               <ReactPlayer
@@ -155,21 +194,26 @@ function Videos() {
                 {dataYTB?.data?.title}
               </h1>
               <p style={{ width: "100%", marginBottom: "3%" }}>
-                {dataYTB?.data?.viewCount} vues - {dataYTB?.data?.publishDate}
+                {dataYTB?.data?.viewCount} vues - {
+                  new Date(dataYTB?.data?.publishDate)
+                  .toLocaleString("fr-FR", { timeZone: "UTC" })
+                  .substring(0, 11)
+                  }
               </p>
               <div
-                onClick={() => HandleChannel(dataYTB?.data?.channelId)}
                 style={{
                   width: "100%",
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
                   flexWrap: "wrap",
+                  margin: '15px 0px',
                   alignItems: "flex-start",
                   cursor: "pointer",
                 }}
               >
                 <div
+                  onClick={() => HandleChannel(dataYTB?.data?.channelId)}
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -202,10 +246,15 @@ function Videos() {
                       src={dataYTB?.data?.channelThumbnail[0]?.url}
                     ></img>
                   )}
-                  <div style={{ marginLeft: "10%" }}>
-                    <h5 style={{ fontSize: "18px" }}>
+                    <h5 style={{ 
+                        fontSize: "18px", 
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: "3px",
+                        marginRight: "5px"
+                      }}>
                       {dataYTB?.data?.channelBadges === null ? (
-                        <>{dataYTB?.data?.channelTitle}</>
+                        <p>{dataYTB?.data?.channelTitle}</p>
                       ) : (
                         <>
                           {dataYTB?.data?.channelTitle}{" "}
@@ -218,27 +267,132 @@ function Videos() {
                     <p style={{ fontSize: "14px" }}>
                       {dataYTB?.data?.subscriberCountText}
                     </p>
-                  </div>
                 </div>
                 <button
+                   onClick={() => {
+                    if (user) {
+                      AddSub(GetInfosSubs(dataYTB))
+                        .then((response) => {
+                          //setIsSubs(response?.data?.data)
+                          setCheck((prev) => {
+                            return { ...prev, isSubs: response?.data?.data };
+                          });
+                        })
+                        .catch((error) => console.log(error));
+                    }else{
+                        handleOpen("subscriber");
+                    }
+                  }}
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "black",
-                    marginRight: "5%",
-                    color: "white",
-                    fontSize: "18px",
-                    height: "50px",
-                    width: "128px",
-                    fontWeight: "550",
-                    textAlign: "center",
-                    borderRadius: "30px",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      border: `${!user ? "1px solid black" : (check.isSubs ? "none" : "1px solid black")}`,
+                      justifyContent: `${!user ? "center" :(
+                        check.isSubs ? "space-evenly" : "center")
+                      }`,
+                      backgroundColor: `${!user ? "black" : (check.isSubs ? "#efeff1" : "black")}`,
+                      color: `${!user ? "white" : (check.isSubs ? "black" : "white")}`,
+                      fontSize: "18px",
+                      height: "50px",
+                      width: "128px",
+                      fontWeight: "550",
+                      textAlign: "center",
+                      borderRadius: "30px",
                   }}
                 >
-                  S'abonner
+                  {check.isSubs ? (
+                    <>
+                      abonné <AiOutlineCheck color="black" />
+                    </>
+                  ) : (
+                    "S'abonner"
+                  )}
                 </button>
               </div>
+              <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "nowrap",
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <AiFillLike
+                    onClick={() => {
+                      if(user){
+                        LikeOrDislike("like", AddInfosLikes(dataYTB, id, "like"))
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isLike: response?.data?.data,
+                                isDislike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("like");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isLike ? "blue" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <AiFillDislike
+                    onClick={() => {
+                      if(user){
+                        LikeOrDislike(
+                          "dislike",
+                          AddInfosLikes(dataYTB, id, "dislike"),
+                        )
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isDislike: response?.data?.data,
+                                isLike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("dislike");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isDislike ? "red" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <ModalPlaylist 
+                      user={user}
+                      id={id} 
+                      dataYTB={dataYTB}
+                      responsive={window.innerWidth}
+                  />
+                  <ModalSub 
+                    open={open.subscriber} 
+                    handleClose={handleClose}
+                    responsive={window.innerWidth} 
+                  />
+                  <ModalLike 
+                    open={open.like} 
+                    handleClose={handleClose}
+                    responsive={window.innerWidth} 
+                    type="like"
+                  />
+                  <ModalLike 
+                    open={open.dislike} 
+                    handleClose={handleClose}
+                    responsive={window.innerWidth}
+                    type="dislike"
+                  />
+                </div>
             </div>
 
             <div
@@ -447,68 +601,110 @@ function Videos() {
                   width: "100%",
                   display: "flex",
                   flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                  justifyContent: "space-between",
                   flexWrap: "nowrap",
                 }}
               >
                 <div
-                  onClick={() => HandleChannel(dataYTB?.data?.channelId)}
                   style={{
-                    width: "50%",
+                    width: "33%",
                     display: "flex",
                     flexDirection: "row",
-                    flexWrap: "nowrap",
+                    flexWrap: "wrap",
                     alignItems: "flex-start",
-                    cursor: "pointer",
                   }}
                 >
-                  {dataYTB?.data?.channelThumbnail === null ? (
-                    <div
-                      alt="ChannelImage"
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                        marginRight: "1%",
-                        backgroundColor: "gray",
-                      }}
-                    ></div>
-                  ) : (
-                    <img
-                      alt="ChannelImage"
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                        marginRight: "1%",
-                      }}
-                      src={dataYTB?.data?.channelThumbnail[0]?.url}
-                    ></img>
-                  )}
+                  <div
+                    onClick={() => HandleChannel(dataYTB?.data?.channelId)}
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      flexDirection: "row",
+                      flexWrap: "nowrap",
+                      alignItems: "flex-start",
+                      cursor: "pointer",
+                      gap: "3px",
+                    }}
+                  >
+                    {dataYTB?.data?.channelThumbnail === null ? (
+                      <div
+                        alt="ChannelImage"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          marginRight: "1%",
+                          backgroundColor: "gray",
+                        }}
+                      ></div>
+                    ) : (
+                      <img
+                        alt="ChannelImage"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                          marginRight: "1%",
+                        }}
+                        src={dataYTB?.data?.channelThumbnail[0]?.url}
+                      ></img>
+                    )}
 
-                  <div style={{ marginLeft: "2%", marginRight: "5%" }}>
-                    <h5 style={{ fontSize: "18px" }}>
-                      {dataYTB?.data?.channelBadges === null ? (
-                        <>{dataYTB?.data?.channelTitle}</>
-                      ) : (
-                        <>
-                          {dataYTB?.data?.channelTitle}{" "}
-                          <span>
-                            <VscVerifiedFilled />
-                          </span>
-                        </>
-                      )}
-                    </h5>
-                    <p style={{ fontSize: "14px" }}>
-                      {dataYTB?.data?.subscriberCountText}
-                    </p>
+                    <div style={{ marginLeft: "2%", marginRight: "5%" }}>
+                      <h5 style={{ fontSize: "18px" }}>
+                        {dataYTB?.data?.channelBadges === null ? (
+                          <>{dataYTB?.data?.channelTitle}</>
+                        ) : (
+                          <>
+                            {dataYTB?.data?.channelTitle}{" "}
+                            <span>
+                              <VscVerifiedFilled />
+                            </span>
+                          </>
+                        )}
+                      </h5>
+                      <p style={{ fontSize: "14px" }}>
+                        {dataYTB?.data?.subscriberCountText}
+                      </p>
+                    </div>
                   </div>
+                </div>
+
+                <div
+                  style={{
+                    width: "33%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <button
+                    onClick={() => {
+                      if (user) {
+                        AddSub(GetInfosSubs(dataYTB))
+                          .then((response) => {
+                            //setIsSubs(response?.data?.data)
+                            setCheck((prev) => {
+                              return { ...prev, isSubs: response?.data?.data };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                          handleOpen("subscriber");
+                      }
+                    }}
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "black",
-                      color: "white",
+                      cursor: "pointer",
+                      border: `${!user ? "1px solid black" : (check.isSubs ? "none" : "1px solid black")}`,
+                      justifyContent: `${!user ? "center" :(
+                        check.isSubs ? "space-evenly" : "center")
+                      }`,
+                      backgroundColor: `${!user ? "black" : (check.isSubs ? "#efeff1" : "black")}`,
+                      color: `${!user ? "white" : (check.isSubs ? "black" : "white")}`,
                       fontSize: "18px",
                       height: "50px",
                       width: "128px",
@@ -517,28 +713,111 @@ function Videos() {
                       borderRadius: "30px",
                     }}
                   >
-                    S'abonner
+                    {check.isSubs ? (
+                      <>
+                        abonné <AiOutlineCheck color="black" />
+                      </>
+                    ) : (
+                      "S'abonner"
+                    )}
                   </button>
+                </div>
+
+                <div
+                  style={{
+                    width: "33%",
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "nowrap",
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <AiFillLike
+                    onClick={() => {
+                      if(user){
+                        LikeOrDislike("like", AddInfosLikes(dataYTB, id, "like"))
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isLike: response?.data?.data,
+                                isDislike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("like");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isLike ? "blue" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <AiFillDislike
+                    onClick={() => {
+                      if(user){
+                        LikeOrDislike(
+                          "dislike",
+                          AddInfosLikes(dataYTB, id, "dislike"),
+                        )
+                          .then((response) => {
+                            console.log(response?.data?.data);
+                            setCheck((prev) => {
+                              return {
+                                ...prev,
+                                isDislike: response?.data?.data,
+                                isLike: false,
+                              };
+                            });
+                          })
+                          .catch((error) => console.log(error));
+                      }else{
+                        handleOpen("dislike");
+                      }
+                    }}
+                    fontSize={30}
+                    color={`${!user ? 'black' : (check.isDislike ? "red" : "black")}`}
+                    style={{ cursor: "pointer" }}
+                  />
+                  <ModalPlaylist 
+                      user={user}
+                      id={id} 
+                      dataYTB={dataYTB}
+                  />
+                  <ModalSub open={open.subscriber} handleClose={handleClose}/>
+                  <ModalLike 
+                    open={open.like} 
+                    handleClose={handleClose} 
+                    type="like"
+                  />
+                  <ModalLike 
+                    open={open.dislike} 
+                    handleClose={handleClose}
+                    type="dislike"
+                  />
                 </div>
               </div>
               <div
-                id="HandleHoverD"
                 onClick={() => setDisplayDescription(!DisplayDescription)}
-                onMouseEnter={() => HoverEnter()}
-                onMouseLeave={() => HoverLeave()}
                 style={{
                   backgroundColor: "#efeff1",
                   width: "95%",
                   margin: "2vh 1vw 2vh 1vw",
                   padding: "1%",
                   borderRadius: "7px",
-                  height: `${DisplayDescription ? "auto" : "20vh"}`,
-                  overflow: "hidden",
+                  height: `${DisplayDescription ? "auto" : "220px"}`,
                   cursor: `${DisplayDescription ? "auto" : "pointer"}`,
                 }}
               >
-                <h3 style={{ width: "100%" }}>
-                  {dataYTB?.data?.viewCount} vues - {dataYTB?.data?.publishDate}
+                <h3 style={{ width: "100%", marginBottom: "7px" }}>
+                  {dataYTB?.data?.viewCount} vues - {
+                  new Date(dataYTB?.data?.publishDate)
+                  .toLocaleString("fr-FR", { timeZone: "UTC" })
+                  .substring(0, 11)
+                  }
                 </h3>
                 <div style={{ fontSize: "20px" }}>
                   {DisplayDescription ? (
@@ -562,18 +841,19 @@ function Videos() {
                       </button>
                     </>
                   ) : (
-                    <p>
-                      {dataYTB?.data?.description.substring(0, 312)}{" "}
-                      <span
-                        style={{
-                          marginLeft: "2%",
-                          fontWeight: "550",
-                          fontSize: "18px",
-                        }}
-                      >
-                        Plus
-                      </span>
-                    </p>
+                    <>
+                      <p style={{width: "100%", height: "140px", overflow: "hidden"}}>
+                        {dataYTB?.data?.description.substring(0, 312) + "..."} 
+                      </p>
+                      <div style={{
+                        width: "100%", 
+                        display: "flex", 
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}>
+                        <MdKeyboardArrowDown fontSize={30}/>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

@@ -8,6 +8,110 @@ export const MobileResponsive = (setResponsive) => {
   }
 };
 
+export const ConvertlengthSeconds = (length) => {
+  const LengthVideos = parseInt(length);
+  if (LengthVideos < 3600) {
+    const result = (LengthVideos / 60).toFixed(2).toString();
+    return result.replaceAll(".", ":");
+  }
+  const hours = Math.floor(LengthVideos / 3600);
+  const reste = LengthVideos - hours * 3600;
+  const minutes = (reste / 60).toFixed(2);
+  const result = `${hours}.${minutes < 10 ? `0${minutes}` : minutes}`;
+  return result.replaceAll(".", ":");
+};
+
+export const GetInfos = (dataYTB, id) => {
+  const response = {
+    idVideo: id,
+    miniature: dataYTB?.data?.thumbnail[0]?.url,
+    title: dataYTB?.data?.title,
+    channelTitle: dataYTB?.data?.channelTitle,
+    channelId: dataYTB?.data?.channelId,
+    lengthSeconds: dataYTB?.data?.lengthSeconds,
+    verified: dataYTB?.data?.verified,
+    viewCount: dataYTB?.data?.viewCount,
+    description: dataYTB?.data?.description,
+    updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
+  };
+  return response;
+};
+
+export const GetInfosSubs = (data, isLibrary = false) => {
+  const Libresponse = {
+    channelId: data?.channelId,
+    channelThumbnail: data?.channelThumbnail,
+    channelTitle: data?.channelTitle,
+    numberSubs: data?.subscriberCountText,
+    updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
+  };
+  const response = {
+    channelId: data?.data?.channelId,
+    channelThumbnail: data?.data?.channelThumbnail[1]?.url
+      ? data?.data?.channelThumbnail[1]?.url
+      : data?.data?.channelThumbnail[0]?.url,
+    channelTitle: data?.data?.channelTitle,
+    numberSubs: data?.data?.subscriberCountText,
+    updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
+  };
+  const result = isLibrary ?  Libresponse : response;
+  return result;
+};
+
+export const GetInfosSubsChannel = (dataChannel) => {
+  const response = {
+    channelId: dataChannel?.data?.meta?.channelId,
+    channelThumbnail: dataChannel?.data?.meta?.avatar[1]?.url
+      ? dataChannel?.data?.meta?.avatar[1]?.url
+      : dataChannel?.data?.meta?.avatar[0]?.url,
+    channelTitle: dataChannel?.data?.meta?.title,
+    numberSubs: dataChannel?.data?.meta?.subscriberCountText,
+    updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
+  };
+  return response;
+};
+
+export const AddInfosLikes = (data, id, type, isLibrary = false) => {
+  const Libresponse = {
+    idVideo: id,
+    thumbnail: data?.thumbnail,
+    channelThumbnail: data?.channelThumbnail,
+    title: data?.title,
+    channelTitle: data?.channelTitle,
+    publishDate: data?.publishDate,
+    channelId: data?.channelId,
+    subscriberCountText: data?.subscriberCountText,
+    lengthSeconds: data?.lengthSeconds,
+    verified: data?.verified,
+    viewCount: data?.viewCount,
+    description: data?.description,
+    typeLike: type,
+    updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
+  };
+
+  const response = {
+    idVideo: id,
+    thumbnail: data?.data?.thumbnail[0]?.url,
+    channelThumbnail: data?.data?.channelThumbnail[1]?.url
+    ? data?.data?.channelThumbnail[1]?.url
+    : data?.data?.channelThumbnail[0]?.url,
+    title: data?.data?.title,
+    channelTitle: data?.data?.channelTitle,
+    publishDate: data?.data?.publishDate,
+    channelId: data?.data?.channelId,
+    subscriberCountText: data?.data?.subscriberCountText,
+    lengthSeconds: data?.data?.lengthSeconds,
+    verified: data?.data?.channelBadges,
+    viewCount: data?.data?.viewCount,
+    description: data?.data?.description,
+    typeLike: type,
+    updated: new Date().toLocaleString("fr-FR", { timeZone: "UTC" }),
+  };
+ const result = isLibrary ? Libresponse : response; 
+
+  return result;
+};
+
 export const CheckWidth = (
   ref,
   setWidthVideos,
@@ -140,3 +244,4 @@ export const MoreContent = (numero, choice = false) => {
   element.style.flexWrap = "wrap";
   button.remove();
 };
+
