@@ -12,7 +12,7 @@ const app = express();
 app
 .use(morgan('dev'))
 .use(cors({
-    origin: '',
+    origin: 'https://clone-youtube-liard.vercel.app',
 }))
 .use(BodyParser.json());
 connectDB();
