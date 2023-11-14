@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./src/db/connectDb');
 
 
-const app = express();
+const app = express(); 
 
 app
 .use(morgan('dev'))
