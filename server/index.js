@@ -9,7 +9,6 @@ const connectDB = require('./src/db/connectDb');
 
 const app = express();
 
-
 app
 .use(morgan('dev'))
 .use(cors({
@@ -49,3 +48,4 @@ mongoose.connection.once('open', () => {
     //app.listen(port, () => console.log(`Notre application démarre sur le http://localhost:${port}`));
 })
 
+module.exports = app;
