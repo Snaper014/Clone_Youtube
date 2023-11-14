@@ -2,7 +2,7 @@
 .env
 
 # Ignorer les modules Node.js
-/node_modules
+node_modules
 
 # Ignorer les fichiers spécifiques à npm
 package-lock.json
