@@ -10,7 +10,7 @@ const ConnexionUser = (response, navigate, setUser) => {
     id,
     token,
     color,
-    image
+    image,
   };
   localStorage.setItem("jwt-auth", JSON.stringify(user));
   setUser(JSON.parse(localStorage.getItem("jwt-auth")));

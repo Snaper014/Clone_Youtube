@@ -10,7 +10,7 @@ module.exports = (app) => {
           const {data} = req.body;
           const {email} = decoded; 
           const User = await Users.findOne({email});
-          console.log("data", data);  
+ 
         try{
             if(!User){
                 res.status(404).json({

@@ -6,7 +6,6 @@ const bycrpt = require('bcryptjs');
 module.exports = (app) => {
     app.post("/sign-in", async (req, res) => {
         const {username, password} = req.body;
-        //const existingUser = await Users.findOne({email: username});
         const isEmail = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/g;
         let existingUser;
 
@@ -44,7 +43,7 @@ module.exports = (app) => {
                 image: existingUser.image
             },
                 process.env.KEY_JWT_TOKEN,
-                {expiresIn: '1h'}
+                {expiresIn: '12h'}
                 )
             res.json({result: 'User valider', token}); 
         })

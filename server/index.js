@@ -6,15 +6,15 @@ const BodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const connectDB = require('./src/db/connectDb');
 
-//refresh token
-// routes
 
 const app = express();
-const port = 5000;
+
 
 app
 .use(morgan('dev'))
-.use(cors())
+.use(cors({
+    origin: ["https://clone-youtube-gold.vercel.app/"],
+}))
 .use(BodyParser.json());
 connectDB();
 
@@ -40,12 +40,12 @@ require('./src/routes/Library/RemoveLibrary')(app);
 
 
 app.get("/", (req, res) => {
-    const message = "Server Youtube";
-    res.json({message, status: "My Man"})
+    const message = "Server Youtube Clone";
+    res.json({message, status: "success"})
 })
 
 mongoose.connection.once('open', () => {
     console.log('Connexion à MongoDB');
-    app.listen(port, () => console.log(`Notre application démarre sur le http://localhost:${port}`));
+    //app.listen(port, () => console.log(`Notre application démarre sur le http://localhost:${port}`));
 })
 

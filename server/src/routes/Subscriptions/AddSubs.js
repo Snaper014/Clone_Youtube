@@ -10,7 +10,7 @@ module.exports = (app) => {
           const {data} = req.body;
           const {email} = decoded; 
           const existingUser = await Users.findOne({email}); 
-          console.log("data Initialisation", data); 
+
         try{
             const existingVideoIndex = existingUser?.subscriptions.findIndex(
                 response => response?.channelId === data?.channelId
@@ -24,7 +24,6 @@ module.exports = (app) => {
             }
             
             if(!data || !data?.channelId){
-                console.log('bad request', data);
                  res.status(400).json({
                     reason: 'Bad Request',
                     message: 'La data n\'existe pas.'
@@ -32,7 +31,6 @@ module.exports = (app) => {
                 return;
             }
             if(existingVideoIndex !== -1){
-                console.log('condition channel déja présente', data);
                 existingUser?.subscriptions.splice(existingVideoIndex, 1);
                 await existingUser.save();
                 res.json({ 
@@ -41,7 +39,6 @@ module.exports = (app) => {
                  });
                 return;
             }else{
-                console.log('cond new abonné', data);
                 existingUser?.subscriptions.push(data);
             }
 

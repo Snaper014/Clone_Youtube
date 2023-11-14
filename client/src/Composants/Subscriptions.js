@@ -128,9 +128,10 @@ function Abonner() {
             >
               {Data.length === 0 ? (
                 <p>Vous n'avez aucun abonnement</p>
+              ) : !Data ? (
+                <p>chargement...</p>
               ) : (
-                !Data ? <p>chargement...</p> :
-               Data.map((element, index) => {
+                Data.map((element, index) => {
                   return (
                     <div
                       style={{
@@ -248,9 +249,9 @@ function Abonner() {
             <>
               {!Data.length ? (
                 <p>Vous n'avez aucun abonnement</p>
+              ) : !Data ? (
+                <p>chargement...</p>
               ) : (
-                !Data ? <p>chargement...</p>
-                  :
                 Data.map((element, index) => {
                   return (
                     <div

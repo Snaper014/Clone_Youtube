@@ -46,7 +46,6 @@ export const DetailsPlaylist = () => {
     return () => window.removeEventListener("resize", CheckResponsive);
   }, [user, id]);
 
-  console.log("src", Playlist);
 
   return (
     <>

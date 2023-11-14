@@ -16,7 +16,6 @@ module.exports = (app) => {
                 response => response?.idVideo === data?.idVideo
             );
             if(!data || !data?.idVideo){
-                console.log('bad request', data);
                  res.status(400).json({
                     reason: 'Bad Request',
                     message: 'La data n\'existe pas.'
@@ -41,7 +40,6 @@ module.exports = (app) => {
                             });
                       return;     
                     }
-                    console.log('vidéo liker déja présent', data);
                     existingUser?.likes.splice(existingLikeIndex, 1);
                     await existingUser.save();
                     res.json({ 
@@ -50,7 +48,6 @@ module.exports = (app) => {
                      });
                     return;
                 }else{
-                    console.log('ajout de la video à la bd', data);
                     existingUser?.likes.push(data);
                 }
     
@@ -68,7 +65,6 @@ module.exports = (app) => {
                         });
                   return;     
                 }
-                console.log('vidéo déja disliker', data);
                 existingUser?.likes.splice(existingLikeIndex, 1);
                 await existingUser.save();
                 res.json({ 
@@ -77,7 +73,6 @@ module.exports = (app) => {
                     });
                 return;
             }else{
-                console.log('ajout de la video à la bd', data);
                 existingUser?.likes.push(data);
             }
 

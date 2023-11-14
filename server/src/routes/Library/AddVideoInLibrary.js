@@ -10,8 +10,7 @@ module.exports = (app) => {
           const {name, data} = req.body;
           const {email} = decoded; 
           const User = await Users.findOne({email});
-          console.log("data", data);  
-          console.log("name", name);
+
         try{
             const existingPlaylist = User?.Library.find(Element => Element?.titlePlaylist === name);
             if(!User){

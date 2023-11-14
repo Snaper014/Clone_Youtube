@@ -10,7 +10,6 @@ import { GetSignIn, GetSignUp } from "../actions/Actions";
 import { useContext } from "../Context/ContextProvider";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-
 const Auth = () => {
   const href = useHref();
   const isSignIn = href === "/login" ? true : false;
@@ -21,17 +20,17 @@ const Auth = () => {
     second: false,
   });
   const [notification, setNotification] = React.useState({
-      username: [false, ''],
-      email: [false, ''],
-      password: [false, ''],
-      confirmpassword: [false, ''],
-      existingName: [false, ''],
-      existingUser: [false, ''],
-      GoogleExistingName: [false, ''],
-      GoogleExistingUser: [false, ''],
-      LoginUsername: [false, ''],
-      loginPassword: [false, '']
-  })
+    username: [false, ""],
+    email: [false, ""],
+    password: [false, ""],
+    confirmpassword: [false, ""],
+    existingName: [false, ""],
+    existingUser: [false, ""],
+    GoogleExistingName: [false, ""],
+    GoogleExistingUser: [false, ""],
+    LoginUsername: [false, ""],
+    loginPassword: [false, ""],
+  });
   const [widthScreen, setWidthScreen] = React.useState(window.innerWidth);
   const [query, setQuery] = React.useState({
     username: "",
@@ -48,8 +47,7 @@ const Auth = () => {
       [name]: value,
     }));
   };
-  // console.log("query", query)
-  // console.log("mdp", showPassword);
+
   const handleKeyPress = (e) => {
     if (e.code === "Enter" || e.key === "Enter") {
       formSubmit(e);
@@ -64,57 +62,55 @@ const Auth = () => {
         .catch((error) => {
           const reason = error?.response?.data?.reason;
           const message = error?.response?.data?.message;
-          if(reason === "No existingUser"){
-            setNotification(prev => {
-              return {...prev, LoginUsername: [true, message]}
-            })
+          if (reason === "No existingUser") {
+            setNotification((prev) => {
+              return { ...prev, LoginUsername: [true, message] };
+            });
           }
-          if(reason === "passwordIncorrect"){
-            setNotification(prev => {
-              return {...prev, loginPassword: [true, message]}
-            })
+          if (reason === "passwordIncorrect") {
+            setNotification((prev) => {
+              return { ...prev, loginPassword: [true, message] };
+            });
           }
-          console.log("error", error);
           console.log("Login failed");
         });
-
     } else {
       GetSignUp(query)
         .then((response) => ConnexionUser(response, navigate, setUser))
         .catch((error) => {
           const reason = error?.response?.data?.reason;
           const message = error?.response?.data?.message;
-          if(reason === "username"){
-            setNotification(prev => {
-              return {...prev, username: [true, message]}
-            })
+          if (reason === "username") {
+            setNotification((prev) => {
+              return { ...prev, username: [true, message] };
+            });
           }
-          if(reason === "email non valide"){
-            setNotification(prev => {
-              return {...prev, email: [true, message]}
-            })
+          if (reason === "email non valide") {
+            setNotification((prev) => {
+              return { ...prev, email: [true, message] };
+            });
           }
-          if(reason === "password"){
-            setNotification(prev => {
-              return {...prev, password: [true, message]}
-            })
+          if (reason === "password") {
+            setNotification((prev) => {
+              return { ...prev, password: [true, message] };
+            });
           }
-          if(reason === "confirmpassword"){
-            setNotification(prev => {
-              return {...prev, confirmpassword: [true, message]}
-            })
+          if (reason === "confirmpassword") {
+            setNotification((prev) => {
+              return { ...prev, confirmpassword: [true, message] };
+            });
           }
-          if(reason === "existingName"){
-            setNotification(prev => {
-              return {...prev, existingName: [true, message]}
-            })
+          if (reason === "existingName") {
+            setNotification((prev) => {
+              return { ...prev, existingName: [true, message] };
+            });
           }
-          if(reason === "existingUser"){
-            setNotification(prev => {
-              return {...prev, existingUser: [true, message]}
-            })
+          if (reason === "existingUser") {
+            setNotification((prev) => {
+              return { ...prev, existingUser: [true, message] };
+            });
           }
-          console.log("error", error);          
+          console.log("Register failed");
         });
     }
   };
@@ -124,7 +120,6 @@ const Auth = () => {
     window.addEventListener("resize", Changes);
     return () => window.removeEventListener("resize", Changes);
   }, [widthScreen]);
-
 
   return (
     <>
@@ -266,36 +261,46 @@ const Auth = () => {
                     email: email,
                     password: sub,
                     image: picture,
-                    AuthByGoogle: true
-                  }
+                    AuthByGoogle: true,
+                  };
                   console.log("SignUp", SignUp);
                   const SignIn = {
                     username: email,
-                    password: sub
+                    password: sub,
                   };
-                  if(isSignIn){
+                  if (isSignIn) {
                     GetSignIn(SignIn)
-                      .then((response) => ConnexionUser(response, navigate, setUser))
-                      .catch((error => console.log(error)))
-                  }else{
-                       GetSignUp(SignUp)
-                       .then((response) => ConnexionUser(response, navigate, setUser))
-                       .catch((error => {
-                            const reason = error?.response?.data?.reason;
-                            const message = error?.response?.data?.message;
-                          if(reason === "ExistingName"){
-                            setNotification(prev => {
-                              return {...prev, GoogleExistingName: [true, message]}
-                            })
-                          }
-                          if(reason === "ExistingUser"){
-                            setNotification(prev => {
-                              return {...prev, GoogleExistingUser: [true, message]}
-                            })
-                          }
-                          console.log("error", error);
-                          console.log("Login Failed");
-                      }))
+                      .then((response) =>
+                        ConnexionUser(response, navigate, setUser),
+                      )
+                      .catch((error) => console.log(error));
+                  } else {
+                    GetSignUp(SignUp)
+                      .then((response) =>
+                        ConnexionUser(response, navigate, setUser),
+                      )
+                      .catch((error) => {
+                        const reason = error?.response?.data?.reason;
+                        const message = error?.response?.data?.message;
+                        if (reason === "ExistingName") {
+                          setNotification((prev) => {
+                            return {
+                              ...prev,
+                              GoogleExistingName: [true, message],
+                            };
+                          });
+                        }
+                        if (reason === "ExistingUser") {
+                          setNotification((prev) => {
+                            return {
+                              ...prev,
+                              GoogleExistingUser: [true, message],
+                            };
+                          });
+                        }
+                        console.log("error", error);
+                        console.log("Login Failed");
+                      });
                   }
                 }}
                 onError={(error) => {
@@ -310,26 +315,30 @@ const Auth = () => {
               />
             </button>
           </div>
-          {notification?.GoogleExistingName?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification?.GoogleExistingName?.at(1)}
-                  </span> 
-              : null}
-              {notification?.GoogleExistingUser?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification?.GoogleExistingUser?.at(1)}
-                  </span> 
-              : null}
+          {notification?.GoogleExistingName?.at(0) ? (
+            <span
+              style={{
+                marginBottom: "16px",
+                fontSize: "0.8em",
+                fontWeight: "500",
+                color: "#DE1B1B",
+              }}
+            >
+              {notification?.GoogleExistingName?.at(1)}
+            </span>
+          ) : null}
+          {notification?.GoogleExistingUser?.at(0) ? (
+            <span
+              style={{
+                marginBottom: "16px",
+                fontSize: "0.8em",
+                fontWeight: "500",
+                color: "#DE1B1B",
+              }}
+            >
+              {notification?.GoogleExistingUser?.at(1)}
+            </span>
+          ) : null}
           <div
             style={{
               width: "100%",
@@ -382,10 +391,10 @@ const Auth = () => {
                 type="text"
                 value={query.username}
                 onChange={(e) => {
-                  handleParam(e)
-                  setNotification(prev => {
-                    return {...prev, LoginUsername: [false, '']}
-                  })
+                  handleParam(e);
+                  setNotification((prev) => {
+                    return { ...prev, LoginUsername: [false, ""] };
+                  });
                 }}
                 aria-label="username"
                 className="zoom"
@@ -398,16 +407,18 @@ const Auth = () => {
                   marginBottom: "6px",
                 }}
               />
-              {notification?.LoginUsername?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification?.LoginUsername?.at(1)}
-                  </span> 
-              : null}
+              {notification?.LoginUsername?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification?.LoginUsername?.at(1)}
+                </span>
+              ) : null}
               <label
                 htmlFor="password"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -435,10 +446,10 @@ const Auth = () => {
                   value={query.password}
                   aria-label="password"
                   onChange={(e) => {
-                    handleParam(e)
-                    setNotification(prev => {
-                      return {...prev, loginPassword: [false, '']}
-                    })
+                    handleParam(e);
+                    setNotification((prev) => {
+                      return { ...prev, loginPassword: [false, ""] };
+                    });
                   }}
                   style={{
                     width: "90%",
@@ -479,16 +490,18 @@ const Auth = () => {
                   )}
                 </i>
               </div>
-              {notification?.loginPassword?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification?.loginPassword?.at(1)}
-                  </span> 
-              : null}
+              {notification?.loginPassword?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification?.loginPassword?.at(1)}
+                </span>
+              ) : null}
               <input
                 className="btn-submit-form zoom"
                 type="submit"
@@ -519,13 +532,13 @@ const Auth = () => {
                 type="text"
                 value={query.username}
                 onChange={(e) => {
-                  handleParam(e)
-                  setNotification(prev => {
-                    return {...prev, username: [false, '']}
-                  })
-                  setNotification(prev => {
-                    return {...prev, existingName: [false, '']}
-                  })
+                  handleParam(e);
+                  setNotification((prev) => {
+                    return { ...prev, username: [false, ""] };
+                  });
+                  setNotification((prev) => {
+                    return { ...prev, existingName: [false, ""] };
+                  });
                 }}
                 aria-label="username"
                 className="zoom"
@@ -540,26 +553,30 @@ const Auth = () => {
                   marginBottom: "16px",
                 }}
               />
-              {notification.username?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification.username?.at(1)}
-                  </span> 
-              : null}
-              {notification.existingName?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification.existingName?.at(1)}
-                  </span> 
-              : null}
+              {notification.username?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.username?.at(1)}
+                </span>
+              ) : null}
+              {notification.existingName?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.existingName?.at(1)}
+                </span>
+              ) : null}
               <label
                 htmlFor="username"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -572,13 +589,13 @@ const Auth = () => {
                 required
                 value={query.email}
                 onChange={(e) => {
-                  handleParam(e)
-                  setNotification(prev => {
-                    return {...prev, email: [false, '']}
-                  })
-                  setNotification(prev => {
-                    return {...prev, existingUser: [false, '']}
-                  })
+                  handleParam(e);
+                  setNotification((prev) => {
+                    return { ...prev, email: [false, ""] };
+                  });
+                  setNotification((prev) => {
+                    return { ...prev, existingUser: [false, ""] };
+                  });
                 }}
                 type="text"
                 aria-label="email"
@@ -594,26 +611,30 @@ const Auth = () => {
                   marginBottom: "16px",
                 }}
               />
-              {notification.email?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification.email?.at(1)}
-                  </span> 
-              : null}
-              {notification.existingUser?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification.existingUser?.at(1)}
-                  </span> 
-              : null}
+              {notification.email?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.email?.at(1)}
+                </span>
+              ) : null}
+              {notification.existingUser?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.existingUser?.at(1)}
+                </span>
+              ) : null}
               <label
                 htmlFor="password"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -640,10 +661,10 @@ const Auth = () => {
                   value={query.password}
                   aria-label="password"
                   onChange={(e) => {
-                    handleParam(e)
-                    setNotification(prev => {
-                      return {...prev, password: [false, '']}
-                    })
+                    handleParam(e);
+                    setNotification((prev) => {
+                      return { ...prev, password: [false, ""] };
+                    });
                   }}
                   style={{
                     width: "90%",
@@ -684,16 +705,18 @@ const Auth = () => {
                   )}
                 </i>
               </div>
-              {notification.password?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification.password?.at(1)}
-                  </span> 
-              : null}
+              {notification.password?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.password?.at(1)}
+                </span>
+              ) : null}
               <label
                 htmlFor="confirmpassword"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -721,10 +744,10 @@ const Auth = () => {
                   value={query.confirmpassword}
                   aria-label="confirmpassword"
                   onChange={(e) => {
-                    handleParam(e)
-                    setNotification(prev => {
-                      return {...prev, confirmpassword: [false, '']}
-                    })
+                    handleParam(e);
+                    setNotification((prev) => {
+                      return { ...prev, confirmpassword: [false, ""] };
+                    });
                   }}
                   style={{
                     width: "90%",
@@ -765,16 +788,18 @@ const Auth = () => {
                   )}
                 </i>
               </div>
-              {notification.confirmpassword?.at(0) ? 
-                  <span style={{
-                      marginBottom: "16px",
-                      fontSize: "0.8em", 
-                      fontWeight: "500", 
-                      color: "#DE1B1B"
-                    }}>
-                      {notification.confirmpassword?.at(1)}
-                  </span> 
-              : null}
+              {notification.confirmpassword?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.confirmpassword?.at(1)}
+                </span>
+              ) : null}
               <input
                 type="submit"
                 name="submit"

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RxCross1, RxExit} from "react-icons/rx";
+import { RxCross1, RxExit } from "react-icons/rx";
 import { Avatar } from "@mui/material";
 import { ButtonNavPrimaryOne } from "../Buttons";
 import { BsCollectionPlay } from "react-icons/bs";
@@ -95,8 +95,8 @@ const UserAccount = ({ user, Logout, setDisplayMenu }) => {
           alignItems: "flex-start",
         }}
       >
-        <RxExit fontSize={30}/>
-        <h4 >Se deconnecter</h4>
+        <RxExit fontSize={30} />
+        <h4>Se deconnecter</h4>
       </button>
     </div>
   );

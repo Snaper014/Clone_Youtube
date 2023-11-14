@@ -106,7 +106,7 @@ module.exports = (app) => {
             image: result.image
         },
             process.env.KEY_JWT_TOKEN,
-            {expiresIn: '1h'}
+            {expiresIn: '12h'}
             )
          res.json({result: 'User valider', token})   
         }// cas google aprés  

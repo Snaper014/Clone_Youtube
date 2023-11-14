@@ -9,7 +9,7 @@ module.exports = (app) => {
           const decoded = jwt.decode(token);
           const {email} = decoded 
           const existingUser = await Users.findOne({email});
-        //console.log("id", id);
+          
         try{
             const VideoIndex = existingUser?.historyVideos.findIndex(
                 history => history?.idVideo === id

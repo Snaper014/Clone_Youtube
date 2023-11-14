@@ -20,7 +20,7 @@ import {
 import { useContext } from "../Context/ContextProvider";
 import { GoTrophy } from "react-icons/go";
 import { GiClothesline } from "react-icons/gi";
-import { RxCross1 } from "react-icons/rx";
+import { RxCross1, RxExit } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { Avatar, Alert } from "@mui/material";
 import { GetSubs } from "../actions/Actions";
@@ -53,7 +53,7 @@ export function BarSearch() {
     localStorage.removeItem("jwt-auth");
   };
   const IsTranslate = () => {
-    setValeur(!valeur);
+    setValeur((prev) => !prev);
   };
   const HandleChange = (e) => setChamps(e.target.value);
   const Envoyer = () => {
@@ -83,9 +83,6 @@ export function BarSearch() {
         .catch((error) => console.log(error));
     }
   }, [user]);
-  // source du problème le useeffect de l'appBar
-  // user est udefined avant le localstorage se créer.
-  //console.log("userTARZ", user);
 
   return (
     <>
@@ -225,7 +222,12 @@ export function BarSearch() {
             <Avatar
               alt={user?.username}
               src={user?.image}
-              sx={{ width: 45, height: 45, bgcolor: user?.color }}
+              sx={{
+                width: 45,
+                height: 45,
+                bgcolor: user?.color,
+                cursor: "pointer",
+              }}
             >
               {user?.username.charAt(0)}
             </Avatar>
@@ -235,32 +237,77 @@ export function BarSearch() {
                   position: "absolute",
                   backgroundColor: "white",
                   zIndex: "5",
-                  top: "65px",
+                  bottom: "-165px",
                   right: "45px",
                   width: "250px",
                   height: "150px",
-                  border: "2px solid black",
+                  border: "4px solid black",
                   display: "flex",
+                  borderRadius: "10px",
+                  boxShadow: "5px 5px",
                   flexDirection: "column",
                 }}
               >
-                <p>
-                  <span>logo</span>
-                  Paramètres
-                </p>
-                <div>
-                  <p></p>
-                  <span>logo</span>
-                  <p>nom d'utilisateur: {user?.username}</p>
-                  <p>email: {user?.email}</p>
+                <i
+                  style={{
+                    height: "30%",
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <BsYoutube fontSize={40} color="#DE1B1B" />
+                </i>
+                <div
+                  style={{
+                    height: "70%",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                  }}
+                >
                   <p
+                    style={{
+                      height: "30%",
+                      textAlign: "center",
+                      width: "100%",
+                    }}
+                  >
+                    Bienvenue sur YoutbeClone
+                  </p>
+                  <h4
+                    style={{
+                      height: "30%",
+                      textAlign: "center",
+                      width: "100%",
+                    }}
+                  >
+                    {user?.username}
+                  </h4>
+                  <button
                     onClick={() => {
                       Logout();
                       setOpen(true);
                     }}
+                    style={{
+                      width: "80%",
+                      height: "20%",
+                      backgroundColor: "white",
+                      border: "none",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                      flexDirection: "row",
+                      gap: "10px",
+                      fontSize: "1em",
+                    }}
                   >
-                    Se deconnecter
-                  </p>
+                    <RxExit fontSize={30} />
+                    <h4>Se deconnecter</h4>
+                  </button>
                 </div>
               </div>
             ) : null}
@@ -609,6 +656,32 @@ export function BarSearch() {
           logo={<GiClothesline fontSize={35} />}
           texte="Mode et Beauté"
         />
+        {!user ? null : (
+          <button
+            onClick={() => {
+              IsTranslate();
+              Logout();
+              setOpen(true);
+            }}
+            style={{
+              width: "100%",
+              marginTop: "15px",
+              height: "50px",
+              backgroundColor: "white",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              flexDirection: "row",
+              gap: "10px",
+              fontSize: "1em",
+            }}
+          >
+            <RxExit fontSize={30} />
+            <h4>Se deconnecter</h4>
+          </button>
+        )}
       </div>
       {valeur ? (
         <div

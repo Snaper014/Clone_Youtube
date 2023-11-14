@@ -118,7 +118,6 @@ export function Playlist() {
       CheckLikeOrDislike(videoPL)
         .then((response) => {
           const type = response?.data?.data;
-          console.log("type", type);
           if (type === "like") {
             setCheck((prev) => {
               return { ...prev, isLike: true, isDislike: false };
@@ -162,7 +161,6 @@ export function Playlist() {
     location,
   ]);
 
-  console.log("playlist", DetailVideo);
   //console.log("Identifiant", Identifiant);
   //console.log("detail video Hors hook", DetailVideo);
   //console.log("index" , index)
@@ -736,7 +734,6 @@ export function Playlist() {
                         AddInfosLikes(DetailVideo, videoPL, "like", isLibrary),
                       )
                         .then((response) => {
-                          console.log(response?.data?.data);
                           setCheck((prev) => {
                             return {
                               ...prev,
@@ -767,7 +764,6 @@ export function Playlist() {
                         ),
                       )
                         .then((response) => {
-                          console.log(response?.data?.data);
                           setCheck((prev) => {
                             return {
                               ...prev,
@@ -1345,7 +1341,6 @@ export function Playlist() {
                           ),
                         )
                           .then((response) => {
-                            console.log(response?.data?.data);
                             setCheck((prev) => {
                               return {
                                 ...prev,
@@ -1375,7 +1370,6 @@ export function Playlist() {
                           isLibrary,
                         )
                           .then((response) => {
-                            console.log(response?.data?.data);
                             setCheck((prev) => {
                               return {
                                 ...prev,

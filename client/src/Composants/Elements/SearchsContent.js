@@ -618,6 +618,7 @@ export const NewSearchs = ({
                   alignItems: "flex-start",
                   justifyContent: "flex-start",
                   flexDirection: "column",
+                  marginBottom: "25px",
                   border: "2px solid transparent",
                   width: `100%`,
                 }}

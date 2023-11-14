@@ -43,9 +43,6 @@ function History() {
     setOpen(false);
   };
 
-  // convertir durée seconde
-  // Design
-  // Version mobile
 
   React.useEffect(() => {
     async function FetchData() {
@@ -56,7 +53,6 @@ function History() {
         case "?search=":
           return GetHistory(`?search=${value}`)
             .then((response) => {
-              console.log("response", response);
               setHistory(response);
             })
             .catch((error) => {
@@ -69,7 +65,6 @@ function History() {
         default:
           return GetHistory()
             .then((response) => {
-              console.log(response);
               setHistory(response);
             })
             .catch((error) => console.log(error));
@@ -276,7 +271,7 @@ function History() {
                   onClick={() => {
                     DeleteById(element?.idVideo)
                       .then((response) => {
-                        setHistory(response)
+                        setHistory(response);
                         setOpen((prev) => {
                           return { ...prev, one: true };
                         });
@@ -456,7 +451,6 @@ function History() {
                   onClick={() => {
                     DeleteAllHistory()
                       .then((response) => {
-                        console.log("Delete All", response);
                         setHistory(response);
                         setOpen((prev) => {
                           return { ...prev, two: true };
@@ -482,7 +476,6 @@ function History() {
                   onClick={() => {
                     DeleteBySelect(selectVideos)
                       .then((response) => {
-                        console.log("response sup", response);
                         setHistory(response);
                         setOpen((prev) => {
                           return { ...prev, one: true };
@@ -674,7 +667,6 @@ function History() {
                   onClick={() => {
                     DeleteAllHistory()
                       .then((response) => {
-                        console.log("Delete All", response);
                         setHistory(response);
                         setOpen((prev) => {
                           return { ...prev, two: true };
@@ -700,7 +692,6 @@ function History() {
                   onClick={() => {
                     DeleteBySelect(selectVideos)
                       .then((response) => {
-                        console.log("response sup", response);
                         setHistory(response);
                         setOpen((prev) => {
                           return { ...prev, one: true };

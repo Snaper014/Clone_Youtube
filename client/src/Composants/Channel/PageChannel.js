@@ -34,7 +34,6 @@ export function PageYoutubeur() {
   const [open, setOpen] = React.useState(false);
   const { user } = useContext();
 
-  console.log("DataChannel", dataChannel);
   const handleClose = () => setOpen(false);
 
   React.useEffect(() => {

@@ -11,8 +11,6 @@ module.exports = (app) => {
         const {email} = decoded 
         const existingUser = await Users.findOne({email}); 
 
-        console.log("Idplaylsit", idPlaylist);
-        console.log("Idvdo", idVideo);
         try{
             const VideoIndex = existingUser.Library.findIndex(
                 response => response?._id.toString() === idPlaylist
@@ -32,7 +30,6 @@ module.exports = (app) => {
                return; 
             }
             if(VideoIndex !== -1){
-                console.log("exUser", existingUser.Library[VideoIndex].data);
                 existingUser.Library[VideoIndex].data = existingUser.Library[VideoIndex].data.filter(
                     (item) => item?._id.toString() !== idVideo
                 );            

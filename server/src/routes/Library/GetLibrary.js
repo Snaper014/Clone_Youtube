@@ -11,8 +11,6 @@ module.exports = (app) => {
           const {email} = decoded; 
           const User = await Users.findOne({email}); 
           
-          console.log("limit", limit);
-
         try{
             if(!User){
                 res.status(404).json({
@@ -23,7 +21,6 @@ module.exports = (app) => {
             }
             if(limit){
                 const data = User?.Library.filter(items => items?._id.toString() === limit);
-                console.log("data", data);
                 res.json({ 
                     message: 'Données récupérées avec succès.',
                     data

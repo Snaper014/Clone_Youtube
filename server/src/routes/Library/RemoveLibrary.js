@@ -11,8 +11,6 @@ module.exports = (app) => {
         const {email} = decoded; 
         const existingUser = await Users.findOne({email}); 
 
-        console.log("id", id);
-
         try{
             const FilterPlaylist = existingUser.Library.filter(
                 response => response?._id.toString() !== id

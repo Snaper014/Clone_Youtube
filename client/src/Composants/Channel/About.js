@@ -32,7 +32,6 @@ export function Liens() {
     return () => window.removeEventListener("resize", HandleResize);
   }, []);
 
-  //console.log("About", data);
   if (isLoading) {
     return (
       <div

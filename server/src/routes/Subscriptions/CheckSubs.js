@@ -11,10 +11,8 @@ module.exports = (app) => {
           const {email} = decoded; 
           const existingUser = await Users.findOne({email});  
 
-          console.log("id CheckSub", id)
         try{
             if(!id){
-                console.log('bad request');
                  res.status(400).json({
                     reason: 'Bad Request',
                     message: 'L\'ID de l\'utilisateur et l\'ID de la vidéo sont requis.'

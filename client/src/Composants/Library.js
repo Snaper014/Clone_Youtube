@@ -34,7 +34,6 @@ function Biblio() {
     return () => window.removeEventListener("resize", CheckResponsive);
   }, [user]);
 
-  console.log("playlist", playlist);
 
   return (
     <>
