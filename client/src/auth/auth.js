@@ -508,6 +508,7 @@ const Auth = () => {
               <input
                 className="btn-submit-form zoom"
                 autoComplete="submit"
+                aria-label="submit form"
                 type="submit"
                 value="Se connecter"
               ></input>
