@@ -429,8 +429,6 @@ main{
     -webkit-font-smoothing: auto !important;
 }
 
-<<<<<<< HEAD:src/App.css
-=======
 #password:focus{
     outline: 1px solid transparent;
 }
@@ -449,4 +447,3 @@ main{
 
  
 
->>>>>>> test:client/src/App.css
