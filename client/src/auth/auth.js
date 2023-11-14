@@ -390,6 +390,7 @@ const Auth = () => {
                 id="User"
                 name="username"
                 required
+                autoComplete="username"
                 type="text"
                 value={query.username}
                 onChange={(e) => {
@@ -505,6 +506,7 @@ const Auth = () => {
               ) : null}
               <input
                 className="btn-submit-form zoom"
+                autoComplete="submit"
                 type="submit"
                 value="Se connecter"
               ></input>
@@ -531,6 +533,7 @@ const Auth = () => {
               <input
                 id="User"
                 name="username"
+                autoComplete="username"
                 required
                 type="text"
                 value={query.username}
@@ -589,6 +592,7 @@ const Auth = () => {
                 id="Email"
                 name="email"
                 required
+                autoComplete="email"
                 value={query.email}
                 onChange={(e) => {
                   handleParam(e);
@@ -806,6 +810,7 @@ const Auth = () => {
               <input
                 type="submit"
                 name="submit"
+                autoComplete="submit"
                 aria-label="submit form"
                 className="btn-submit-form zoom"
                 value="S'inscrire"
