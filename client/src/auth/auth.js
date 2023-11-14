@@ -370,6 +370,7 @@ const Auth = () => {
           {isSignIn ? (
             <form
               onSubmit={formSubmit}
+              id="login"
               action="/login" 
               method="post"
               style={{
@@ -514,7 +515,8 @@ const Auth = () => {
           ) : (
             <form
               onSubmit={formSubmit}
-              action="/register" 
+              action="/register"
+              id="register" 
               method="post"
               style={{
                 width: "100%",
