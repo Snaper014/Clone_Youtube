@@ -451,6 +451,69 @@ const Auth = () => {
                   {notification.existingName?.at(1)}
                 </span>
               ) : null}
+                {!isSignIn ? 
+                <>
+                <label
+                    htmlFor="Email"
+                    style={{ marginBottom: "5px", fontWeight: "500" }}
+                  >
+                    Adresse email :
+                  </label>
+                  <input
+                    id="Email"
+                    name="email"
+                    required
+                    autoComplete="email"
+                    value={query.email}
+                    onChange={(e) => {
+                      handleParam(e);
+                      setNotification((prev) => {
+                        return { ...prev, email: [false, ""] };
+                      });
+                      setNotification((prev) => {
+                        return { ...prev, existingUser: [false, ""] };
+                      });
+                    }}
+                    type="text"
+                    className="zoom"
+                    style={{
+                      width: "100%",
+                      height: "40px",
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      borderRadius: "0.375rem",
+                      boxShadow: "rgb(0, 0, 0) 3px 3px 0px",
+                      paddingLeft: "5px",
+                      marginBottom: "16px",
+                    }}
+                  />
+                  {notification.email?.at(0) ? (
+                    <span
+                      style={{
+                        marginBottom: "16px",
+                        fontSize: "0.8em",
+                        fontWeight: "500",
+                        color: "#DE1B1B",
+                      }}
+                    >
+                      {notification.email?.at(1)}
+                    </span>
+                  ) : null}
+                  {notification.existingUser?.at(0) ? (
+                    <span
+                      style={{
+                        marginBottom: "16px",
+                        fontSize: "0.8em",
+                        fontWeight: "500",
+                        color: "#DE1B1B",
+                      }}
+                    >
+                      {notification.existingUser?.at(1)}
+                    </span>
+                  ) : null} 
+                  </>
+              : null}
+              
               <label
                 htmlFor="password"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
@@ -550,68 +613,6 @@ const Auth = () => {
                 </span>
               ) : null}
               
-            {!isSignIn ? 
-            <>
-            <label
-                htmlFor="Email"
-                style={{ marginBottom: "5px", fontWeight: "500" }}
-              >
-                Adresse email :
-              </label>
-              <input
-                id="Email"
-                name="email"
-                required
-                autoComplete="email"
-                value={query.email}
-                onChange={(e) => {
-                  handleParam(e);
-                  setNotification((prev) => {
-                    return { ...prev, email: [false, ""] };
-                  });
-                  setNotification((prev) => {
-                    return { ...prev, existingUser: [false, ""] };
-                  });
-                }}
-                type="text"
-                className="zoom"
-                style={{
-                  width: "100%",
-                  height: "40px",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderRadius: "0.375rem",
-                  boxShadow: "rgb(0, 0, 0) 3px 3px 0px",
-                  paddingLeft: "5px",
-                  marginBottom: "16px",
-                }}
-              />
-              {notification.email?.at(0) ? (
-                <span
-                  style={{
-                    marginBottom: "16px",
-                    fontSize: "0.8em",
-                    fontWeight: "500",
-                    color: "#DE1B1B",
-                  }}
-                >
-                  {notification.email?.at(1)}
-                </span>
-              ) : null}
-              {notification.existingUser?.at(0) ? (
-                <span
-                  style={{
-                    marginBottom: "16px",
-                    fontSize: "0.8em",
-                    fontWeight: "500",
-                    color: "#DE1B1B",
-                  }}
-                >
-                  {notification.existingUser?.at(1)}
-                </span>
-              ) : null} 
-              </>
-          : null}
                             
             {!isSignIn ? 
 
