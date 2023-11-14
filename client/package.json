@@ -7,6 +7,7 @@
     }
   },
   "private": true,
+  "proxy": "https://fake-server-youtube-api.vercel.app",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
