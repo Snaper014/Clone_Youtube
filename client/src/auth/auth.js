@@ -443,7 +443,7 @@ const Auth = () => {
                 <input
                   id="password"
                   name="password"
-                  autocomplete="current-password"
+                  autoComplete="current-password"
                   required
                   value={query.password}
                   onChange={(e) => {
@@ -660,7 +660,7 @@ const Auth = () => {
                   name="password"
                   required
                   value={query.password}
-                  autocomplete="current-password"
+                  autoComplete="current-password"
                   aria-label="password"
                   onChange={(e) => {
                     handleParam(e);
@@ -741,7 +741,7 @@ const Auth = () => {
                 <input
                   id="confirmpassword"
                   name="confirmpassword"
-                  autocomplete="confirm-password"
+                  autoComplete="current-password"
                   required
                   onKeyDown={handleKeyPress}
                   value={query.confirmpassword}
