@@ -443,6 +443,7 @@ const Auth = () => {
                 <input
                   id="password"
                   name="password"
+                  autocomplete="current-password"
                   required
                   value={query.password}
                   onChange={(e) => {
