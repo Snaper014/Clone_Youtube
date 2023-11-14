@@ -379,13 +379,13 @@ const Auth = () => {
               }}
             >
               <label
-                htmlFor="username"
+                htmlFor="User"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
               >
                 Le nom d'utilisateur ou adresse email :
               </label>
               <input
-                id="username"
+                id="User"
                 name="username"
                 required
                 type="text"
@@ -396,7 +396,6 @@ const Auth = () => {
                     return { ...prev, LoginUsername: [false, ""] };
                   });
                 }}
-                aria-label="username"
                 className="zoom"
                 style={{
                   width: "100%",
@@ -444,7 +443,6 @@ const Auth = () => {
                   name="password"
                   required
                   value={query.password}
-                  aria-label="password"
                   onChange={(e) => {
                     handleParam(e);
                     setNotification((prev) => {
@@ -520,13 +518,13 @@ const Auth = () => {
               }}
             >
               <label
-                htmlFor="username"
+                htmlFor="User"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
               >
                 nom d'utilisateur :
               </label>
               <input
-                id="username"
+                id="User"
                 name="username"
                 required
                 type="text"
@@ -540,7 +538,6 @@ const Auth = () => {
                     return { ...prev, existingName: [false, ""] };
                   });
                 }}
-                aria-label="username"
                 className="zoom"
                 style={{
                   width: "100%",
@@ -578,13 +575,13 @@ const Auth = () => {
                 </span>
               ) : null}
               <label
-                htmlFor="username"
+                htmlFor="Email"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
               >
                 Adresse email :
               </label>
               <input
-                id="email"
+                id="Email"
                 name="email"
                 required
                 value={query.email}
@@ -598,7 +595,6 @@ const Auth = () => {
                   });
                 }}
                 type="text"
-                aria-label="email"
                 className="zoom"
                 style={{
                   width: "100%",
