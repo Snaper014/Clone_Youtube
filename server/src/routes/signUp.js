@@ -3,6 +3,7 @@ const Users = require('../model/User');
 const bycrpt = require('bcryptjs');
 const Colors = require('../utils/LogoColors');
 const jwt = require('jsonwebtoken');
+const app = require('../..');
 
 module.exports = (app) => {
     app.post("/sign-up", async (req, res) => {
