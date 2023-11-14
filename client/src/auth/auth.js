@@ -370,6 +370,8 @@ const Auth = () => {
           {isSignIn ? (
             <form
               onSubmit={formSubmit}
+              action="/login" 
+              method="post"
               style={{
                 width: "100%",
                 display: "flex",
@@ -509,6 +511,8 @@ const Auth = () => {
           ) : (
             <form
               onSubmit={formSubmit}
+              action="/register" 
+              method="post"
               style={{
                 width: "100%",
                 display: "flex",
@@ -655,6 +659,7 @@ const Auth = () => {
                   name="password"
                   required
                   value={query.password}
+                  autocomplete="current-password"
                   aria-label="password"
                   onChange={(e) => {
                     handleParam(e);
@@ -735,6 +740,7 @@ const Auth = () => {
                 <input
                   id="confirmpassword"
                   name="confirmpassword"
+                  autocomplete="confirm-password"
                   required
                   onKeyDown={handleKeyPress}
                   value={query.confirmpassword}
