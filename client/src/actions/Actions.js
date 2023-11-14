@@ -3,6 +3,7 @@ import { URL_BACKEND } from "../config";
 
 export const API = axios.create({
   baseURL: `${URL_BACKEND}`,
+  withCredentials: true
 });
 
 API.interceptors.request.use((req) => {
