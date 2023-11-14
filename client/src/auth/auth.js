@@ -367,11 +367,10 @@ const Auth = () => {
               }}
             ></div>
           </div>
-          {isSignIn ? (
             <form
               onSubmit={formSubmit}
-              id="login"
-              action="/login" 
+              id={isSignIn ? "login" : "register"}
+              action={isSignIn ? "/login" : "/register"} 
               method="post"
               style={{
                 width: "100%",
@@ -385,7 +384,7 @@ const Auth = () => {
                 htmlFor="User"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
               >
-                Le nom d'utilisateur ou adresse email :
+                {isSignIn ? "Le nom d'utilisateur ou adresse email :" : "nom d'utilisateur :"}
               </label>
               <input
                 id="User"
@@ -398,6 +397,12 @@ const Auth = () => {
                   handleParam(e);
                   setNotification((prev) => {
                     return { ...prev, LoginUsername: [false, ""] };
+                  });
+                  setNotification((prev) => {
+                    return { ...prev, username: [false, ""] };
+                  });
+                  setNotification((prev) => {
+                    return { ...prev, existingName: [false, ""] };
                   });
                 }}
                 className="zoom"
@@ -420,6 +425,30 @@ const Auth = () => {
                   }}
                 >
                   {notification?.LoginUsername?.at(1)}
+                </span>
+              ) : null}
+              {notification.username?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.username?.at(1)}
+                </span>
+              ) : null}
+              {notification.existingName?.at(0) ? (
+                <span
+                  style={{
+                    marginBottom: "16px",
+                    fontSize: "0.8em",
+                    fontWeight: "500",
+                    color: "#DE1B1B",
+                  }}
+                >
+                  {notification.existingName?.at(1)}
                 </span>
               ) : null}
               <label
@@ -452,6 +481,9 @@ const Auth = () => {
                     handleParam(e);
                     setNotification((prev) => {
                       return { ...prev, loginPassword: [false, ""] };
+                    });
+                    setNotification((prev) => {
+                      return { ...prev, password: [false, ""] };
                     });
                   }}
                   style={{
@@ -505,63 +537,7 @@ const Auth = () => {
                   {notification?.loginPassword?.at(1)}
                 </span>
               ) : null}
-              <input
-                className="btn-submit-form zoom"
-                autoComplete="submit"
-                aria-label="submit form"
-                type="submit"
-                value="Se connecter"
-              ></input>
-            </form>
-          ) : (
-            <form
-              onSubmit={formSubmit}
-              action="/register"
-              id="register" 
-              method="post"
-              style={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
-              }}
-            >
-              <label
-                htmlFor="User"
-                style={{ marginBottom: "5px", fontWeight: "500" }}
-              >
-                nom d'utilisateur :
-              </label>
-              <input
-                id="User"
-                name="username"
-                autoComplete="username"
-                required
-                type="text"
-                value={query.username}
-                onChange={(e) => {
-                  handleParam(e);
-                  setNotification((prev) => {
-                    return { ...prev, username: [false, ""] };
-                  });
-                  setNotification((prev) => {
-                    return { ...prev, existingName: [false, ""] };
-                  });
-                }}
-                className="zoom"
-                style={{
-                  width: "100%",
-                  height: "40px",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  borderRadius: "0.375rem",
-                  boxShadow: "rgb(0, 0, 0) 3px 3px 0px",
-                  paddingLeft: "5px",
-                  marginBottom: "16px",
-                }}
-              />
-              {notification.username?.at(0) ? (
+              {notification.password?.at(0) ? (
                 <span
                   style={{
                     marginBottom: "16px",
@@ -570,22 +546,13 @@ const Auth = () => {
                     color: "#DE1B1B",
                   }}
                 >
-                  {notification.username?.at(1)}
+                  {notification.password?.at(1)}
                 </span>
               ) : null}
-              {notification.existingName?.at(0) ? (
-                <span
-                  style={{
-                    marginBottom: "16px",
-                    fontSize: "0.8em",
-                    fontWeight: "500",
-                    color: "#DE1B1B",
-                  }}
-                >
-                  {notification.existingName?.at(1)}
-                </span>
-              ) : null}
-              <label
+              
+            {!isSignIn ? 
+            <>
+            <label
                 htmlFor="Email"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
               >
@@ -642,91 +609,14 @@ const Auth = () => {
                 >
                   {notification.existingUser?.at(1)}
                 </span>
-              ) : null}
-              <label
-                htmlFor="password"
-                style={{ marginBottom: "5px", fontWeight: "500" }}
-              >
-                mot de passe :
-              </label>
-              <div
-                className="zoom"
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  height: "40px",
-                  borderRadius: "0.375rem",
-                  boxShadow: "rgb(0, 0, 0) 3px 3px 0px",
-                  marginBottom: "16px",
-                }}
-              >
-                <input
-                  id="password"
-                  name="password"
-                  required
-                  value={query.password}
-                  autoComplete="current-password"
-                  aria-label="password"
-                  onChange={(e) => {
-                    handleParam(e);
-                    setNotification((prev) => {
-                      return { ...prev, password: [false, ""] };
-                    });
-                  }}
-                  style={{
-                    width: "90%",
-                    height: "40px",
-                    fontSize: "16px",
-                    borderRight: "none",
-                    borderRadius: "0.375rem 0rem 0rem 0.375rem",
-                    fontWeight: "500",
-                    paddingLeft: "5px",
-                  }}
-                  type={showPassword.first ? "text" : "password"}
-                />
-                <i
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowPassword((prev) => {
-                      return { first: !prev.first, second: prev.second };
-                    });
-                  }}
-                  style={{
-                    width: "10%",
-                    cursor: "pointer",
-                    backgroundColor: "white",
-                    borderWidth: "2px 2px 1.6px 0px",
-                    borderStyle: "solid",
-                    borderColor: "black black black transparent",
-                    height: "40px",
-                    display: "flex",
-                    borderRadius: "0rem 0.375rem 0.375rem 0rem",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {showPassword.first ? (
-                    <AiOutlineEyeInvisible fontSize={20} />
-                  ) : (
-                    <AiOutlineEye fontSize={20} />
-                  )}
-                </i>
-              </div>
-              {notification.password?.at(0) ? (
-                <span
-                  style={{
-                    marginBottom: "16px",
-                    fontSize: "0.8em",
-                    fontWeight: "500",
-                    color: "#DE1B1B",
-                  }}
-                >
-                  {notification.password?.at(1)}
-                </span>
-              ) : null}
-              <label
+              ) : null} 
+              </>
+          : null}
+                            
+            {!isSignIn ? 
+
+            <>
+            <label
                 htmlFor="confirmpassword"
                 style={{ marginBottom: "5px", fontWeight: "500" }}
               >
@@ -810,16 +700,17 @@ const Auth = () => {
                   {notification.confirmpassword?.at(1)}
                 </span>
               ) : null}
-              <input
-                type="submit"
-                name="submit"
-                autoComplete="submit"
-                aria-label="submit form"
-                className="btn-submit-form zoom"
-                value="S'inscrire"
-              ></input>
+              </>
+              : null}
+            <input
+              type="submit"
+              name="submit"
+              autoComplete="submit"
+              aria-label="submit form"
+              className="btn-submit-form zoom"
+              value={isSignIn ? "Se connecter" : "S'inscrire"}
+            ></input>
             </form>
-          )}
           <div
             style={{
               display: "flex",

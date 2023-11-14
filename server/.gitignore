@@ -14,8 +14,8 @@ package-lock.json
 /build
 
 # Ignorer les fichiers de configuration spécifiques à l'environnement (s'ils sont générés)
-/.env.local
-/.env.development.local
-/.env.test.local
-/.env.production.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
