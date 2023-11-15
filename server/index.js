@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
     res.json({message, status: "success"})
 })
 
-
+console.log("Initi NodJs");
 mongoose.connection.once('open', () => {
     console.log('Connexion à MongoDB');
     //app.listen(port, () => console.log(`Notre application démarre sur le http://localhost:${port}`));
