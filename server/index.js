@@ -13,16 +13,10 @@ app
 .use(morgan('dev'))
 .use(cors({
     origin: ['https://clone-youtube-liard.vercel.app'],
-    methods: 'GET,POST,DELETE',
+    methods: ["GET", "POST", "DELETE"],
     credentials: true,
 }))
 .use(BodyParser.json());
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://clone-youtube-liard.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
-    res.header('Access-Control-Allow-Credentials', true);
-    next();
-});
 
 connectDB();
 
@@ -51,6 +45,13 @@ app.get("/", (req, res) => {
     const message = "Server Youtube Clone";
     res.json({message, status: "success"})
 })
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://clone-youtube-liard.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
+    res.header('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 mongoose.connection.once('open', () => {
     console.log('Connexion à MongoDB');
