@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const connectDB = require('./src/db/connectDb');
 
 
-const app = express(); 
+const app = express();
 //mongodb
 
 app

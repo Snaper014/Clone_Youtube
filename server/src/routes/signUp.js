@@ -12,8 +12,6 @@ module.exports = (app) => {
         const color = Colors[Math.floor(Math.random() * Colors?.length)]
         const {username, email, password, confirmpassword, image, AuthByGoogle} = req.body;
         const picture_profil = image ? image : '';
-        
-        console.log("username", username);
      try{
         if(AuthByGoogle){
             const existingUser = await Users.findOne({email});
@@ -79,7 +77,6 @@ module.exports = (app) => {
             return;
         }
         const existingName = await Users.findOne({username});
-        console.log("existingName", existingName);
             if(existingName){
                 res.status(400).json({
                    reason: "existingName",
