@@ -2,6 +2,7 @@ require('dotenv').config();
 const Users = require('../model/User');
 const jwt = require('jsonwebtoken');
 const bycrpt = require('bcryptjs');
+const app = require('../..');
 
 module.exports = (app) => {
     app.post("/sign-in", async (req, res) => {
