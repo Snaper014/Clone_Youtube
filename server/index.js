@@ -11,7 +11,7 @@ const app = express();
 
 app
 .use(cors({
-    origin: "https://fake-server-youtube-api.vercel.app",
+    origin: "https://fake-server-youtube-api.vercel.app/sign-up",
     methods: ['GET','POST','DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
