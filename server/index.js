@@ -7,6 +7,8 @@ const connectDB = require('./src/db/connectDb');
 
 
 const app = express(); 
+//mongodb
+
 app
 .use(cors({
     origin: "https://clone-youtube-liard.vercel.app",
