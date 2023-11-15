@@ -2,11 +2,11 @@ require('dotenv').config();
 const express = require("express");
 const cors = require('cors');
 const BodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const connectDB = require('./src/db/connectDb');
 
 
 const app = express();
+const port = 5000;
 //mongodb
 
 app
@@ -18,7 +18,12 @@ app
 }))
 
 app.use(BodyParser.json());
-connectDB();
+connectDB()
+.then(() => {
+    console.log('Connexion à MongoDB');
+    app.listen(() => console.log(`Notre application démarre sur le http://localhost:${port}`));
+})
+.catch((error) => console.log(`${error} did not connect`));
 
 
 require('./src/routes/signIn')(app);
@@ -45,12 +50,6 @@ require('./src/routes/Library/RemoveLibrary')(app);
 app.get("/", (req, res) => {
     const message = "Server Youtube Clone";
     res.json({message, status: "success"})
-})
-
-
-mongoose.connection.once('open', () => {
-    console.log('Connexion à MongoDB');
-    //app.listen(port, () => console.log(`Notre application démarre sur le http://localhost:${port}`));
 })
 
 module.exports = app;
