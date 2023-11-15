@@ -28,11 +28,11 @@ module.exports = (app) => {
             const isPasswordCorrect = response;
             console.log("response", response);
             if(!isPasswordCorrect){
-                res.status(400).json({
+               return res.status(400).json({
                     reason: 'passwordIncorrect',
                     message: "le mot de passe indiquer n'est pas le bon, Veuillez Réessayez."
                 })
-                return;
+                
             }
             const token = jwt.sign(
                 {
@@ -45,7 +45,7 @@ module.exports = (app) => {
                 process.env.KEY_JWT_TOKEN,
                 {expiresIn: '12h'}
                 )
-            res.json({result: 'User valider', token}); 
+           return res.json({result: 'User valider', token}); 
         })
         .catch(error => console.log("error", error))
         
