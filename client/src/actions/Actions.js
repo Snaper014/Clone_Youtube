@@ -11,7 +11,6 @@ API.interceptors.request.use((req) => {
     req.headers.Authorization = `Bearer ${
       JSON.parse(localStorage.getItem("jwt-auth"))?.token
     }`;
-    Credential = 'include';
   }
   return req;
 });
