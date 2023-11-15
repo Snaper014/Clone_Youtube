@@ -38,8 +38,8 @@ const DeletePlaylist = (id) => API.delete(`/library/remove/${id}`);
 const LikeOrDislike = (type, response) =>
   API.post(`/likes?type=${type}`, { data: response });
 const CheckLikeOrDislike = (id) => API.get(`/likes/check/${id}`);
-const GetSignUp = (response) => API.post("/sign-up", response);
-const GetSignIn = (response) => API.post("/sign-in", response);
+const GetSignUp = (response) => API.post("/sign-up", response, {withCredentials: true});
+const GetSignIn = (response) => API.post("/sign-in", response, {withCredentials: true});
 
 export {
   AddVideosHistory,
