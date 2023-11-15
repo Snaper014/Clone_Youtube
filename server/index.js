@@ -9,19 +9,11 @@ const connectDB = require('./src/db/connectDb');
 
 const app = express(); 
 
-app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', 'https://clone-youtube-liard.vercel.app');
-    res.append('Access-Control-Allow-Methods', 'GET,POST,DELETE');
-    res.append('Access-Control-Allow-Credentials', true);
-    res.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-});
-
 app
 .use(morgan('dev'))
 .use(cors({
-    origin: ['https://clone-youtube-liard.vercel.app'],
-    methods: ["GET", "POST", "DELETE"],
+    origin: ['https://clone-youtube-liard.vercel.app', 'http://localhost:3000'],
+    methods: ['GET','POST','DELETE'],
     credentials: true,
 }))
 .use(BodyParser.json());
