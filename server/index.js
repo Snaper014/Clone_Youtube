@@ -1,16 +1,13 @@
 require('dotenv').config();
 const express = require("express");
 const cors = require('cors');
-const morgan = require("morgan");
 const BodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const connectDB = require('./src/db/connectDb');
 
 
 const app = express(); 
-
 app
-.use(morgan('dev'))
 .use(cors({
     origin: ['https://clone-youtube-liard.vercel.app', 'http://localhost:3000'],
     methods: ['GET','POST','DELETE'],
@@ -18,13 +15,6 @@ app
     credentials: true,
 }))
 .use(BodyParser.json());
-// app.use((req, res, next) => {
-//     res.setHeader("Access-Control-Allow-Origin", "https://example.com");
-//     res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
-//     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-//     next();
-//   })
-
 connectDB();
 
 
