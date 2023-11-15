@@ -2,7 +2,8 @@ import axios from "axios";
 import { URL_BACKEND } from "../config";
 
 export const API = axios.create({
-  baseURL: `${URL_BACKEND}`
+  baseURL: `${URL_BACKEND}`,
+  withCredentials: true,
 });
 
 API.interceptors.request.use((req) => {
@@ -36,8 +37,8 @@ const DeletePlaylist = (id) => API.delete(`/library/remove/${id}`);
 const LikeOrDislike = (type, response) =>
   API.post(`/likes?type=${type}`, { data: response });
 const CheckLikeOrDislike = (id) => API.get(`/likes/check/${id}`);
-const GetSignUp = (response) => API.post("/sign-up", response, {withCredentials: true});
-const GetSignIn = (response) => API.post("/sign-in", response, {withCredentials: true});
+const GetSignUp = (response) => API.post("/sign-up", response);
+const GetSignIn = (response) => API.post("/sign-in", response);
 
 export {
   AddVideosHistory,
