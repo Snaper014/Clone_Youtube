@@ -14,9 +14,16 @@ app
 .use(cors({
     origin: ['https://clone-youtube-liard.vercel.app', 'http://localhost:3000'],
     methods: ['GET','POST','DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 }))
 .use(BodyParser.json());
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "https://example.com");
+//     res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+//     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+//     next();
+//   })
 
 connectDB();
 
