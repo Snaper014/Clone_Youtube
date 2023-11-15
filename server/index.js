@@ -19,6 +19,13 @@ app
 .use(BodyParser.json());
 
 connectDB();
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://clone-youtube-liard.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+});
 
 require('./src/routes/signIn')(app);
 require('./src/routes/signUp')(app);
@@ -46,12 +53,6 @@ app.get("/", (req, res) => {
     res.json({message, status: "success"})
 })
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://clone-youtube-liard.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE');
-    res.header('Access-Control-Allow-Credentials', true);
-    next();
-});
 
 mongoose.connection.once('open', () => {
     console.log('Connexion à MongoDB');
