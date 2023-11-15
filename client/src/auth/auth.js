@@ -72,7 +72,6 @@ const Auth = () => {
               return { ...prev, loginPassword: [true, message] };
             });
           }
-          console.log("Login failed");
         });
     } else {
       GetSignUp(query)
@@ -110,7 +109,6 @@ const Auth = () => {
               return { ...prev, existingUser: [true, message] };
             });
           }
-          console.log("Register failed");
         });
     }
   };
@@ -252,9 +250,7 @@ const Auth = () => {
             >
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
-                  console.log(credentialResponse);
                   const decoded = jwtDecode(credentialResponse.credential);
-                  console.log("jwt", decoded);
                   const { name, email, sub, picture } = decoded;
                   const SignUp = {
                     username: name,
@@ -263,7 +259,6 @@ const Auth = () => {
                     image: picture,
                     AuthByGoogle: true,
                   };
-                  console.log("SignUp", SignUp);
                   const SignIn = {
                     username: email,
                     password: sub,
@@ -298,14 +293,11 @@ const Auth = () => {
                             };
                           });
                         }
-                        console.log("error", error);
-                        console.log("Login Failed");
                       });
                   }
                 }}
                 onError={(error) => {
-                  console.log("error", error);
-                  console.log("Login Failed");
+                  console.log(error);
                 }}
                 type="icon"
                 logo_alignment="center"
