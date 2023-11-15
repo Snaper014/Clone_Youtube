@@ -1,6 +1,6 @@
 # YouTube Clone
 
-![YouTube Clone Home](./public/Clone-Home-Youtube.png)
+![YouTube Clone Home](./client/public/Clone-Home-Youtube.png)
 
 A responsive YouTube clone web application built using Create React App.
 
