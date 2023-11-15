@@ -2,8 +2,7 @@ import axios from "axios";
 import { URL_BACKEND } from "../config";
 
 export const API = axios.create({
-  baseURL: `${URL_BACKEND}`,
-  withCredentials: true
+  baseURL: `${URL_BACKEND}`
 });
 
 API.interceptors.request.use((req) => {

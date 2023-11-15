@@ -9,10 +9,11 @@ const connectDB = require('./src/db/connectDb');
 const app = express(); 
 app
 .use(cors({
-    origin: ['https://clone-youtube-liard.vercel.app', 'http://localhost:3000'],
+    origin: "*",
     methods: ['GET','POST','DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
+    
 }))
 .use(BodyParser.json());
 connectDB();
