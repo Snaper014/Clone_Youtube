@@ -3,7 +3,6 @@ const Users = require('../model/User');
 const bycrpt = require('bcryptjs');
 const Colors = require('../utils/LogoColors');
 const jwt = require('jsonwebtoken');
-const app = require('../..');
 
 module.exports = (app) => {
     app.post("/sign-up", async (req, res) => {
@@ -13,8 +12,7 @@ module.exports = (app) => {
         const color = Colors[Math.floor(Math.random() * Colors?.length)]
         const {username, email, password, confirmpassword, image, AuthByGoogle} = req.body;
         const picture_profil = image ? image : '';
-
-        console.log("AuthByggole", AuthByGoogle);
+        
      try{
         if(AuthByGoogle){
             const existingUser = await Users.findOne({email});

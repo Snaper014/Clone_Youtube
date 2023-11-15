@@ -13,7 +13,6 @@ app
     methods: ['GET','POST','DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    
 }))
 .use(BodyParser.json());
 connectDB();
@@ -51,4 +50,3 @@ mongoose.connection.once('open', () => {
     //app.listen(port, () => console.log(`Notre application démarre sur le http://localhost:${port}`));
 })
 
-module.exports = app;
