@@ -46,10 +46,7 @@ app.get("/", (req, res) => {
     const message = "Server Youtube Clone";
     res.json({message, status: "success"})
 })
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
-});
+
 
 mongoose.connection.once('open', () => {
     console.log('Connexion à MongoDB');
