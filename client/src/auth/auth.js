@@ -262,6 +262,7 @@ const Auth = () => {
                   const SignIn = {
                     username: email,
                     password: sub,
+                    AuthByGoogle: true,
                   };
                   if (isSignIn) {
                     GetSignIn(SignIn)
