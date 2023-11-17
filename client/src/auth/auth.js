@@ -672,6 +672,7 @@ const Auth = () => {
             <input
               type="submit"
               name="submit"
+              disabled={isLoading ? true : false}
               style={{backgroundColor: `${isLoading ? "#F6BFB9" : "#DE1B1B"}`}}
               autoComplete="submit"
               aria-label="submit form"
