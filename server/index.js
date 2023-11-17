@@ -9,9 +9,10 @@ const app = express();
 const port = 5000;
 //mongodb
 
+
 app
 .use(cors({
-    origin: ["https://clone-youtube-liard.vercel.app", "http://localhost:3000"],
+    origin: ["https://clone-youtube-liard.vercel.app"],
     methods: ['GET','POST','DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -51,6 +52,7 @@ app.get("/", (req, res) => {
     const message = "Server Youtube Clone";
     res.json({message, status: "success"})
 })
+
 
 module.exports = app;
 

@@ -6,6 +6,8 @@ import { ConnexionUser } from "../actions/decode";
 import { useNavigate } from "react-router-dom";
 import { useHref } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import Stack from "@mui/material/Stack";
+import { LinearProgress } from "@mui/material";
 import { GetSignIn, GetSignUp } from "../actions/Actions";
 import { useContext } from "../Context/ContextProvider";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -26,12 +28,11 @@ const Auth = () => {
     confirmpassword: [false, ""],
     existingName: [false, ""],
     existingUser: [false, ""],
-    GoogleExistingName: [false, ""],
-    GoogleExistingUser: [false, ""],
     LoginUsername: [false, ""],
     loginPassword: [false, ""],
   });
   const [widthScreen, setWidthScreen] = React.useState(window.innerWidth);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [query, setQuery] = React.useState({
     username: "",
     email: "",
@@ -55,6 +56,7 @@ const Auth = () => {
   };
 
   const formSubmit = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     if (isSignIn) {
       GetSignIn(query)
@@ -63,11 +65,13 @@ const Auth = () => {
           const reason = error?.response?.data?.reason;
           const message = error?.response?.data?.message;
           if (reason === "No existingUser") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, LoginUsername: [true, message] };
             });
           }
           if (reason === "passwordIncorrect") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, loginPassword: [true, message] };
             });
@@ -80,31 +84,37 @@ const Auth = () => {
           const reason = error?.response?.data?.reason;
           const message = error?.response?.data?.message;
           if (reason === "username") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, username: [true, message] };
             });
           }
           if (reason === "email non valide") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, email: [true, message] };
             });
           }
           if (reason === "password") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, password: [true, message] };
             });
           }
           if (reason === "confirmpassword") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, confirmpassword: [true, message] };
             });
           }
           if (reason === "existingName") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, existingName: [true, message] };
             });
           }
           if (reason === "existingUser") {
+            setIsLoading(false);
             setNotification((prev) => {
               return { ...prev, existingUser: [true, message] };
             });
@@ -121,6 +131,18 @@ const Auth = () => {
 
   return (
     <>
+      {isLoading ? 
+              <Stack sx={{
+                position: "fixed",
+                bottom: "0px", 
+                width: '100vw', 
+                color: '#DE1B1B', 
+                marginTop: "10px", 
+                }} spacing={2}>
+                  <LinearProgress color="inherit" />
+              </Stack>
+                : 
+              null}
       <div
         style={{
           width: "100%",
@@ -263,26 +285,7 @@ const Auth = () => {
                       .then((response) =>
                         ConnexionUser(response, navigate, setUser),
                       )
-                      .catch((error) => {
-                        const reason = error?.response?.data?.reason;
-                        const message = error?.response?.data?.message;
-                        if (reason === "ExistingName") {
-                          setNotification((prev) => {
-                            return {
-                              ...prev,
-                              GoogleExistingName: [true, message],
-                            };
-                          });
-                        }
-                        if (reason === "ExistingUser") {
-                          setNotification((prev) => {
-                            return {
-                              ...prev,
-                              GoogleExistingUser: [true, message],
-                            };
-                          });
-                        }
-                      });
+                      .catch((error) => console.log(error));
                 }}
                 onError={(error) => {
                   console.log(error);
@@ -295,30 +298,6 @@ const Auth = () => {
               />
             </button>
           </div>
-          {notification?.GoogleExistingName?.at(0) ? (
-            <span
-              style={{
-                marginBottom: "16px",
-                fontSize: "0.8em",
-                fontWeight: "500",
-                color: "#DE1B1B",
-              }}
-            >
-              {notification?.GoogleExistingName?.at(1)}
-            </span>
-          ) : null}
-          {notification?.GoogleExistingUser?.at(0) ? (
-            <span
-              style={{
-                marginBottom: "16px",
-                fontSize: "0.8em",
-                fontWeight: "500",
-                color: "#DE1B1B",
-              }}
-            >
-              {notification?.GoogleExistingUser?.at(1)}
-            </span>
-          ) : null}
           <div
             style={{
               width: "100%",
@@ -683,14 +662,29 @@ const Auth = () => {
               ) : null}
               </>
               : null}
+            <div style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: 'column',
+            }}>
             <input
               type="submit"
               name="submit"
+              style={{backgroundColor: `${isLoading ? "#F6BFB9" : "#DE1B1B"}`}}
               autoComplete="submit"
               aria-label="submit form"
               className="btn-submit-form zoom"
               value={isSignIn ? "Se connecter" : "S'inscrire"}
             ></input>
+            {isLoading ? 
+              <Stack sx={{ width: '100%', color: '#DE1B1B', marginTop: "10px" }} spacing={2}>
+                  <LinearProgress color="inherit" />
+              </Stack>
+                : 
+              null}
+            </div>
             </form>
           <div
             style={{
