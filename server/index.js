@@ -11,7 +11,7 @@ const port = 5000;
 
 app
 .use(cors({
-    origin: "https://clone-youtube-liard.vercel.app",
+    origin: ["https://clone-youtube-liard.vercel.app", "http://localhost:3000"],
     methods: ['GET','POST','DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

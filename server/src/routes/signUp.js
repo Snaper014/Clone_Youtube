@@ -16,18 +16,32 @@ module.exports = (app) => {
         if(AuthByGoogle){
             const existingUser = await Users.findOne({email});
             if(existingUser){
-               return res.status(400).json({
-                    reason: "ExistingUser",
-                    message: `L\'utilisateur ${email} est déjà existant.`
+                bycrpt.compare(password, existingUser.password)
+                .then(response => {
+                    const isPasswordCorrect = response;
+                    console.log("response", response);
+                    if(!isPasswordCorrect){
+                       return res.status(400).json({
+                            reason: 'passwordIncorrect',
+                            message: "le mot de passe indiquer n'est pas le bon, Veuillez Réessayez."
+                        })
+                        
+                    }
+                    const token = jwt.sign(
+                        {
+                        email: existingUser.email, 
+                        username: existingUser.username, 
+                        id: existingUser._id,
+                        color: existingUser.color,
+                        image: existingUser.image
+                    },
+                        process.env.KEY_JWT_TOKEN,
+                        {expiresIn: '12h'}
+                        )
+                   return res.json({result: 'User valider', token}); 
                 })
+                .catch(error => console.log("error", error))
                 
-            }
-            const existingName = await Users.findOne({username});
-            if(existingName){
-               return res.status(400).json({
-                   reason: "ExistingName",
-                   message: `Le nom d'utilisateur ${username} est déjà pris.`
-               })
             }
             const hashedPassword = await bycrpt.hash(password, 12);
             const result = await Users.create({username, email, password: hashedPassword, color: color, image: picture_profil});
@@ -41,7 +55,7 @@ module.exports = (app) => {
                 image: result.image
             },
                 process.env.KEY_JWT_TOKEN,
-                {expiresIn: '1h'}
+                {expiresIn: '12h'}
                 )
            return res.json({result: 'User valider', token});
         }else{

@@ -1,8 +1,8 @@
 import axios from "axios";
-import { URL_BACKEND } from "../config";
+//import { URL_BACKEND } from "../config";
 
 export const API = axios.create({
-  baseURL: `${URL_BACKEND}`,
+  baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 

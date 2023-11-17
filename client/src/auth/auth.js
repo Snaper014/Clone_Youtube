@@ -252,26 +252,14 @@ const Auth = () => {
                 onSuccess={(credentialResponse) => {
                   const decoded = jwtDecode(credentialResponse.credential);
                   const { name, email, sub, picture } = decoded;
-                  const SignUp = {
+                  const SignUpOrSignIn = {
                     username: name,
                     email: email,
                     password: sub,
                     image: picture,
                     AuthByGoogle: true,
                   };
-                  const SignIn = {
-                    username: email,
-                    password: sub,
-                    AuthByGoogle: true,
-                  };
-                  if (isSignIn) {
-                    GetSignIn(SignIn)
-                      .then((response) =>
-                        ConnexionUser(response, navigate, setUser),
-                      )
-                      .catch((error) => console.log(error));
-                  } else {
-                    GetSignUp(SignUp)
+                    GetSignUp(SignUpOrSignIn)
                       .then((response) =>
                         ConnexionUser(response, navigate, setUser),
                       )
@@ -295,7 +283,6 @@ const Auth = () => {
                           });
                         }
                       });
-                  }
                 }}
                 onError={(error) => {
                   console.log(error);
