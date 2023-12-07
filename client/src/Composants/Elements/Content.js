@@ -84,7 +84,7 @@ export const DisplayContent = ({
       {loading === true ? (
         <div style={{ width: "100%" }}>chargement...</div>
       ) : (
-        Data?.data?.data.map((element, index) => {
+        Data?.data?.data?.map((element, index) => {
           if (element?.type === "video") {
             return (
               <ElementsVideos
