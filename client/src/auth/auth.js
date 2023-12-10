@@ -272,6 +272,7 @@ const Auth = () => {
             >
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
+                  setIsLoading(true);
                   const decoded = jwtDecode(credentialResponse.credential);
                   const { name, email, sub, picture } = decoded;
                   const SignUpOrSignIn = {
